@@ -1,0 +1,14 @@
+{
+    "config": {
+        "escapechar": "\\", 
+        "fileType": "csv", 
+        "hdfs_path": "/sqoop/iw/csv_hierarchy", 
+        "name": "csv_hierarchy", 
+        "path": "/csv_tests/hierarchy", 
+        "quotechar": "\"", 
+        "schema": "csv_hierarchy", 
+        "separator": ",", 
+        "sourceType": "csv"
+    }, 
+    "entityType": "source"
+}

@@ -1,0 +1,11 @@
+{
+  "name": "##NAME##",
+  "hdfs_path" : "##HDFS_PATH##",
+  "connection": {
+    "fileType": "##FILETYPE##",
+    "path": "##PATH##",
+    "schema": "##NAME##"
+  },
+  "usePem": false,
+  "sourceType": "##SOURCETYPE##"
+}

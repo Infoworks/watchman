@@ -1,0 +1,7 @@
+{
+  "entityType": "scd_build",
+  "config": {
+    "name": "cube_oracle_tpcds",
+    "entityType": "cube"
+  }
+}

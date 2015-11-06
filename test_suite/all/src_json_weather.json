@@ -1,0 +1,10 @@
+{
+    "config": {
+        "fileType": "json", 
+        "hdfs_path": "/sqoop/iw/json_weather", 
+        "name": "json_weather", 
+        "path": "/json_tests/weather", 
+        "sourceType": "json"
+    }, 
+    "entityType": "source"
+}

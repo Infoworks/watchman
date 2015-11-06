@@ -1,0 +1,14 @@
+{
+    "config": {
+        "connection_string": "jdbc:mysql://127.0.0.1:3306/test_mysql", 
+        "database": "MYSQL", 
+        "driver_name": "com.mysql.jdbc.Driver", 
+        "hdfs_path": "/sqoop/iw/mysql_data", 
+        "name": "mysql_data", 
+        "password": "123", 
+        "schema": "test_mysql", 
+        "sourceType": "rdbms", 
+        "username": "root"
+    }, 
+    "entityType": "source"
+}

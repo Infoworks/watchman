@@ -1,0 +1,7 @@
+{
+  "entityType": "scd_build",
+  "config": {
+    "name": "datamodel_oracle_tpcds",
+    "entityType": "datamodel"
+  }
+}

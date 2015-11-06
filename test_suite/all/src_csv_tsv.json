@@ -1,0 +1,14 @@
+{
+    "config": {
+        "escapechar": "\\", 
+        "fileType": "csv", 
+        "hdfs_path": "/sqoop/iw/csv_tab_separated", 
+        "name": "csv_tab_separated", 
+        "path": "/csv_tests/tab_separated_csv", 
+        "quotechar": "\"", 
+        "schema": "csv_tsv", 
+        "separator": "\\t", 
+        "sourceType": "csv"
+    }, 
+    "entityType": "source"
+}

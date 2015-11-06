@@ -1,0 +1,14 @@
+{
+    "config": {
+        "escapechar": "\\", 
+        "fileType": "csv", 
+        "hdfs_path": "/sqoop/iw/csv_numeric", 
+        "name": "csv_numeric", 
+        "path": "/csv_tests/datatype_numeric", 
+        "quotechar": "\"", 
+        "schema": "csv_numeric", 
+        "separator": ",", 
+        "sourceType": "csv"
+    }, 
+    "entityType": "source"
+}

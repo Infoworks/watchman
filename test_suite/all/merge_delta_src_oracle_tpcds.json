@@ -1,0 +1,9 @@
+{
+  "entityType": "source_cdc_merge_delta",
+  "dependsOn": [
+    "fetch_delta_src_oracle_tpcds.json"
+  ],
+  "config": {
+    "name": "oracle_tpcds"
+  }
+}

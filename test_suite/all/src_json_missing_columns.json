@@ -1,0 +1,11 @@
+{
+    "config": {
+        "fileType": "json", 
+        "hdfs_path": "/sqoop/iw/json_missing_columns", 
+        "name": "json_missing_columns", 
+        "path": "/json_tests/missing_columns", 
+        "sourceType": "json"
+    }, 
+    "entityType": "source", 
+    "testType": "negative"
+}

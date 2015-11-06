@@ -1,0 +1,14 @@
+{
+    "config": {
+        "escapechar": "\\", 
+        "fileType": "csv", 
+        "hdfs_path": "/sqoop/iw/csv_weather", 
+        "name": "csv_weather", 
+        "path": "/csv_tests/weather", 
+        "quotechar": "\"", 
+        "schema": "csv_weather", 
+        "separator": ",", 
+        "sourceType": "csv"
+    }, 
+    "entityType": "source"
+}

@@ -1,0 +1,66 @@
+{
+    "config": {
+        "connection_string": "jdbc:jtds:sqlserver://54.211.168.124:1433/pbm_small", 
+        "database": "SQL Server", 
+        "dns": "", 
+        "driver_name": "net.sourceforge.jtds.jdbc.Driver", 
+        "hdfs_path": "/sqoop/iw/mssql_pbm_small", 
+        "name": "mssql_pbm_small", 
+        "password": "infoworks", 
+        "private_key": "", 
+        "schema": "dbo", 
+        "sourceType": "rdbms", 
+        "tables": [
+            {
+                "loadToHive": true, 
+                "markedForCrawl": true, 
+                "partitionKey": [
+                    "NAME"
+                ], 
+                "table": "DRUG"
+            }, 
+            {
+                "loadToHive": true, 
+                "markedForCrawl": true, 
+                "partitionKey": [
+                    "WRTN_DT"
+                ], 
+                "table": "RX_PRESCRIPTION"
+            }, 
+            {
+                "loadToHive": true, 
+                "markedForCrawl": true, 
+                "partitionKey": [
+                    "MBR_EFF_DT"
+                ], 
+                "table": "MEMBERS"
+            }, 
+            {
+                "loadToHive": true, 
+                "markedForCrawl": true, 
+                "partitionKey": [
+                    "LAST_NM"
+                ], 
+                "table": "PRESCRIBER"
+            }, 
+            {
+                "loadToHive": true, 
+                "markedForCrawl": true, 
+                "partitionKey": [
+                    "REC_EFF_DT"
+                ], 
+                "table": "RX_FILL"
+            }, 
+            {
+                "loadToHive": true, 
+                "markedForCrawl": true, 
+                "partitionKey": [
+                    "AREA_ID"
+                ], 
+                "table": "STORE"
+            }
+        ], 
+        "username": "hadoop"
+    }, 
+    "entityType": "source"
+}

@@ -1,0 +1,16 @@
+{
+    "config": {
+        "connection_string": "jdbc:oracle:thin:@52.23.234.232:1521:xe", 
+        "database": "ORACLE", 
+        "dns": "", 
+        "driver_name": "oracle.jdbc.driver.OracleDriver", 
+        "hdfs_path": "/sqoop/iw/oracle_tpcds", 
+        "name": "oracle_tpcds", 
+        "password": "krdeepak12", 
+        "private_key": "", 
+        "schema": "KRD", 
+        "sourceType": "rdbms", 
+        "username": "krd"
+    }, 
+    "entityType": "source"
+}

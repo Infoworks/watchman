@@ -1,0 +1,1261 @@
+{
+  "entityType": "datamodel",
+  "dependsOn": [
+    "src_mysql_northwind.json",
+    "src_csv_weather.json",
+    "domain_create.json"
+  ],
+  "config": {
+    "name": "datamodel_mysql_northwind_weather",
+    "domain": "TestDomain",
+    "sources": [
+      "mysql_northwind",
+      "csv_weather"
+    ],
+    "transformations": {
+      "csv_weather": {
+        "weather": [
+          "derive new_date using formatdate(TIMESTAMP, \"yyyy-MM-dd\")"
+        ]
+      },
+      "mysql_northwind": {
+        "Orders": [
+          "derive newOrderDate using formatdate(OrderDate, \"yyyy-MM-dd\")"
+        ]
+      }
+    },
+    "treemap": {
+      "nodeindex": 26,
+      "children": [
+        {
+          "nodeindex": 27,
+          "join": {
+            "op": "AND",
+            "predicates": [
+              {
+                "p_col": "OrderID",
+                "op": "equals",
+                "c_col": "OrderID"
+              }
+            ]
+          },
+          "breadCrumb": "OrderDetails",
+          "children": [
+            {
+              "nodeindex": 29,
+              "join": {
+                "op": "AND",
+                "predicates": [
+                  {
+                    "p_col": "CustomerID",
+                    "op": "equals",
+                    "c_col": "CustomerID"
+                  }
+                ]
+              },
+              "breadCrumb": "OrderDetails > Orders",
+              "children": [
+                {
+                  "nodeindex": 34,
+                  "join": {
+                    "op": "AND",
+                    "predicates": [
+                      {
+                        "p_col": "CustomerID",
+                        "op": "equals",
+                        "c_col": "CustomerID"
+                      }
+                    ]
+                  },
+                  "breadCrumb": "OrderDetails > Orders > Customers",
+                  "discovered_cardinality": {
+                    "parent": "",
+                    "parent_optional": false,
+                    "self": "",
+                    "self_optional": true
+                  },
+                  "source": "mysql_northwind",
+                  "table": "CustomerCustomerDemo"
+                }
+              ],
+              "discovered_cardinality": {
+                "parent": "many",
+                "parent_optional": true,
+                "self": "one",
+                "self_optional": false
+              },
+              "source": "mysql_northwind",
+              "table": "Customers"
+            },
+            {
+              "nodeindex": 30,
+              "join": {
+                "op": "AND",
+                "predicates": [
+                  {
+                    "p_col": "EmployeeID",
+                    "op": "equals",
+                    "c_col": "EmployeeID"
+                  }
+                ]
+              },
+              "breadCrumb": "OrderDetails > Orders",
+              "children": [
+                {
+                  "nodeindex": 35,
+                  "join": {
+                    "op": "AND",
+                    "predicates": [
+                      {
+                        "p_col": "EmployeeID",
+                        "op": "equals",
+                        "c_col": "EmployeeID"
+                      }
+                    ]
+                  },
+                  "breadCrumb": "OrderDetails > Orders > Employees",
+                  "discovered_cardinality": {
+                    "parent": "one",
+                    "parent_optional": false,
+                    "self": "many",
+                    "self_optional": false
+                  },
+                  "source": "mysql_northwind",
+                  "table": "EmployeeTerritories"
+                }
+              ],
+              "discovered_cardinality": {
+                "parent": "many",
+                "parent_optional": false,
+                "self": "many",
+                "self_optional": false
+              },
+              "source": "mysql_northwind",
+              "table": "Employees"
+            },
+            {
+              "nodeindex": 31,
+              "join": {
+                "op": "AND",
+                "predicates": [
+                  {
+                    "p_col": "ShipVia",
+                    "op": "equals",
+                    "c_col": "ShipperID"
+                  }
+                ]
+              },
+              "breadCrumb": "OrderDetails > Orders",
+              "discovered_cardinality": {
+                "parent": "many",
+                "parent_optional": false,
+                "self": "one",
+                "self_optional": false
+              },
+              "source": "mysql_northwind",
+              "table": "Shippers"
+            },
+            {
+              "nodeindex": 36,
+              "breadCrumb": "OrderDetails > Orders",
+              "join": {
+                "op": "AND",
+                "predicates": [
+                  {
+                    "p_col": "newOrderDate",
+                    "c_col": "new_date",
+                    "op": "equals"
+                  },
+                  {
+                    "p_col": "ShipCity",
+                    "c_col": "CITY",
+                    "op": "equals"
+                  }
+                ]
+              },
+              "discovered_cardinality": {
+                "parent": "many",
+                "parent_optional": true,
+                "self": "many",
+                "self_optional": true
+              },
+              "source": "csv_weather",
+              "table": "weather"
+            }
+          ],
+          "discovered_cardinality": {
+            "parent": "many",
+            "parent_optional": false,
+            "self": "many",
+            "self_optional": false
+          },
+          "source": "mysql_northwind",
+          "table": "Orders"
+        },
+        {
+          "nodeindex": 28,
+          "join": {
+            "op": "AND",
+            "predicates": [
+              {
+                "p_col": "ProductID",
+                "op": "equals",
+                "c_col": "ProductID"
+              }
+            ]
+          },
+          "breadCrumb": "OrderDetails",
+          "children": [
+            {
+              "nodeindex": 32,
+              "join": {
+                "op": "AND",
+                "predicates": [
+                  {
+                    "p_col": "CategoryID",
+                    "op": "equals",
+                    "c_col": "CategoryID"
+                  }
+                ]
+              },
+              "breadCrumb": "OrderDetails > Products",
+              "discovered_cardinality": {
+                "parent": "many",
+                "parent_optional": false,
+                "self": "one",
+                "self_optional": false
+              },
+              "source": "mysql_northwind",
+              "table": "Categories"
+            },
+            {
+              "nodeindex": 33,
+              "join": {
+                "op": "AND",
+                "predicates": [
+                  {
+                    "p_col": "SupplierID",
+                    "op": "equals",
+                    "c_col": "SupplierID"
+                  }
+                ]
+              },
+              "breadCrumb": "OrderDetails > Products",
+              "discovered_cardinality": {
+                "parent": "many",
+                "parent_optional": false,
+                "self": "one",
+                "self_optional": false
+              },
+              "source": "mysql_northwind",
+              "table": "Suppliers"
+            }
+          ],
+          "discovered_cardinality": {
+            "parent": "many",
+            "parent_optional": false,
+            "self": "one",
+            "self_optional": false
+          },
+          "source": "mysql_northwind",
+          "table": "Products"
+        }
+      ],
+      "treemapId": {
+        "_str": "5606bb2f070b70ee3976a873"
+      },
+      "source": "mysql_northwind",
+      "table": "OrderDetails"
+    },
+    "cubes": [
+      {
+        "name": "cube_mysql_northwind_weather",
+        "datamodel": "datamodel_mysql_northwind_weather",
+        "layout": {
+          "facts_table": {
+            "name": "factTable",
+            "loc": "156 -231.00000000000006",
+            "facts": [
+              {
+                "name": "UnitPrice",
+                "description": "",
+                "column": "UnitPrice",
+                "type": "DECIMAL",
+                "measures": [
+                  {
+                    "name": "UnitPrice_Dcount",
+                    "function": "count_distinct"
+                  },
+                  {
+                    "name": "UnitPrice_Max",
+                    "function": "max"
+                  },
+                  {
+                    "name": "UnitPrice_Min",
+                    "function": "min"
+                  },
+                  {
+                    "name": "UnitPrice_Sum",
+                    "function": "sum"
+                  }
+                ],
+                "datamodel": "datamodel_mysql_northwind_weather",
+                "datamodelTable": "OrderDetails"
+              },
+              {
+                "name": "Quantity",
+                "description": "",
+                "column": "Quantity",
+                "type": "SMALLINT",
+                "measures": [
+                  {
+                    "name": "Quantity_Dcount",
+                    "function": "count_distinct"
+                  },
+                  {
+                    "name": "Quantity_Sum",
+                    "function": "sum"
+                  },
+                  {
+                    "name": "Quantity_Min",
+                    "function": "min"
+                  },
+                  {
+                    "name": "Quantity_Max",
+                    "function": "max"
+                  }
+                ],
+                "datamodel": "datamodel_mysql_northwind_weather",
+                "datamodelTable": "OrderDetails"
+              }
+            ],
+            "calculated_facts": []
+          },
+          "dimensions": [
+            {
+              "fkey": "Customers_iw_fkey",
+              "pkey": "Customers_iw_pkey",
+              "name": "Customers",
+              "loc": "-147 68",
+              "type": "dimension",
+              "attrs": [
+                {
+                  "name": "CustomerID",
+                  "column": "CustomerID",
+                  "type": "VARCHAR",
+                  "breadcrumb": "OrderDetails > Orders",
+                  "join": {
+                    "op": "AND",
+                    "predicates": [
+                      {
+                        "p_col": "CustomerID",
+                        "op": "equals",
+                        "c_col": "CustomerID"
+                      }
+                    ]
+                  },
+                  "datamodel": "datamodel_mysql_northwind_weather",
+                  "datamodelTable": "Customers"
+                },
+                {
+                  "name": "CompanyName",
+                  "column": "CompanyName",
+                  "type": "VARCHAR",
+                  "breadcrumb": "OrderDetails > Orders",
+                  "join": {
+                    "op": "AND",
+                    "predicates": [
+                      {
+                        "p_col": "CustomerID",
+                        "op": "equals",
+                        "c_col": "CustomerID"
+                      }
+                    ]
+                  },
+                  "datamodel": "datamodel_mysql_northwind_weather",
+                  "datamodelTable": "Customers"
+                },
+                {
+                  "name": "ContactName",
+                  "column": "ContactName",
+                  "type": "VARCHAR",
+                  "breadcrumb": "OrderDetails > Orders",
+                  "join": {
+                    "op": "AND",
+                    "predicates": [
+                      {
+                        "p_col": "CustomerID",
+                        "op": "equals",
+                        "c_col": "CustomerID"
+                      }
+                    ]
+                  },
+                  "datamodel": "datamodel_mysql_northwind_weather",
+                  "datamodelTable": "Customers"
+                },
+                {
+                  "name": "ContactTitle",
+                  "column": "ContactTitle",
+                  "type": "VARCHAR",
+                  "breadcrumb": "OrderDetails > Orders",
+                  "join": {
+                    "op": "AND",
+                    "predicates": [
+                      {
+                        "p_col": "CustomerID",
+                        "op": "equals",
+                        "c_col": "CustomerID"
+                      }
+                    ]
+                  },
+                  "datamodel": "datamodel_mysql_northwind_weather",
+                  "datamodelTable": "Customers"
+                },
+                {
+                  "name": "Address",
+                  "column": "Address",
+                  "type": "VARCHAR",
+                  "breadcrumb": "OrderDetails > Orders",
+                  "join": {
+                    "op": "AND",
+                    "predicates": [
+                      {
+                        "p_col": "CustomerID",
+                        "op": "equals",
+                        "c_col": "CustomerID"
+                      }
+                    ]
+                  },
+                  "datamodel": "datamodel_mysql_northwind_weather",
+                  "datamodelTable": "Customers"
+                },
+                {
+                  "name": "City",
+                  "column": "City",
+                  "type": "VARCHAR",
+                  "breadcrumb": "OrderDetails > Orders",
+                  "join": {
+                    "op": "AND",
+                    "predicates": [
+                      {
+                        "p_col": "CustomerID",
+                        "op": "equals",
+                        "c_col": "CustomerID"
+                      }
+                    ]
+                  },
+                  "datamodel": "datamodel_mysql_northwind_weather",
+                  "datamodelTable": "Customers"
+                },
+                {
+                  "name": "Region",
+                  "column": "Region",
+                  "type": "VARCHAR",
+                  "breadcrumb": "OrderDetails > Orders",
+                  "join": {
+                    "op": "AND",
+                    "predicates": [
+                      {
+                        "p_col": "CustomerID",
+                        "op": "equals",
+                        "c_col": "CustomerID"
+                      }
+                    ]
+                  },
+                  "datamodel": "datamodel_mysql_northwind_weather",
+                  "datamodelTable": "Customers"
+                },
+                {
+                  "name": "PostalCode",
+                  "column": "PostalCode",
+                  "type": "VARCHAR",
+                  "breadcrumb": "OrderDetails > Orders",
+                  "join": {
+                    "op": "AND",
+                    "predicates": [
+                      {
+                        "p_col": "CustomerID",
+                        "op": "equals",
+                        "c_col": "CustomerID"
+                      }
+                    ]
+                  },
+                  "datamodel": "datamodel_mysql_northwind_weather",
+                  "datamodelTable": "Customers"
+                },
+                {
+                  "name": "Country",
+                  "column": "Country",
+                  "type": "VARCHAR",
+                  "breadcrumb": "OrderDetails > Orders",
+                  "join": {
+                    "op": "AND",
+                    "predicates": [
+                      {
+                        "p_col": "CustomerID",
+                        "op": "equals",
+                        "c_col": "CustomerID"
+                      }
+                    ]
+                  },
+                  "datamodel": "datamodel_mysql_northwind_weather",
+                  "datamodelTable": "Customers"
+                },
+                {
+                  "name": "Phone",
+                  "column": "Phone",
+                  "type": "VARCHAR",
+                  "breadcrumb": "OrderDetails > Orders",
+                  "join": {
+                    "op": "AND",
+                    "predicates": [
+                      {
+                        "p_col": "CustomerID",
+                        "op": "equals",
+                        "c_col": "CustomerID"
+                      }
+                    ]
+                  },
+                  "datamodel": "datamodel_mysql_northwind_weather",
+                  "datamodelTable": "Customers"
+                },
+                {
+                  "name": "Fax",
+                  "column": "Fax",
+                  "type": "VARCHAR",
+                  "breadcrumb": "OrderDetails > Orders",
+                  "join": {
+                    "op": "AND",
+                    "predicates": [
+                      {
+                        "p_col": "CustomerID",
+                        "op": "equals",
+                        "c_col": "CustomerID"
+                      }
+                    ]
+                  },
+                  "datamodel": "datamodel_mysql_northwind_weather",
+                  "datamodelTable": "Customers"
+                }
+              ],
+              "dimensions": []
+            },
+            {
+              "fkey": "Employees_iw_fkey",
+              "pkey": "Employees_iw_pkey",
+              "name": "Employees",
+              "loc": "567 -291",
+              "type": "dimension",
+              "attrs": [
+                {
+                  "name": "EmployeeID",
+                  "column": "EmployeeID",
+                  "type": "INT",
+                  "breadcrumb": "OrderDetails > Orders",
+                  "join": {
+                    "op": "AND",
+                    "predicates": [
+                      {
+                        "p_col": "EmployeeID",
+                        "op": "equals",
+                        "c_col": "EmployeeID"
+                      }
+                    ]
+                  },
+                  "datamodel": "datamodel_mysql_northwind_weather",
+                  "datamodelTable": "Employees"
+                },
+                {
+                  "name": "LastName",
+                  "column": "LastName",
+                  "type": "VARCHAR",
+                  "breadcrumb": "OrderDetails > Orders",
+                  "join": {
+                    "op": "AND",
+                    "predicates": [
+                      {
+                        "p_col": "EmployeeID",
+                        "op": "equals",
+                        "c_col": "EmployeeID"
+                      }
+                    ]
+                  },
+                  "datamodel": "datamodel_mysql_northwind_weather",
+                  "datamodelTable": "Employees"
+                },
+                {
+                  "name": "FirstName",
+                  "column": "FirstName",
+                  "type": "VARCHAR",
+                  "breadcrumb": "OrderDetails > Orders",
+                  "join": {
+                    "op": "AND",
+                    "predicates": [
+                      {
+                        "p_col": "EmployeeID",
+                        "op": "equals",
+                        "c_col": "EmployeeID"
+                      }
+                    ]
+                  },
+                  "datamodel": "datamodel_mysql_northwind_weather",
+                  "datamodelTable": "Employees"
+                },
+                {
+                  "name": "Title",
+                  "column": "Title",
+                  "type": "VARCHAR",
+                  "breadcrumb": "OrderDetails > Orders",
+                  "join": {
+                    "op": "AND",
+                    "predicates": [
+                      {
+                        "p_col": "EmployeeID",
+                        "op": "equals",
+                        "c_col": "EmployeeID"
+                      }
+                    ]
+                  },
+                  "datamodel": "datamodel_mysql_northwind_weather",
+                  "datamodelTable": "Employees"
+                },
+                {
+                  "name": "TitleOfCourtesy",
+                  "column": "TitleOfCourtesy",
+                  "type": "VARCHAR",
+                  "breadcrumb": "OrderDetails > Orders",
+                  "join": {
+                    "op": "AND",
+                    "predicates": [
+                      {
+                        "p_col": "EmployeeID",
+                        "op": "equals",
+                        "c_col": "EmployeeID"
+                      }
+                    ]
+                  },
+                  "datamodel": "datamodel_mysql_northwind_weather",
+                  "datamodelTable": "Employees"
+                },
+                {
+                  "name": "BirthDate",
+                  "column": "BirthDate",
+                  "type": "DATETIME",
+                  "breadcrumb": "OrderDetails > Orders",
+                  "join": {
+                    "op": "AND",
+                    "predicates": [
+                      {
+                        "p_col": "EmployeeID",
+                        "op": "equals",
+                        "c_col": "EmployeeID"
+                      }
+                    ]
+                  },
+                  "datamodel": "datamodel_mysql_northwind_weather",
+                  "datamodelTable": "Employees"
+                },
+                {
+                  "name": "HireDate",
+                  "column": "HireDate",
+                  "type": "DATETIME",
+                  "breadcrumb": "OrderDetails > Orders",
+                  "join": {
+                    "op": "AND",
+                    "predicates": [
+                      {
+                        "p_col": "EmployeeID",
+                        "op": "equals",
+                        "c_col": "EmployeeID"
+                      }
+                    ]
+                  },
+                  "datamodel": "datamodel_mysql_northwind_weather",
+                  "datamodelTable": "Employees"
+                },
+                {
+                  "name": "Address",
+                  "column": "Address",
+                  "type": "VARCHAR",
+                  "breadcrumb": "OrderDetails > Orders",
+                  "join": {
+                    "op": "AND",
+                    "predicates": [
+                      {
+                        "p_col": "EmployeeID",
+                        "op": "equals",
+                        "c_col": "EmployeeID"
+                      }
+                    ]
+                  },
+                  "datamodel": "datamodel_mysql_northwind_weather",
+                  "datamodelTable": "Employees"
+                },
+                {
+                  "name": "City",
+                  "column": "City",
+                  "type": "VARCHAR",
+                  "breadcrumb": "OrderDetails > Orders",
+                  "join": {
+                    "op": "AND",
+                    "predicates": [
+                      {
+                        "p_col": "EmployeeID",
+                        "op": "equals",
+                        "c_col": "EmployeeID"
+                      }
+                    ]
+                  },
+                  "datamodel": "datamodel_mysql_northwind_weather",
+                  "datamodelTable": "Employees"
+                },
+                {
+                  "name": "Region",
+                  "column": "Region",
+                  "type": "VARCHAR",
+                  "breadcrumb": "OrderDetails > Orders",
+                  "join": {
+                    "op": "AND",
+                    "predicates": [
+                      {
+                        "p_col": "EmployeeID",
+                        "op": "equals",
+                        "c_col": "EmployeeID"
+                      }
+                    ]
+                  },
+                  "datamodel": "datamodel_mysql_northwind_weather",
+                  "datamodelTable": "Employees"
+                },
+                {
+                  "name": "PostalCode",
+                  "column": "PostalCode",
+                  "type": "VARCHAR",
+                  "breadcrumb": "OrderDetails > Orders",
+                  "join": {
+                    "op": "AND",
+                    "predicates": [
+                      {
+                        "p_col": "EmployeeID",
+                        "op": "equals",
+                        "c_col": "EmployeeID"
+                      }
+                    ]
+                  },
+                  "datamodel": "datamodel_mysql_northwind_weather",
+                  "datamodelTable": "Employees"
+                },
+                {
+                  "name": "Country",
+                  "column": "Country",
+                  "type": "VARCHAR",
+                  "breadcrumb": "OrderDetails > Orders",
+                  "join": {
+                    "op": "AND",
+                    "predicates": [
+                      {
+                        "p_col": "EmployeeID",
+                        "op": "equals",
+                        "c_col": "EmployeeID"
+                      }
+                    ]
+                  },
+                  "datamodel": "datamodel_mysql_northwind_weather",
+                  "datamodelTable": "Employees"
+                },
+                {
+                  "name": "HomePhone",
+                  "column": "HomePhone",
+                  "type": "VARCHAR",
+                  "breadcrumb": "OrderDetails > Orders",
+                  "join": {
+                    "op": "AND",
+                    "predicates": [
+                      {
+                        "p_col": "EmployeeID",
+                        "op": "equals",
+                        "c_col": "EmployeeID"
+                      }
+                    ]
+                  },
+                  "datamodel": "datamodel_mysql_northwind_weather",
+                  "datamodelTable": "Employees"
+                },
+                {
+                  "name": "Extension",
+                  "column": "Extension",
+                  "type": "VARCHAR",
+                  "breadcrumb": "OrderDetails > Orders",
+                  "join": {
+                    "op": "AND",
+                    "predicates": [
+                      {
+                        "p_col": "EmployeeID",
+                        "op": "equals",
+                        "c_col": "EmployeeID"
+                      }
+                    ]
+                  },
+                  "datamodel": "datamodel_mysql_northwind_weather",
+                  "datamodelTable": "Employees"
+                },
+                {
+                  "name": "Notes",
+                  "column": "Notes",
+                  "type": "MEDIUMTEXT",
+                  "breadcrumb": "OrderDetails > Orders",
+                  "join": {
+                    "op": "AND",
+                    "predicates": [
+                      {
+                        "p_col": "EmployeeID",
+                        "op": "equals",
+                        "c_col": "EmployeeID"
+                      }
+                    ]
+                  },
+                  "datamodel": "datamodel_mysql_northwind_weather",
+                  "datamodelTable": "Employees"
+                },
+                {
+                  "name": "ReportsTo",
+                  "column": "ReportsTo",
+                  "type": "INT",
+                  "breadcrumb": "OrderDetails > Orders",
+                  "join": {
+                    "op": "AND",
+                    "predicates": [
+                      {
+                        "p_col": "EmployeeID",
+                        "op": "equals",
+                        "c_col": "EmployeeID"
+                      }
+                    ]
+                  },
+                  "datamodel": "datamodel_mysql_northwind_weather",
+                  "datamodelTable": "Employees"
+                },
+                {
+                  "name": "PhotoPath",
+                  "column": "PhotoPath",
+                  "type": "VARCHAR",
+                  "breadcrumb": "OrderDetails > Orders",
+                  "join": {
+                    "op": "AND",
+                    "predicates": [
+                      {
+                        "p_col": "EmployeeID",
+                        "op": "equals",
+                        "c_col": "EmployeeID"
+                      }
+                    ]
+                  },
+                  "datamodel": "datamodel_mysql_northwind_weather",
+                  "datamodelTable": "Employees"
+                },
+                {
+                  "name": "Salary",
+                  "column": "Salary",
+                  "type": "FLOAT",
+                  "breadcrumb": "OrderDetails > Orders",
+                  "join": {
+                    "op": "AND",
+                    "predicates": [
+                      {
+                        "p_col": "EmployeeID",
+                        "op": "equals",
+                        "c_col": "EmployeeID"
+                      }
+                    ]
+                  },
+                  "datamodel": "datamodel_mysql_northwind_weather",
+                  "datamodelTable": "Employees"
+                }
+              ],
+              "dimensions": []
+            },
+            {
+              "fkey": "weather_iw_fkey",
+              "pkey": "weather_iw_pkey",
+              "name": "weather",
+              "loc": "425 -25",
+              "type": "dimension",
+              "attrs": [
+                {
+                  "name": "TIMESTAMP",
+                  "column": "TIMESTAMP",
+                  "type": "DATETIME",
+                  "breadcrumb": "OrderDetails > Orders",
+                  "join": {
+                    "op": "AND",
+                    "predicates": [
+                      {
+                        "p_col": "newOrderDate",
+                        "c_col": "new_date",
+                        "op": "equals"
+                      },
+                      {
+                        "p_col": "ShipCity",
+                        "c_col": "CITY",
+                        "op": "equals"
+                      }
+                    ]
+                  },
+                  "datamodel": "datamodel_mysql_northwind_weather",
+                  "datamodelTable": "weather"
+                },
+                {
+                  "name": "CITY",
+                  "column": "CITY",
+                  "type": "VARCHAR",
+                  "breadcrumb": "OrderDetails > Orders",
+                  "join": {
+                    "op": "AND",
+                    "predicates": [
+                      {
+                        "p_col": "newOrderDate",
+                        "c_col": "new_date",
+                        "op": "equals"
+                      },
+                      {
+                        "p_col": "ShipCity",
+                        "c_col": "CITY",
+                        "op": "equals"
+                      }
+                    ]
+                  },
+                  "datamodel": "datamodel_mysql_northwind_weather",
+                  "datamodelTable": "weather"
+                },
+                {
+                  "name": "TEMP",
+                  "column": "TEMP",
+                  "type": "INTEGER",
+                  "breadcrumb": "OrderDetails > Orders",
+                  "join": {
+                    "op": "AND",
+                    "predicates": [
+                      {
+                        "p_col": "newOrderDate",
+                        "c_col": "new_date",
+                        "op": "equals"
+                      },
+                      {
+                        "p_col": "ShipCity",
+                        "c_col": "CITY",
+                        "op": "equals"
+                      }
+                    ]
+                  },
+                  "datamodel": "datamodel_mysql_northwind_weather",
+                  "datamodelTable": "weather"
+                },
+                {
+                  "name": "CONDITION",
+                  "column": "CONDITION",
+                  "type": "VARCHAR",
+                  "breadcrumb": "OrderDetails > Orders",
+                  "join": {
+                    "op": "AND",
+                    "predicates": [
+                      {
+                        "p_col": "newOrderDate",
+                        "c_col": "new_date",
+                        "op": "equals"
+                      },
+                      {
+                        "p_col": "ShipCity",
+                        "c_col": "CITY",
+                        "op": "equals"
+                      }
+                    ]
+                  },
+                  "datamodel": "datamodel_mysql_northwind_weather",
+                  "datamodelTable": "weather"
+                },
+                {
+                  "name": "new_date",
+                  "column": "new_date",
+                  "type": "VARCHAR",
+                  "breadcrumb": "OrderDetails > Orders",
+                  "join": {
+                    "op": "AND",
+                    "predicates": [
+                      {
+                        "p_col": "newOrderDate",
+                        "c_col": "new_date",
+                        "op": "equals"
+                      },
+                      {
+                        "p_col": "ShipCity",
+                        "c_col": "CITY",
+                        "op": "equals"
+                      }
+                    ]
+                  },
+                  "datamodel": "datamodel_mysql_northwind_weather",
+                  "datamodelTable": "weather"
+                }
+              ],
+              "dimensions": []
+            },
+            {
+              "fkey": "Products_iw_fkey",
+              "pkey": "Products_iw_pkey",
+              "name": "Products",
+              "loc": "302 196",
+              "type": "dimension",
+              "attrs": [
+                {
+                  "name": "ProductID",
+                  "column": "ProductID",
+                  "type": "INT",
+                  "breadcrumb": "OrderDetails",
+                  "join": {
+                    "op": "AND",
+                    "predicates": [
+                      {
+                        "p_col": "ProductID",
+                        "op": "equals",
+                        "c_col": "ProductID"
+                      }
+                    ]
+                  },
+                  "datamodel": "datamodel_mysql_northwind_weather",
+                  "datamodelTable": "Products"
+                },
+                {
+                  "name": "ProductName",
+                  "column": "ProductName",
+                  "type": "VARCHAR",
+                  "breadcrumb": "OrderDetails",
+                  "join": {
+                    "op": "AND",
+                    "predicates": [
+                      {
+                        "p_col": "ProductID",
+                        "op": "equals",
+                        "c_col": "ProductID"
+                      }
+                    ]
+                  },
+                  "datamodel": "datamodel_mysql_northwind_weather",
+                  "datamodelTable": "Products"
+                },
+                {
+                  "name": "SupplierID",
+                  "column": "SupplierID",
+                  "type": "INT",
+                  "breadcrumb": "OrderDetails",
+                  "join": {
+                    "op": "AND",
+                    "predicates": [
+                      {
+                        "p_col": "ProductID",
+                        "op": "equals",
+                        "c_col": "ProductID"
+                      }
+                    ]
+                  },
+                  "datamodel": "datamodel_mysql_northwind_weather",
+                  "datamodelTable": "Products"
+                },
+                {
+                  "name": "CategoryID",
+                  "column": "CategoryID",
+                  "type": "INT",
+                  "breadcrumb": "OrderDetails",
+                  "join": {
+                    "op": "AND",
+                    "predicates": [
+                      {
+                        "p_col": "ProductID",
+                        "op": "equals",
+                        "c_col": "ProductID"
+                      }
+                    ]
+                  },
+                  "datamodel": "datamodel_mysql_northwind_weather",
+                  "datamodelTable": "Products"
+                },
+                {
+                  "name": "QuantityPerUnit",
+                  "column": "QuantityPerUnit",
+                  "type": "VARCHAR",
+                  "breadcrumb": "OrderDetails",
+                  "join": {
+                    "op": "AND",
+                    "predicates": [
+                      {
+                        "p_col": "ProductID",
+                        "op": "equals",
+                        "c_col": "ProductID"
+                      }
+                    ]
+                  },
+                  "datamodel": "datamodel_mysql_northwind_weather",
+                  "datamodelTable": "Products"
+                },
+                {
+                  "name": "UnitPrice",
+                  "column": "UnitPrice",
+                  "type": "DECIMAL",
+                  "breadcrumb": "OrderDetails",
+                  "join": {
+                    "op": "AND",
+                    "predicates": [
+                      {
+                        "p_col": "ProductID",
+                        "op": "equals",
+                        "c_col": "ProductID"
+                      }
+                    ]
+                  },
+                  "datamodel": "datamodel_mysql_northwind_weather",
+                  "datamodelTable": "Products"
+                },
+                {
+                  "name": "UnitsInStock",
+                  "column": "UnitsInStock",
+                  "type": "SMALLINT",
+                  "breadcrumb": "OrderDetails",
+                  "join": {
+                    "op": "AND",
+                    "predicates": [
+                      {
+                        "p_col": "ProductID",
+                        "op": "equals",
+                        "c_col": "ProductID"
+                      }
+                    ]
+                  },
+                  "datamodel": "datamodel_mysql_northwind_weather",
+                  "datamodelTable": "Products"
+                },
+                {
+                  "name": "UnitsOnOrder",
+                  "column": "UnitsOnOrder",
+                  "type": "SMALLINT",
+                  "breadcrumb": "OrderDetails",
+                  "join": {
+                    "op": "AND",
+                    "predicates": [
+                      {
+                        "p_col": "ProductID",
+                        "op": "equals",
+                        "c_col": "ProductID"
+                      }
+                    ]
+                  },
+                  "datamodel": "datamodel_mysql_northwind_weather",
+                  "datamodelTable": "Products"
+                },
+                {
+                  "name": "ReorderLevel",
+                  "column": "ReorderLevel",
+                  "type": "SMALLINT",
+                  "breadcrumb": "OrderDetails",
+                  "join": {
+                    "op": "AND",
+                    "predicates": [
+                      {
+                        "p_col": "ProductID",
+                        "op": "equals",
+                        "c_col": "ProductID"
+                      }
+                    ]
+                  },
+                  "datamodel": "datamodel_mysql_northwind_weather",
+                  "datamodelTable": "Products"
+                },
+                {
+                  "name": "Discontinued",
+                  "column": "Discontinued",
+                  "type": "BIT",
+                  "breadcrumb": "OrderDetails",
+                  "join": {
+                    "op": "AND",
+                    "predicates": [
+                      {
+                        "p_col": "ProductID",
+                        "op": "equals",
+                        "c_col": "ProductID"
+                      }
+                    ]
+                  },
+                  "datamodel": "datamodel_mysql_northwind_weather",
+                  "datamodelTable": "Products"
+                }
+              ],
+              "dimensions": []
+            },
+            {
+              "fkey": "Categories_iw_fkey",
+              "pkey": "Categories_iw_pkey",
+              "name": "Categories",
+              "loc": "-143 -240",
+              "type": "dimension",
+              "attrs": [
+                {
+                  "name": "CategoryID",
+                  "column": "CategoryID",
+                  "type": "INT",
+                  "breadcrumb": "OrderDetails > Products",
+                  "join": {
+                    "op": "AND",
+                    "predicates": [
+                      {
+                        "p_col": "CategoryID",
+                        "op": "equals",
+                        "c_col": "CategoryID"
+                      }
+                    ]
+                  },
+                  "datamodel": "datamodel_mysql_northwind_weather",
+                  "datamodelTable": "Categories"
+                },
+                {
+                  "name": "CategoryName",
+                  "column": "CategoryName",
+                  "type": "VARCHAR",
+                  "breadcrumb": "OrderDetails > Products",
+                  "join": {
+                    "op": "AND",
+                    "predicates": [
+                      {
+                        "p_col": "CategoryID",
+                        "op": "equals",
+                        "c_col": "CategoryID"
+                      }
+                    ]
+                  },
+                  "datamodel": "datamodel_mysql_northwind_weather",
+                  "datamodelTable": "Categories"
+                },
+                {
+                  "name": "Description",
+                  "column": "Description",
+                  "type": "MEDIUMTEXT",
+                  "breadcrumb": "OrderDetails > Products",
+                  "join": {
+                    "op": "AND",
+                    "predicates": [
+                      {
+                        "p_col": "CategoryID",
+                        "op": "equals",
+                        "c_col": "CategoryID"
+                      }
+                    ]
+                  },
+                  "datamodel": "datamodel_mysql_northwind_weather",
+                  "datamodelTable": "Categories"
+                }
+              ],
+              "dimensions": []
+            }
+          ]
+        }
+      }
+    ]
+  }
+}

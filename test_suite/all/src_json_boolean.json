@@ -1,0 +1,10 @@
+{
+    "config": {
+        "fileType": "json", 
+        "hdfs_path": "/sqoop/iw/json_boolean", 
+        "name": "json_boolean", 
+        "path": "/json_tests/datatype_boolean", 
+        "sourceType": "json"
+    }, 
+    "entityType": "source"
+}

@@ -1,0 +1,10 @@
+{
+  "entityType": "source_rdbms_modify",
+  "dependsOn": [
+    "src_oracle_tpcds.json"
+  ],
+  "config": {
+    "name": "oracle_tpcds",
+    "sql_script_path": "test_cdc.sql"
+  }
+}

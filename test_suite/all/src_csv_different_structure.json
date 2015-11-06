@@ -1,0 +1,15 @@
+{
+    "config": {
+        "escapechar": "\\", 
+        "fileType": "csv", 
+        "hdfs_path": "/sqoop/iw/csv_different_structure", 
+        "name": "csv_different_structure", 
+        "path": "/csv_tests/different_structure", 
+        "quotechar": "\"", 
+        "schema": "csv_different_structure", 
+        "separator": ",", 
+        "sourceType": "csv"
+    }, 
+    "entityType": "source", 
+    "testType": "negative"
+}

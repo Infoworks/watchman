@@ -1,0 +1,1748 @@
+{
+  "entityType": "datamodel",
+  "dependsOn": [
+    "src_oracle_tpcds.json",
+    "domain_create.json"
+  ],
+  "config": {
+    "name": "datamodel_oracle_tpcds",
+    "domain": "TestDomain",
+    "sources": [
+      "oracle_tpcds"
+    ],
+    "transformations": {},
+    "treemap": {
+      "nodeindex": 1,
+      "treemapId": {
+        "_str": "560a7658070b70ee3976aac0"
+      },
+      "children": [
+        {
+          "nodeindex": 2,
+          "join": {
+            "predicates": [
+              {
+                "c_col": "C_CUSTOMER_SK",
+                "p_col": "SS_CUSTOMER_SK",
+                "op": "equals"
+              }
+            ],
+            "op": "AND"
+          },
+          "discovered_cardinality": {
+            "parent": "many",
+            "parent_optional": true,
+            "self": "one",
+            "self_optional": true
+          },
+          "breadCrumb": "STORE_SALES",
+          "source": "oracle_tpcds",
+          "table": "CUSTOMER"
+        },
+        {
+          "nodeindex": 3,
+          "join": {
+            "predicates": [
+              {
+                "c_col": "CA_ADDRESS_SK",
+                "p_col": "SS_ADDR_SK",
+                "op": "equals"
+              }
+            ],
+            "op": "AND"
+          },
+          "discovered_cardinality": {
+            "parent": "many",
+            "parent_optional": true,
+            "self": "one",
+            "self_optional": true
+          },
+          "breadCrumb": "STORE_SALES",
+          "source": "oracle_tpcds",
+          "table": "CUSTOMER_ADDRESS"
+        },
+        {
+          "nodeindex": 4,
+          "join": {
+            "predicates": [
+              {
+                "c_col": "CD_DEMO_SK",
+                "p_col": "SS_CDEMO_SK",
+                "op": "equals"
+              }
+            ],
+            "op": "AND"
+          },
+          "discovered_cardinality": {
+            "parent": "many",
+            "parent_optional": true,
+            "self": "one",
+            "self_optional": true
+          },
+          "breadCrumb": "STORE_SALES",
+          "source": "oracle_tpcds",
+          "table": "CUSTOMER_DEMOGRAPHICS"
+        },
+        {
+          "nodeindex": 5,
+          "join": {
+            "predicates": [
+              {
+                "c_col": "D_DATE_SK",
+                "p_col": "SS_SOLD_DATE_SK",
+                "op": "equals"
+              }
+            ],
+            "op": "AND"
+          },
+          "discovered_cardinality": {
+            "parent": "many",
+            "parent_optional": true,
+            "self": "one",
+            "self_optional": true
+          },
+          "breadCrumb": "STORE_SALES",
+          "source": "oracle_tpcds",
+          "table": "DATE_DIM"
+        },
+        {
+          "nodeindex": 6,
+          "join": {
+            "predicates": [
+              {
+                "c_col": "HD_DEMO_SK",
+                "p_col": "SS_HDEMO_SK",
+                "op": "equals"
+              }
+            ],
+            "op": "AND"
+          },
+          "discovered_cardinality": {
+            "parent": "many",
+            "parent_optional": false,
+            "self": "one",
+            "self_optional": true
+          },
+          "breadCrumb": "STORE_SALES",
+          "source": "oracle_tpcds",
+          "table": "HOUSEHOLD_DEMOGRAPHICS"
+        },
+        {
+          "nodeindex": 7,
+          "join": {
+            "predicates": [
+              {
+                "c_col": "I_ITEM_SK",
+                "p_col": "SS_ITEM_SK",
+                "op": "equals"
+              }
+            ],
+            "op": "AND"
+          },
+          "discovered_cardinality": {
+            "parent": "many",
+            "parent_optional": false,
+            "self": "one",
+            "self_optional": false
+          },
+          "breadCrumb": "STORE_SALES",
+          "source": "oracle_tpcds",
+          "table": "ITEM"
+        },
+        {
+          "nodeindex": 8,
+          "join": {
+            "predicates": [
+              {
+                "c_col": "P_PROMO_SK",
+                "p_col": "SS_PROMO_SK",
+                "op": "equals"
+              }
+            ],
+            "op": "AND"
+          },
+          "discovered_cardinality": {
+            "parent": "many",
+            "parent_optional": false,
+            "self": "one",
+            "self_optional": true
+          },
+          "breadCrumb": "STORE_SALES",
+          "source": "oracle_tpcds",
+          "table": "PROMOTION"
+        },
+        {
+          "nodeindex": 9,
+          "join": {
+            "predicates": [
+              {
+                "c_col": "S_STORE_SK",
+                "p_col": "SS_STORE_SK",
+                "op": "equals"
+              }
+            ],
+            "op": "AND"
+          },
+          "discovered_cardinality": {
+            "parent": "many",
+            "parent_optional": true,
+            "self": "one",
+            "self_optional": true
+          },
+          "breadCrumb": "STORE_SALES",
+          "source": "oracle_tpcds",
+          "table": "STORE"
+        },
+        {
+          "nodeindex": 10,
+          "join": {
+            "predicates": [
+              {
+                "c_col": "T_TIME_SK",
+                "p_col": "SS_SOLD_TIME_SK",
+                "op": "equals"
+              }
+            ],
+            "op": "AND"
+          },
+          "discovered_cardinality": {
+            "parent": "many",
+            "parent_optional": true,
+            "self": "one",
+            "self_optional": true
+          },
+          "breadCrumb": "STORE_SALES",
+          "source": "oracle_tpcds",
+          "table": "TIME_DIM"
+        }
+      ],
+      "source": "oracle_tpcds",
+      "table": "STORE_SALES"
+    },
+    "cubes": [
+      {
+        "name": "cube_oracle_tpcds",
+        "datamodel": "datamodel_oracle_tpcds",
+        "layout": {
+          "facts_table": {
+            "name": "factTable",
+            "loc": "-98 -248.00000000000028",
+            "facts": [
+              {
+                "name": "SS_QUANTITY",
+                "description": "",
+                "column": "SS_QUANTITY",
+                "type": "NUMBER",
+                "measures": [
+                  {
+                    "name": "SS_QUANTITY_SUM",
+                    "function": "sum"
+                  },
+                  {
+                    "name": "SS_QUANTITY_DCOUNT",
+                    "function": "count_distinct"
+                  },
+                  {
+                    "name": "SS_QUANTITY_MIN",
+                    "function": "min"
+                  },
+                  {
+                    "name": "SS_QUANTITY_MAX",
+                    "function": "max"
+                  }
+                ],
+                "datamodel": "datamodel_oracle_tpcds",
+                "datamodelTable": "STORE_SALES"
+              },
+              {
+                "name": "SS_SALES_PRICE",
+                "description": "",
+                "column": "SS_SALES_PRICE",
+                "type": "NUMBER",
+                "measures": [
+                  {
+                    "name": "SS_SALES_PRICE_MAX",
+                    "function": "max"
+                  },
+                  {
+                    "name": "SS_SALES_PRICE_MIN",
+                    "function": "min"
+                  },
+                  {
+                    "name": "SS_SALES_PRICE_DCOUNT",
+                    "function": "count_distinct"
+                  },
+                  {
+                    "name": "SS_SALES_PRICE_SUM",
+                    "function": "sum"
+                  }
+                ],
+                "datamodel": "datamodel_oracle_tpcds",
+                "datamodelTable": "STORE_SALES"
+              },
+              {
+                "name": "SS_EXT_DISCOUNT_AMT",
+                "description": "",
+                "column": "SS_EXT_DISCOUNT_AMT",
+                "type": "NUMBER",
+                "measures": [
+                  {
+                    "name": "SS_EXT_DISCOUNT_AMT_MIN",
+                    "function": "min"
+                  },
+                  {
+                    "name": "SS_EXT_DISCOUNT_AMT_MAX",
+                    "function": "max"
+                  },
+                  {
+                    "name": "SS_EXT_DISCOUNT_AMT_DCOUNT",
+                    "function": "count_distinct"
+                  },
+                  {
+                    "name": "SS_EXT_DISCOUNT_AMT_SUM",
+                    "function": "sum"
+                  }
+                ],
+                "datamodel": "datamodel_oracle_tpcds",
+                "datamodelTable": "STORE_SALES"
+              }
+            ],
+            "calculated_facts": []
+          },
+          "dimensions": [
+            {
+              "fkey": "CUSTOMER_iw_fkey",
+              "pkey": "CUSTOMER_iw_pkey",
+              "name": "CUSTOMER",
+              "loc": "681 -226",
+              "type": "dimension",
+              "attrs": [
+                {
+                  "name": "C_CUSTOMER_SK",
+                  "column": "C_CUSTOMER_SK",
+                  "type": "NUMBER",
+                  "breadcrumb": "STORE_SALES",
+                  "join": {
+                    "predicates": [
+                      {
+                        "c_col": "C_CUSTOMER_SK",
+                        "p_col": "SS_CUSTOMER_SK",
+                        "op": "equals"
+                      }
+                    ],
+                    "op": "AND"
+                  },
+                  "datamodel": "datamodel_oracle_tpcds",
+                  "datamodelTable": "CUSTOMER"
+                },
+                {
+                  "name": "C_CUSTOMER_ID",
+                  "column": "C_CUSTOMER_ID",
+                  "type": "CHAR",
+                  "breadcrumb": "STORE_SALES",
+                  "join": {
+                    "predicates": [
+                      {
+                        "c_col": "C_CUSTOMER_SK",
+                        "p_col": "SS_CUSTOMER_SK",
+                        "op": "equals"
+                      }
+                    ],
+                    "op": "AND"
+                  },
+                  "datamodel": "datamodel_oracle_tpcds",
+                  "datamodelTable": "CUSTOMER"
+                },
+                {
+                  "name": "C_CURRENT_CDEMO_SK",
+                  "column": "C_CURRENT_CDEMO_SK",
+                  "type": "NUMBER",
+                  "breadcrumb": "STORE_SALES",
+                  "join": {
+                    "predicates": [
+                      {
+                        "c_col": "C_CUSTOMER_SK",
+                        "p_col": "SS_CUSTOMER_SK",
+                        "op": "equals"
+                      }
+                    ],
+                    "op": "AND"
+                  },
+                  "datamodel": "datamodel_oracle_tpcds",
+                  "datamodelTable": "CUSTOMER"
+                },
+                {
+                  "name": "C_CURRENT_HDEMO_SK",
+                  "column": "C_CURRENT_HDEMO_SK",
+                  "type": "NUMBER",
+                  "breadcrumb": "STORE_SALES",
+                  "join": {
+                    "predicates": [
+                      {
+                        "c_col": "C_CUSTOMER_SK",
+                        "p_col": "SS_CUSTOMER_SK",
+                        "op": "equals"
+                      }
+                    ],
+                    "op": "AND"
+                  },
+                  "datamodel": "datamodel_oracle_tpcds",
+                  "datamodelTable": "CUSTOMER"
+                },
+                {
+                  "name": "C_CURRENT_ADDR_SK",
+                  "column": "C_CURRENT_ADDR_SK",
+                  "type": "NUMBER",
+                  "breadcrumb": "STORE_SALES",
+                  "join": {
+                    "predicates": [
+                      {
+                        "c_col": "C_CUSTOMER_SK",
+                        "p_col": "SS_CUSTOMER_SK",
+                        "op": "equals"
+                      }
+                    ],
+                    "op": "AND"
+                  },
+                  "datamodel": "datamodel_oracle_tpcds",
+                  "datamodelTable": "CUSTOMER"
+                },
+                {
+                  "name": "C_FIRST_SHIPTO_DATE_SK",
+                  "column": "C_FIRST_SHIPTO_DATE_SK",
+                  "type": "NUMBER",
+                  "breadcrumb": "STORE_SALES",
+                  "join": {
+                    "predicates": [
+                      {
+                        "c_col": "C_CUSTOMER_SK",
+                        "p_col": "SS_CUSTOMER_SK",
+                        "op": "equals"
+                      }
+                    ],
+                    "op": "AND"
+                  },
+                  "datamodel": "datamodel_oracle_tpcds",
+                  "datamodelTable": "CUSTOMER"
+                },
+                {
+                  "name": "C_FIRST_SALES_DATE_SK",
+                  "column": "C_FIRST_SALES_DATE_SK",
+                  "type": "NUMBER",
+                  "breadcrumb": "STORE_SALES",
+                  "join": {
+                    "predicates": [
+                      {
+                        "c_col": "C_CUSTOMER_SK",
+                        "p_col": "SS_CUSTOMER_SK",
+                        "op": "equals"
+                      }
+                    ],
+                    "op": "AND"
+                  },
+                  "datamodel": "datamodel_oracle_tpcds",
+                  "datamodelTable": "CUSTOMER"
+                },
+                {
+                  "name": "C_SALUTATION",
+                  "column": "C_SALUTATION",
+                  "type": "CHAR",
+                  "breadcrumb": "STORE_SALES",
+                  "join": {
+                    "predicates": [
+                      {
+                        "c_col": "C_CUSTOMER_SK",
+                        "p_col": "SS_CUSTOMER_SK",
+                        "op": "equals"
+                      }
+                    ],
+                    "op": "AND"
+                  },
+                  "datamodel": "datamodel_oracle_tpcds",
+                  "datamodelTable": "CUSTOMER"
+                },
+                {
+                  "name": "C_FIRST_NAME",
+                  "column": "C_FIRST_NAME",
+                  "type": "CHAR",
+                  "breadcrumb": "STORE_SALES",
+                  "join": {
+                    "predicates": [
+                      {
+                        "c_col": "C_CUSTOMER_SK",
+                        "p_col": "SS_CUSTOMER_SK",
+                        "op": "equals"
+                      }
+                    ],
+                    "op": "AND"
+                  },
+                  "datamodel": "datamodel_oracle_tpcds",
+                  "datamodelTable": "CUSTOMER"
+                },
+                {
+                  "name": "C_LAST_NAME",
+                  "column": "C_LAST_NAME",
+                  "type": "CHAR",
+                  "breadcrumb": "STORE_SALES",
+                  "join": {
+                    "predicates": [
+                      {
+                        "c_col": "C_CUSTOMER_SK",
+                        "p_col": "SS_CUSTOMER_SK",
+                        "op": "equals"
+                      }
+                    ],
+                    "op": "AND"
+                  },
+                  "datamodel": "datamodel_oracle_tpcds",
+                  "datamodelTable": "CUSTOMER"
+                },
+                {
+                  "name": "C_PREFERRED_CUST_FLAG",
+                  "column": "C_PREFERRED_CUST_FLAG",
+                  "type": "CHAR",
+                  "breadcrumb": "STORE_SALES",
+                  "join": {
+                    "predicates": [
+                      {
+                        "c_col": "C_CUSTOMER_SK",
+                        "p_col": "SS_CUSTOMER_SK",
+                        "op": "equals"
+                      }
+                    ],
+                    "op": "AND"
+                  },
+                  "datamodel": "datamodel_oracle_tpcds",
+                  "datamodelTable": "CUSTOMER"
+                },
+                {
+                  "name": "C_BIRTH_DAY",
+                  "column": "C_BIRTH_DAY",
+                  "type": "NUMBER",
+                  "breadcrumb": "STORE_SALES",
+                  "join": {
+                    "predicates": [
+                      {
+                        "c_col": "C_CUSTOMER_SK",
+                        "p_col": "SS_CUSTOMER_SK",
+                        "op": "equals"
+                      }
+                    ],
+                    "op": "AND"
+                  },
+                  "datamodel": "datamodel_oracle_tpcds",
+                  "datamodelTable": "CUSTOMER"
+                },
+                {
+                  "name": "C_BIRTH_MONTH",
+                  "column": "C_BIRTH_MONTH",
+                  "type": "NUMBER",
+                  "breadcrumb": "STORE_SALES",
+                  "join": {
+                    "predicates": [
+                      {
+                        "c_col": "C_CUSTOMER_SK",
+                        "p_col": "SS_CUSTOMER_SK",
+                        "op": "equals"
+                      }
+                    ],
+                    "op": "AND"
+                  },
+                  "datamodel": "datamodel_oracle_tpcds",
+                  "datamodelTable": "CUSTOMER"
+                },
+                {
+                  "name": "C_BIRTH_YEAR",
+                  "column": "C_BIRTH_YEAR",
+                  "type": "NUMBER",
+                  "breadcrumb": "STORE_SALES",
+                  "join": {
+                    "predicates": [
+                      {
+                        "c_col": "C_CUSTOMER_SK",
+                        "p_col": "SS_CUSTOMER_SK",
+                        "op": "equals"
+                      }
+                    ],
+                    "op": "AND"
+                  },
+                  "datamodel": "datamodel_oracle_tpcds",
+                  "datamodelTable": "CUSTOMER"
+                },
+                {
+                  "name": "C_BIRTH_COUNTRY",
+                  "column": "C_BIRTH_COUNTRY",
+                  "type": "VARCHAR2",
+                  "breadcrumb": "STORE_SALES",
+                  "join": {
+                    "predicates": [
+                      {
+                        "c_col": "C_CUSTOMER_SK",
+                        "p_col": "SS_CUSTOMER_SK",
+                        "op": "equals"
+                      }
+                    ],
+                    "op": "AND"
+                  },
+                  "datamodel": "datamodel_oracle_tpcds",
+                  "datamodelTable": "CUSTOMER"
+                },
+                {
+                  "name": "C_LOGIN",
+                  "column": "C_LOGIN",
+                  "type": "CHAR",
+                  "breadcrumb": "STORE_SALES",
+                  "join": {
+                    "predicates": [
+                      {
+                        "c_col": "C_CUSTOMER_SK",
+                        "p_col": "SS_CUSTOMER_SK",
+                        "op": "equals"
+                      }
+                    ],
+                    "op": "AND"
+                  },
+                  "datamodel": "datamodel_oracle_tpcds",
+                  "datamodelTable": "CUSTOMER"
+                },
+                {
+                  "name": "C_EMAIL_ADDRESS",
+                  "column": "C_EMAIL_ADDRESS",
+                  "type": "CHAR",
+                  "breadcrumb": "STORE_SALES",
+                  "join": {
+                    "predicates": [
+                      {
+                        "c_col": "C_CUSTOMER_SK",
+                        "p_col": "SS_CUSTOMER_SK",
+                        "op": "equals"
+                      }
+                    ],
+                    "op": "AND"
+                  },
+                  "datamodel": "datamodel_oracle_tpcds",
+                  "datamodelTable": "CUSTOMER"
+                },
+                {
+                  "name": "C_LAST_REVIEW_DATE",
+                  "column": "C_LAST_REVIEW_DATE",
+                  "type": "CHAR",
+                  "breadcrumb": "STORE_SALES",
+                  "join": {
+                    "predicates": [
+                      {
+                        "c_col": "C_CUSTOMER_SK",
+                        "p_col": "SS_CUSTOMER_SK",
+                        "op": "equals"
+                      }
+                    ],
+                    "op": "AND"
+                  },
+                  "datamodel": "datamodel_oracle_tpcds",
+                  "datamodelTable": "CUSTOMER"
+                }
+              ],
+              "hierarchies": [],
+              "dimensions": []
+            },
+            {
+              "fkey": "DATE_DIM_iw_fkey",
+              "pkey": "DATE_DIM_iw_pkey",
+              "name": "DATE_DIM",
+              "loc": "462 -162",
+              "type": "dimension",
+              "attrs": [
+                {
+                  "name": "D_DATE_SK",
+                  "column": "D_DATE_SK",
+                  "type": "NUMBER",
+                  "breadcrumb": "STORE_SALES",
+                  "join": {
+                    "predicates": [
+                      {
+                        "c_col": "D_DATE_SK",
+                        "p_col": "SS_SOLD_DATE_SK",
+                        "op": "equals"
+                      }
+                    ],
+                    "op": "AND"
+                  },
+                  "datamodel": "datamodel_oracle_tpcds",
+                  "datamodelTable": "DATE_DIM"
+                },
+                {
+                  "name": "D_DATE_ID",
+                  "column": "D_DATE_ID",
+                  "type": "CHAR",
+                  "breadcrumb": "STORE_SALES",
+                  "join": {
+                    "predicates": [
+                      {
+                        "c_col": "D_DATE_SK",
+                        "p_col": "SS_SOLD_DATE_SK",
+                        "op": "equals"
+                      }
+                    ],
+                    "op": "AND"
+                  },
+                  "datamodel": "datamodel_oracle_tpcds",
+                  "datamodelTable": "DATE_DIM"
+                },
+                {
+                  "name": "D_DATE",
+                  "column": "D_DATE",
+                  "type": "DATE",
+                  "breadcrumb": "STORE_SALES",
+                  "join": {
+                    "predicates": [
+                      {
+                        "c_col": "D_DATE_SK",
+                        "p_col": "SS_SOLD_DATE_SK",
+                        "op": "equals"
+                      }
+                    ],
+                    "op": "AND"
+                  },
+                  "datamodel": "datamodel_oracle_tpcds",
+                  "datamodelTable": "DATE_DIM"
+                },
+                {
+                  "name": "D_MONTH_SEQ",
+                  "column": "D_MONTH_SEQ",
+                  "type": "NUMBER",
+                  "breadcrumb": "STORE_SALES",
+                  "join": {
+                    "predicates": [
+                      {
+                        "c_col": "D_DATE_SK",
+                        "p_col": "SS_SOLD_DATE_SK",
+                        "op": "equals"
+                      }
+                    ],
+                    "op": "AND"
+                  },
+                  "datamodel": "datamodel_oracle_tpcds",
+                  "datamodelTable": "DATE_DIM"
+                },
+                {
+                  "name": "D_WEEK_SEQ",
+                  "column": "D_WEEK_SEQ",
+                  "type": "NUMBER",
+                  "breadcrumb": "STORE_SALES",
+                  "join": {
+                    "predicates": [
+                      {
+                        "c_col": "D_DATE_SK",
+                        "p_col": "SS_SOLD_DATE_SK",
+                        "op": "equals"
+                      }
+                    ],
+                    "op": "AND"
+                  },
+                  "datamodel": "datamodel_oracle_tpcds",
+                  "datamodelTable": "DATE_DIM"
+                },
+                {
+                  "name": "D_QUARTER_SEQ",
+                  "column": "D_QUARTER_SEQ",
+                  "type": "NUMBER",
+                  "breadcrumb": "STORE_SALES",
+                  "join": {
+                    "predicates": [
+                      {
+                        "c_col": "D_DATE_SK",
+                        "p_col": "SS_SOLD_DATE_SK",
+                        "op": "equals"
+                      }
+                    ],
+                    "op": "AND"
+                  },
+                  "datamodel": "datamodel_oracle_tpcds",
+                  "datamodelTable": "DATE_DIM"
+                },
+                {
+                  "name": "D_YEAR",
+                  "column": "D_YEAR",
+                  "type": "NUMBER",
+                  "breadcrumb": "STORE_SALES",
+                  "join": {
+                    "predicates": [
+                      {
+                        "c_col": "D_DATE_SK",
+                        "p_col": "SS_SOLD_DATE_SK",
+                        "op": "equals"
+                      }
+                    ],
+                    "op": "AND"
+                  },
+                  "datamodel": "datamodel_oracle_tpcds",
+                  "datamodelTable": "DATE_DIM"
+                },
+                {
+                  "name": "D_DOW",
+                  "column": "D_DOW",
+                  "type": "NUMBER",
+                  "breadcrumb": "STORE_SALES",
+                  "join": {
+                    "predicates": [
+                      {
+                        "c_col": "D_DATE_SK",
+                        "p_col": "SS_SOLD_DATE_SK",
+                        "op": "equals"
+                      }
+                    ],
+                    "op": "AND"
+                  },
+                  "datamodel": "datamodel_oracle_tpcds",
+                  "datamodelTable": "DATE_DIM"
+                },
+                {
+                  "name": "D_MOY",
+                  "column": "D_MOY",
+                  "type": "NUMBER",
+                  "breadcrumb": "STORE_SALES",
+                  "join": {
+                    "predicates": [
+                      {
+                        "c_col": "D_DATE_SK",
+                        "p_col": "SS_SOLD_DATE_SK",
+                        "op": "equals"
+                      }
+                    ],
+                    "op": "AND"
+                  },
+                  "datamodel": "datamodel_oracle_tpcds",
+                  "datamodelTable": "DATE_DIM"
+                },
+                {
+                  "name": "D_DOM",
+                  "column": "D_DOM",
+                  "type": "NUMBER",
+                  "breadcrumb": "STORE_SALES",
+                  "join": {
+                    "predicates": [
+                      {
+                        "c_col": "D_DATE_SK",
+                        "p_col": "SS_SOLD_DATE_SK",
+                        "op": "equals"
+                      }
+                    ],
+                    "op": "AND"
+                  },
+                  "datamodel": "datamodel_oracle_tpcds",
+                  "datamodelTable": "DATE_DIM"
+                },
+                {
+                  "name": "D_QOY",
+                  "column": "D_QOY",
+                  "type": "NUMBER",
+                  "breadcrumb": "STORE_SALES",
+                  "join": {
+                    "predicates": [
+                      {
+                        "c_col": "D_DATE_SK",
+                        "p_col": "SS_SOLD_DATE_SK",
+                        "op": "equals"
+                      }
+                    ],
+                    "op": "AND"
+                  },
+                  "datamodel": "datamodel_oracle_tpcds",
+                  "datamodelTable": "DATE_DIM"
+                },
+                {
+                  "name": "D_FY_YEAR",
+                  "column": "D_FY_YEAR",
+                  "type": "NUMBER",
+                  "breadcrumb": "STORE_SALES",
+                  "join": {
+                    "predicates": [
+                      {
+                        "c_col": "D_DATE_SK",
+                        "p_col": "SS_SOLD_DATE_SK",
+                        "op": "equals"
+                      }
+                    ],
+                    "op": "AND"
+                  },
+                  "datamodel": "datamodel_oracle_tpcds",
+                  "datamodelTable": "DATE_DIM"
+                },
+                {
+                  "name": "D_FY_QUARTER_SEQ",
+                  "column": "D_FY_QUARTER_SEQ",
+                  "type": "NUMBER",
+                  "breadcrumb": "STORE_SALES",
+                  "join": {
+                    "predicates": [
+                      {
+                        "c_col": "D_DATE_SK",
+                        "p_col": "SS_SOLD_DATE_SK",
+                        "op": "equals"
+                      }
+                    ],
+                    "op": "AND"
+                  },
+                  "datamodel": "datamodel_oracle_tpcds",
+                  "datamodelTable": "DATE_DIM"
+                },
+                {
+                  "name": "D_FY_WEEK_SEQ",
+                  "column": "D_FY_WEEK_SEQ",
+                  "type": "NUMBER",
+                  "breadcrumb": "STORE_SALES",
+                  "join": {
+                    "predicates": [
+                      {
+                        "c_col": "D_DATE_SK",
+                        "p_col": "SS_SOLD_DATE_SK",
+                        "op": "equals"
+                      }
+                    ],
+                    "op": "AND"
+                  },
+                  "datamodel": "datamodel_oracle_tpcds",
+                  "datamodelTable": "DATE_DIM"
+                },
+                {
+                  "name": "D_DAY_NAME",
+                  "column": "D_DAY_NAME",
+                  "type": "CHAR",
+                  "breadcrumb": "STORE_SALES",
+                  "join": {
+                    "predicates": [
+                      {
+                        "c_col": "D_DATE_SK",
+                        "p_col": "SS_SOLD_DATE_SK",
+                        "op": "equals"
+                      }
+                    ],
+                    "op": "AND"
+                  },
+                  "datamodel": "datamodel_oracle_tpcds",
+                  "datamodelTable": "DATE_DIM"
+                },
+                {
+                  "name": "D_QUARTER_NAME",
+                  "column": "D_QUARTER_NAME",
+                  "type": "CHAR",
+                  "breadcrumb": "STORE_SALES",
+                  "join": {
+                    "predicates": [
+                      {
+                        "c_col": "D_DATE_SK",
+                        "p_col": "SS_SOLD_DATE_SK",
+                        "op": "equals"
+                      }
+                    ],
+                    "op": "AND"
+                  },
+                  "datamodel": "datamodel_oracle_tpcds",
+                  "datamodelTable": "DATE_DIM"
+                },
+                {
+                  "name": "D_HOLIDAY",
+                  "column": "D_HOLIDAY",
+                  "type": "CHAR",
+                  "breadcrumb": "STORE_SALES",
+                  "join": {
+                    "predicates": [
+                      {
+                        "c_col": "D_DATE_SK",
+                        "p_col": "SS_SOLD_DATE_SK",
+                        "op": "equals"
+                      }
+                    ],
+                    "op": "AND"
+                  },
+                  "datamodel": "datamodel_oracle_tpcds",
+                  "datamodelTable": "DATE_DIM"
+                },
+                {
+                  "name": "D_WEEKEND",
+                  "column": "D_WEEKEND",
+                  "type": "CHAR",
+                  "breadcrumb": "STORE_SALES",
+                  "join": {
+                    "predicates": [
+                      {
+                        "c_col": "D_DATE_SK",
+                        "p_col": "SS_SOLD_DATE_SK",
+                        "op": "equals"
+                      }
+                    ],
+                    "op": "AND"
+                  },
+                  "datamodel": "datamodel_oracle_tpcds",
+                  "datamodelTable": "DATE_DIM"
+                },
+                {
+                  "name": "D_FOLLOWING_HOLIDAY",
+                  "column": "D_FOLLOWING_HOLIDAY",
+                  "type": "CHAR",
+                  "breadcrumb": "STORE_SALES",
+                  "join": {
+                    "predicates": [
+                      {
+                        "c_col": "D_DATE_SK",
+                        "p_col": "SS_SOLD_DATE_SK",
+                        "op": "equals"
+                      }
+                    ],
+                    "op": "AND"
+                  },
+                  "datamodel": "datamodel_oracle_tpcds",
+                  "datamodelTable": "DATE_DIM"
+                },
+                {
+                  "name": "D_FIRST_DOM",
+                  "column": "D_FIRST_DOM",
+                  "type": "NUMBER",
+                  "breadcrumb": "STORE_SALES",
+                  "join": {
+                    "predicates": [
+                      {
+                        "c_col": "D_DATE_SK",
+                        "p_col": "SS_SOLD_DATE_SK",
+                        "op": "equals"
+                      }
+                    ],
+                    "op": "AND"
+                  },
+                  "datamodel": "datamodel_oracle_tpcds",
+                  "datamodelTable": "DATE_DIM"
+                },
+                {
+                  "name": "D_LAST_DOM",
+                  "column": "D_LAST_DOM",
+                  "type": "NUMBER",
+                  "breadcrumb": "STORE_SALES",
+                  "join": {
+                    "predicates": [
+                      {
+                        "c_col": "D_DATE_SK",
+                        "p_col": "SS_SOLD_DATE_SK",
+                        "op": "equals"
+                      }
+                    ],
+                    "op": "AND"
+                  },
+                  "datamodel": "datamodel_oracle_tpcds",
+                  "datamodelTable": "DATE_DIM"
+                },
+                {
+                  "name": "D_SAME_DAY_LY",
+                  "column": "D_SAME_DAY_LY",
+                  "type": "NUMBER",
+                  "breadcrumb": "STORE_SALES",
+                  "join": {
+                    "predicates": [
+                      {
+                        "c_col": "D_DATE_SK",
+                        "p_col": "SS_SOLD_DATE_SK",
+                        "op": "equals"
+                      }
+                    ],
+                    "op": "AND"
+                  },
+                  "datamodel": "datamodel_oracle_tpcds",
+                  "datamodelTable": "DATE_DIM"
+                },
+                {
+                  "name": "D_SAME_DAY_LQ",
+                  "column": "D_SAME_DAY_LQ",
+                  "type": "NUMBER",
+                  "breadcrumb": "STORE_SALES",
+                  "join": {
+                    "predicates": [
+                      {
+                        "c_col": "D_DATE_SK",
+                        "p_col": "SS_SOLD_DATE_SK",
+                        "op": "equals"
+                      }
+                    ],
+                    "op": "AND"
+                  },
+                  "datamodel": "datamodel_oracle_tpcds",
+                  "datamodelTable": "DATE_DIM"
+                },
+                {
+                  "name": "D_CURRENT_DAY",
+                  "column": "D_CURRENT_DAY",
+                  "type": "CHAR",
+                  "breadcrumb": "STORE_SALES",
+                  "join": {
+                    "predicates": [
+                      {
+                        "c_col": "D_DATE_SK",
+                        "p_col": "SS_SOLD_DATE_SK",
+                        "op": "equals"
+                      }
+                    ],
+                    "op": "AND"
+                  },
+                  "datamodel": "datamodel_oracle_tpcds",
+                  "datamodelTable": "DATE_DIM"
+                },
+                {
+                  "name": "D_CURRENT_WEEK",
+                  "column": "D_CURRENT_WEEK",
+                  "type": "CHAR",
+                  "breadcrumb": "STORE_SALES",
+                  "join": {
+                    "predicates": [
+                      {
+                        "c_col": "D_DATE_SK",
+                        "p_col": "SS_SOLD_DATE_SK",
+                        "op": "equals"
+                      }
+                    ],
+                    "op": "AND"
+                  },
+                  "datamodel": "datamodel_oracle_tpcds",
+                  "datamodelTable": "DATE_DIM"
+                },
+                {
+                  "name": "D_CURRENT_MONTH",
+                  "column": "D_CURRENT_MONTH",
+                  "type": "CHAR",
+                  "breadcrumb": "STORE_SALES",
+                  "join": {
+                    "predicates": [
+                      {
+                        "c_col": "D_DATE_SK",
+                        "p_col": "SS_SOLD_DATE_SK",
+                        "op": "equals"
+                      }
+                    ],
+                    "op": "AND"
+                  },
+                  "datamodel": "datamodel_oracle_tpcds",
+                  "datamodelTable": "DATE_DIM"
+                },
+                {
+                  "name": "D_CURRENT_QUARTER",
+                  "column": "D_CURRENT_QUARTER",
+                  "type": "CHAR",
+                  "breadcrumb": "STORE_SALES",
+                  "join": {
+                    "predicates": [
+                      {
+                        "c_col": "D_DATE_SK",
+                        "p_col": "SS_SOLD_DATE_SK",
+                        "op": "equals"
+                      }
+                    ],
+                    "op": "AND"
+                  },
+                  "datamodel": "datamodel_oracle_tpcds",
+                  "datamodelTable": "DATE_DIM"
+                },
+                {
+                  "name": "D_CURRENT_YEAR",
+                  "column": "D_CURRENT_YEAR",
+                  "type": "CHAR",
+                  "breadcrumb": "STORE_SALES",
+                  "join": {
+                    "predicates": [
+                      {
+                        "c_col": "D_DATE_SK",
+                        "p_col": "SS_SOLD_DATE_SK",
+                        "op": "equals"
+                      }
+                    ],
+                    "op": "AND"
+                  },
+                  "datamodel": "datamodel_oracle_tpcds",
+                  "datamodelTable": "DATE_DIM"
+                }
+              ],
+              "hierarchies": [],
+              "dimensions": []
+            },
+            {
+              "fkey": "ITEM_iw_fkey",
+              "pkey": "ITEM_iw_pkey",
+              "name": "ITEM",
+              "loc": "213.99999999999991 -67",
+              "type": "dimension",
+              "attrs": [
+                {
+                  "name": "I_ITEM_SK",
+                  "column": "I_ITEM_SK",
+                  "type": "NUMBER",
+                  "breadcrumb": "STORE_SALES",
+                  "join": {
+                    "predicates": [
+                      {
+                        "c_col": "I_ITEM_SK",
+                        "p_col": "SS_ITEM_SK",
+                        "op": "equals"
+                      }
+                    ],
+                    "op": "AND"
+                  },
+                  "datamodel": "datamodel_oracle_tpcds",
+                  "datamodelTable": "ITEM"
+                },
+                {
+                  "name": "I_ITEM_ID",
+                  "column": "I_ITEM_ID",
+                  "type": "CHAR",
+                  "breadcrumb": "STORE_SALES",
+                  "join": {
+                    "predicates": [
+                      {
+                        "c_col": "I_ITEM_SK",
+                        "p_col": "SS_ITEM_SK",
+                        "op": "equals"
+                      }
+                    ],
+                    "op": "AND"
+                  },
+                  "datamodel": "datamodel_oracle_tpcds",
+                  "datamodelTable": "ITEM"
+                },
+                {
+                  "name": "I_REC_START_DATE",
+                  "column": "I_REC_START_DATE",
+                  "type": "DATE",
+                  "breadcrumb": "STORE_SALES",
+                  "join": {
+                    "predicates": [
+                      {
+                        "c_col": "I_ITEM_SK",
+                        "p_col": "SS_ITEM_SK",
+                        "op": "equals"
+                      }
+                    ],
+                    "op": "AND"
+                  },
+                  "datamodel": "datamodel_oracle_tpcds",
+                  "datamodelTable": "ITEM"
+                },
+                {
+                  "name": "I_REC_END_DATE",
+                  "column": "I_REC_END_DATE",
+                  "type": "DATE",
+                  "breadcrumb": "STORE_SALES",
+                  "join": {
+                    "predicates": [
+                      {
+                        "c_col": "I_ITEM_SK",
+                        "p_col": "SS_ITEM_SK",
+                        "op": "equals"
+                      }
+                    ],
+                    "op": "AND"
+                  },
+                  "datamodel": "datamodel_oracle_tpcds",
+                  "datamodelTable": "ITEM"
+                },
+                {
+                  "name": "I_ITEM_DESC",
+                  "column": "I_ITEM_DESC",
+                  "type": "VARCHAR2",
+                  "breadcrumb": "STORE_SALES",
+                  "join": {
+                    "predicates": [
+                      {
+                        "c_col": "I_ITEM_SK",
+                        "p_col": "SS_ITEM_SK",
+                        "op": "equals"
+                      }
+                    ],
+                    "op": "AND"
+                  },
+                  "datamodel": "datamodel_oracle_tpcds",
+                  "datamodelTable": "ITEM"
+                },
+                {
+                  "name": "I_CURRENT_PRICE",
+                  "column": "I_CURRENT_PRICE",
+                  "type": "NUMBER",
+                  "breadcrumb": "STORE_SALES",
+                  "join": {
+                    "predicates": [
+                      {
+                        "c_col": "I_ITEM_SK",
+                        "p_col": "SS_ITEM_SK",
+                        "op": "equals"
+                      }
+                    ],
+                    "op": "AND"
+                  },
+                  "datamodel": "datamodel_oracle_tpcds",
+                  "datamodelTable": "ITEM"
+                },
+                {
+                  "name": "I_WHOLESALE_COST",
+                  "column": "I_WHOLESALE_COST",
+                  "type": "NUMBER",
+                  "breadcrumb": "STORE_SALES",
+                  "join": {
+                    "predicates": [
+                      {
+                        "c_col": "I_ITEM_SK",
+                        "p_col": "SS_ITEM_SK",
+                        "op": "equals"
+                      }
+                    ],
+                    "op": "AND"
+                  },
+                  "datamodel": "datamodel_oracle_tpcds",
+                  "datamodelTable": "ITEM"
+                },
+                {
+                  "name": "I_BRAND_ID",
+                  "column": "I_BRAND_ID",
+                  "type": "NUMBER",
+                  "breadcrumb": "STORE_SALES",
+                  "join": {
+                    "predicates": [
+                      {
+                        "c_col": "I_ITEM_SK",
+                        "p_col": "SS_ITEM_SK",
+                        "op": "equals"
+                      }
+                    ],
+                    "op": "AND"
+                  },
+                  "datamodel": "datamodel_oracle_tpcds",
+                  "datamodelTable": "ITEM"
+                },
+                {
+                  "name": "I_BRAND",
+                  "column": "I_BRAND",
+                  "type": "CHAR",
+                  "breadcrumb": "STORE_SALES",
+                  "join": {
+                    "predicates": [
+                      {
+                        "c_col": "I_ITEM_SK",
+                        "p_col": "SS_ITEM_SK",
+                        "op": "equals"
+                      }
+                    ],
+                    "op": "AND"
+                  },
+                  "datamodel": "datamodel_oracle_tpcds",
+                  "datamodelTable": "ITEM"
+                },
+                {
+                  "name": "I_CLASS_ID",
+                  "column": "I_CLASS_ID",
+                  "type": "NUMBER",
+                  "breadcrumb": "STORE_SALES",
+                  "join": {
+                    "predicates": [
+                      {
+                        "c_col": "I_ITEM_SK",
+                        "p_col": "SS_ITEM_SK",
+                        "op": "equals"
+                      }
+                    ],
+                    "op": "AND"
+                  },
+                  "datamodel": "datamodel_oracle_tpcds",
+                  "datamodelTable": "ITEM"
+                },
+                {
+                  "name": "I_CLASS",
+                  "column": "I_CLASS",
+                  "type": "CHAR",
+                  "breadcrumb": "STORE_SALES",
+                  "join": {
+                    "predicates": [
+                      {
+                        "c_col": "I_ITEM_SK",
+                        "p_col": "SS_ITEM_SK",
+                        "op": "equals"
+                      }
+                    ],
+                    "op": "AND"
+                  },
+                  "datamodel": "datamodel_oracle_tpcds",
+                  "datamodelTable": "ITEM"
+                },
+                {
+                  "name": "I_CATEGORY_ID",
+                  "column": "I_CATEGORY_ID",
+                  "type": "NUMBER",
+                  "breadcrumb": "STORE_SALES",
+                  "join": {
+                    "predicates": [
+                      {
+                        "c_col": "I_ITEM_SK",
+                        "p_col": "SS_ITEM_SK",
+                        "op": "equals"
+                      }
+                    ],
+                    "op": "AND"
+                  },
+                  "datamodel": "datamodel_oracle_tpcds",
+                  "datamodelTable": "ITEM"
+                },
+                {
+                  "name": "I_CATEGORY",
+                  "column": "I_CATEGORY",
+                  "type": "CHAR",
+                  "breadcrumb": "STORE_SALES",
+                  "join": {
+                    "predicates": [
+                      {
+                        "c_col": "I_ITEM_SK",
+                        "p_col": "SS_ITEM_SK",
+                        "op": "equals"
+                      }
+                    ],
+                    "op": "AND"
+                  },
+                  "datamodel": "datamodel_oracle_tpcds",
+                  "datamodelTable": "ITEM"
+                },
+                {
+                  "name": "I_MANUFACT_ID",
+                  "column": "I_MANUFACT_ID",
+                  "type": "NUMBER",
+                  "breadcrumb": "STORE_SALES",
+                  "join": {
+                    "predicates": [
+                      {
+                        "c_col": "I_ITEM_SK",
+                        "p_col": "SS_ITEM_SK",
+                        "op": "equals"
+                      }
+                    ],
+                    "op": "AND"
+                  },
+                  "datamodel": "datamodel_oracle_tpcds",
+                  "datamodelTable": "ITEM"
+                },
+                {
+                  "name": "I_MANUFACT",
+                  "column": "I_MANUFACT",
+                  "type": "CHAR",
+                  "breadcrumb": "STORE_SALES",
+                  "join": {
+                    "predicates": [
+                      {
+                        "c_col": "I_ITEM_SK",
+                        "p_col": "SS_ITEM_SK",
+                        "op": "equals"
+                      }
+                    ],
+                    "op": "AND"
+                  },
+                  "datamodel": "datamodel_oracle_tpcds",
+                  "datamodelTable": "ITEM"
+                },
+                {
+                  "name": "I_SIZE",
+                  "column": "I_SIZE",
+                  "type": "CHAR",
+                  "breadcrumb": "STORE_SALES",
+                  "join": {
+                    "predicates": [
+                      {
+                        "c_col": "I_ITEM_SK",
+                        "p_col": "SS_ITEM_SK",
+                        "op": "equals"
+                      }
+                    ],
+                    "op": "AND"
+                  },
+                  "datamodel": "datamodel_oracle_tpcds",
+                  "datamodelTable": "ITEM"
+                },
+                {
+                  "name": "I_FORMULATION",
+                  "column": "I_FORMULATION",
+                  "type": "CHAR",
+                  "breadcrumb": "STORE_SALES",
+                  "join": {
+                    "predicates": [
+                      {
+                        "c_col": "I_ITEM_SK",
+                        "p_col": "SS_ITEM_SK",
+                        "op": "equals"
+                      }
+                    ],
+                    "op": "AND"
+                  },
+                  "datamodel": "datamodel_oracle_tpcds",
+                  "datamodelTable": "ITEM"
+                },
+                {
+                  "name": "I_COLOR",
+                  "column": "I_COLOR",
+                  "type": "CHAR",
+                  "breadcrumb": "STORE_SALES",
+                  "join": {
+                    "predicates": [
+                      {
+                        "c_col": "I_ITEM_SK",
+                        "p_col": "SS_ITEM_SK",
+                        "op": "equals"
+                      }
+                    ],
+                    "op": "AND"
+                  },
+                  "datamodel": "datamodel_oracle_tpcds",
+                  "datamodelTable": "ITEM"
+                },
+                {
+                  "name": "I_UNITS",
+                  "column": "I_UNITS",
+                  "type": "CHAR",
+                  "breadcrumb": "STORE_SALES",
+                  "join": {
+                    "predicates": [
+                      {
+                        "c_col": "I_ITEM_SK",
+                        "p_col": "SS_ITEM_SK",
+                        "op": "equals"
+                      }
+                    ],
+                    "op": "AND"
+                  },
+                  "datamodel": "datamodel_oracle_tpcds",
+                  "datamodelTable": "ITEM"
+                },
+                {
+                  "name": "I_CONTAINER",
+                  "column": "I_CONTAINER",
+                  "type": "CHAR",
+                  "breadcrumb": "STORE_SALES",
+                  "join": {
+                    "predicates": [
+                      {
+                        "c_col": "I_ITEM_SK",
+                        "p_col": "SS_ITEM_SK",
+                        "op": "equals"
+                      }
+                    ],
+                    "op": "AND"
+                  },
+                  "datamodel": "datamodel_oracle_tpcds",
+                  "datamodelTable": "ITEM"
+                },
+                {
+                  "name": "I_MANAGER_ID",
+                  "column": "I_MANAGER_ID",
+                  "type": "NUMBER",
+                  "breadcrumb": "STORE_SALES",
+                  "join": {
+                    "predicates": [
+                      {
+                        "c_col": "I_ITEM_SK",
+                        "p_col": "SS_ITEM_SK",
+                        "op": "equals"
+                      }
+                    ],
+                    "op": "AND"
+                  },
+                  "datamodel": "datamodel_oracle_tpcds",
+                  "datamodelTable": "ITEM"
+                },
+                {
+                  "name": "I_PRODUCT_NAME",
+                  "column": "I_PRODUCT_NAME",
+                  "type": "CHAR",
+                  "breadcrumb": "STORE_SALES",
+                  "join": {
+                    "predicates": [
+                      {
+                        "c_col": "I_ITEM_SK",
+                        "p_col": "SS_ITEM_SK",
+                        "op": "equals"
+                      }
+                    ],
+                    "op": "AND"
+                  },
+                  "datamodel": "datamodel_oracle_tpcds",
+                  "datamodelTable": "ITEM"
+                }
+              ],
+              "hierarchies": [],
+              "dimensions": []
+            },
+            {
+              "fkey": "CUSTOMER_DEMOGRAPHICS_iw_fkey",
+              "pkey": "CUSTOMER_DEMOGRAPHICS_iw_pkey",
+              "name": "CUSTOMER_DEMOGRAPHICS",
+              "loc": "-89.00000000000009 49.99999999999993",
+              "type": "dimension",
+              "attrs": [
+                {
+                  "name": "CD_DEMO_SK",
+                  "column": "CD_DEMO_SK",
+                  "type": "NUMBER",
+                  "breadcrumb": "STORE_SALES",
+                  "join": {
+                    "predicates": [
+                      {
+                        "c_col": "CD_DEMO_SK",
+                        "p_col": "SS_CDEMO_SK",
+                        "op": "equals"
+                      }
+                    ],
+                    "op": "AND"
+                  },
+                  "datamodel": "datamodel_oracle_tpcds",
+                  "datamodelTable": "CUSTOMER_DEMOGRAPHICS"
+                },
+                {
+                  "name": "CD_GENDER",
+                  "column": "CD_GENDER",
+                  "type": "CHAR",
+                  "breadcrumb": "STORE_SALES",
+                  "join": {
+                    "predicates": [
+                      {
+                        "c_col": "CD_DEMO_SK",
+                        "p_col": "SS_CDEMO_SK",
+                        "op": "equals"
+                      }
+                    ],
+                    "op": "AND"
+                  },
+                  "datamodel": "datamodel_oracle_tpcds",
+                  "datamodelTable": "CUSTOMER_DEMOGRAPHICS"
+                },
+                {
+                  "name": "CD_MARITAL_STATUS",
+                  "column": "CD_MARITAL_STATUS",
+                  "type": "CHAR",
+                  "breadcrumb": "STORE_SALES",
+                  "join": {
+                    "predicates": [
+                      {
+                        "c_col": "CD_DEMO_SK",
+                        "p_col": "SS_CDEMO_SK",
+                        "op": "equals"
+                      }
+                    ],
+                    "op": "AND"
+                  },
+                  "datamodel": "datamodel_oracle_tpcds",
+                  "datamodelTable": "CUSTOMER_DEMOGRAPHICS"
+                },
+                {
+                  "name": "CD_EDUCATION_STATUS",
+                  "column": "CD_EDUCATION_STATUS",
+                  "type": "CHAR",
+                  "breadcrumb": "STORE_SALES",
+                  "join": {
+                    "predicates": [
+                      {
+                        "c_col": "CD_DEMO_SK",
+                        "p_col": "SS_CDEMO_SK",
+                        "op": "equals"
+                      }
+                    ],
+                    "op": "AND"
+                  },
+                  "datamodel": "datamodel_oracle_tpcds",
+                  "datamodelTable": "CUSTOMER_DEMOGRAPHICS"
+                },
+                {
+                  "name": "CD_PURCHASE_ESTIMATE",
+                  "column": "CD_PURCHASE_ESTIMATE",
+                  "type": "NUMBER",
+                  "breadcrumb": "STORE_SALES",
+                  "join": {
+                    "predicates": [
+                      {
+                        "c_col": "CD_DEMO_SK",
+                        "p_col": "SS_CDEMO_SK",
+                        "op": "equals"
+                      }
+                    ],
+                    "op": "AND"
+                  },
+                  "datamodel": "datamodel_oracle_tpcds",
+                  "datamodelTable": "CUSTOMER_DEMOGRAPHICS"
+                },
+                {
+                  "name": "CD_CREDIT_RATING",
+                  "column": "CD_CREDIT_RATING",
+                  "type": "CHAR",
+                  "breadcrumb": "STORE_SALES",
+                  "join": {
+                    "predicates": [
+                      {
+                        "c_col": "CD_DEMO_SK",
+                        "p_col": "SS_CDEMO_SK",
+                        "op": "equals"
+                      }
+                    ],
+                    "op": "AND"
+                  },
+                  "datamodel": "datamodel_oracle_tpcds",
+                  "datamodelTable": "CUSTOMER_DEMOGRAPHICS"
+                },
+                {
+                  "name": "CD_DEP_COUNT",
+                  "column": "CD_DEP_COUNT",
+                  "type": "NUMBER",
+                  "breadcrumb": "STORE_SALES",
+                  "join": {
+                    "predicates": [
+                      {
+                        "c_col": "CD_DEMO_SK",
+                        "p_col": "SS_CDEMO_SK",
+                        "op": "equals"
+                      }
+                    ],
+                    "op": "AND"
+                  },
+                  "datamodel": "datamodel_oracle_tpcds",
+                  "datamodelTable": "CUSTOMER_DEMOGRAPHICS"
+                },
+                {
+                  "name": "CD_DEP_EMPLOYED_COUNT",
+                  "column": "CD_DEP_EMPLOYED_COUNT",
+                  "type": "NUMBER",
+                  "breadcrumb": "STORE_SALES",
+                  "join": {
+                    "predicates": [
+                      {
+                        "c_col": "CD_DEMO_SK",
+                        "p_col": "SS_CDEMO_SK",
+                        "op": "equals"
+                      }
+                    ],
+                    "op": "AND"
+                  },
+                  "datamodel": "datamodel_oracle_tpcds",
+                  "datamodelTable": "CUSTOMER_DEMOGRAPHICS"
+                },
+                {
+                  "name": "CD_DEP_COLLEGE_COUNT",
+                  "column": "CD_DEP_COLLEGE_COUNT",
+                  "type": "NUMBER",
+                  "breadcrumb": "STORE_SALES",
+                  "join": {
+                    "predicates": [
+                      {
+                        "c_col": "CD_DEMO_SK",
+                        "p_col": "SS_CDEMO_SK",
+                        "op": "equals"
+                      }
+                    ],
+                    "op": "AND"
+                  },
+                  "datamodel": "datamodel_oracle_tpcds",
+                  "datamodelTable": "CUSTOMER_DEMOGRAPHICS"
+                }
+              ],
+              "hierarchies": [],
+              "dimensions": []
+            }
+          ]
+        }
+      }
+    ]
+  }
+}

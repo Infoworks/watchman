@@ -1,0 +1,16 @@
+{
+    "config": {
+        "connection_string": "jdbc:teradata://ec2-54-144-76-210.compute-1.amazonaws.com/TMODE=ANSI,CHARSET=UTF8,database=PBM_SMALL", 
+        "database": "TERADATA", 
+        "dns": "", 
+        "driver_name": "com.teradata.jdbc.TeraDriver", 
+        "hdfs_path": "/sqoop/iw/teradata_pbm_small", 
+        "name": "teradata_pbm_small", 
+        "password": "infoworks", 
+        "private_key": "", 
+        "schema": "PBM_SMALL", 
+        "sourceType": "rdbms", 
+        "username": "DBC"
+    }, 
+    "entityType": "source"
+}

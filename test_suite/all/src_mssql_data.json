@@ -1,0 +1,17 @@
+{
+    "config": {
+        "connection_string": "jdbc:jtds:sqlserver://54.211.168.124:1433/datatypes", 
+        "database": "SQL Server", 
+        "dns": "", 
+        "driver_name": "net.sourceforge.jtds.jdbc.Driver", 
+        "hdfs_path": "/sqoop/iw/mssql_data", 
+        "name": "mssql_data", 
+        "password": "infoworks", 
+        "private_key": "", 
+        "schema": "dbo", 
+        "sourceType": "rdbms", 
+        "tables": [], 
+        "username": "hadoop"
+    }, 
+    "entityType": "source"
+}

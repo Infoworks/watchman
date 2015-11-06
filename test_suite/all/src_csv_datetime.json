@@ -1,0 +1,14 @@
+{
+    "config": {
+        "escapechar": "\\", 
+        "fileType": "csv", 
+        "hdfs_path": "/sqoop/iw/csv_datetime", 
+        "name": "csv_datetime", 
+        "path": "/csv_tests/datatype_datetime", 
+        "quotechar": "\"", 
+        "schema": "csv_datetime", 
+        "separator": ",", 
+        "sourceType": "csv"
+    }, 
+    "entityType": "source"
+}

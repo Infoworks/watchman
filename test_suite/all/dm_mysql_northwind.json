@@ -1,0 +1,227 @@
+{
+  "entityType": "datamodel",
+  "dependsOn": [
+    "src_mysql_northwind.json",
+    "domain_create.json"
+  ],
+  "config": {
+    "name": "datamodel_mysql_northwind",
+    "domain": "TestDomain",
+    "sources": [
+      "mysql_northwind"
+    ],
+    "treemap": {
+      "children": [
+        {
+          "nodeindex": 12,
+          "join": {
+            "op": "AND",
+            "predicates": [
+              {
+                "p_col": "OrderID",
+                "op": "equals",
+                "c_col": "OrderID"
+              }
+            ]
+          },
+          "breadCrumb": "OrderDetails",
+          "children": [
+            {
+              "nodeindex": 13,
+              "join": {
+                "op": "AND",
+                "predicates": [
+                  {
+                    "p_col": "CustomerID",
+                    "op": "equals",
+                    "c_col": "CustomerID"
+                  }
+                ]
+              },
+              "breadCrumb": "OrderDetails > Orders",
+              "children": [
+                {
+                  "nodeindex": 14,
+                  "join": {
+                    "op": "AND",
+                    "predicates": [
+                      {
+                        "p_col": "CustomerID",
+                        "op": "equals",
+                        "c_col": "CustomerID"
+                      }
+                    ]
+                  },
+                  "breadCrumb": "OrderDetails > Orders > Customers",
+                  "children": [
+                    {
+                      "nodeindex": 15,
+                      "join": {
+                        "op": "AND",
+                        "predicates": [
+                          {
+                            "p_col": "CustomerTypeID",
+                            "op": "equals",
+                            "c_col": "CustomerTypeID"
+                          }
+                        ]
+                      },
+                      "breadCrumb": "OrderDetails > Orders > Customers > CustomerCustomerDemo",
+                      "source": "mysql_northwind",
+                      "table": "CustomerDemographics"
+                    }
+                  ],
+                  "source": "mysql_northwind",
+                  "table": "CustomerCustomerDemo"
+                }
+              ],
+              "source": "mysql_northwind",
+              "table": "Customers"
+            },
+            {
+              "nodeindex": 16,
+              "join": {
+                "op": "AND",
+                "predicates": [
+                  {
+                    "p_col": "EmployeeID",
+                    "op": "equals",
+                    "c_col": "EmployeeID"
+                  }
+                ]
+              },
+              "breadCrumb": "OrderDetails > Orders",
+              "children": [
+                {
+                  "nodeindex": 17,
+                  "join": {
+                    "op": "AND",
+                    "predicates": [
+                      {
+                        "p_col": "EmployeeID",
+                        "op": "equals",
+                        "c_col": "EmployeeID"
+                      }
+                    ]
+                  },
+                  "breadCrumb": "OrderDetails > Orders > Employees",
+                  "children": [
+                    {
+                      "nodeindex": 18,
+                      "join": {
+                        "op": "AND",
+                        "predicates": [
+                          {
+                            "p_col": "TerritoryID",
+                            "op": "equals",
+                            "c_col": "TerritoryID"
+                          }
+                        ]
+                      },
+                      "breadCrumb": "OrderDetails > Orders > Employees > EmployeeTerritories",
+                      "children": [
+                        {
+                          "nodeindex": 19,
+                          "join": {
+                            "op": "AND",
+                            "predicates": [
+                              {
+                                "p_col": "RegionID",
+                                "op": "equals",
+                                "c_col": "RegionID"
+                              }
+                            ]
+                          },
+                          "breadCrumb": "OrderDetails > Orders > Employees > EmployeeTerritories > Territories",
+                          "source": "mysql_northwind",
+                          "table": "Region"
+                        }
+                      ],
+                      "source": "mysql_northwind",
+                      "table": "Territories"
+                    }
+                  ],
+                  "source": "mysql_northwind",
+                  "table": "EmployeeTerritories"
+                }
+              ],
+              "source": "mysql_northwind",
+              "table": "Employees"
+            },
+            {
+              "nodeindex": 20,
+              "join": {
+                "op": "AND",
+                "predicates": [
+                  {
+                    "p_col": "ShipVia",
+                    "op": "equals",
+                    "c_col": "ShipperID"
+                  }
+                ]
+              },
+              "breadCrumb": "OrderDetails > Orders",
+              "source": "mysql_northwind",
+              "table": "Shippers"
+            }
+          ],
+          "source": "mysql_northwind",
+          "table": "Orders"
+        },
+        {
+          "nodeindex": 21,
+          "join": {
+            "op": "AND",
+            "predicates": [
+              {
+                "p_col": "ProductID",
+                "op": "equals",
+                "c_col": "ProductID"
+              }
+            ]
+          },
+          "breadCrumb": "OrderDetails",
+          "children": [
+            {
+              "nodeindex": 22,
+              "join": {
+                "op": "AND",
+                "predicates": [
+                  {
+                    "p_col": "CategoryID",
+                    "op": "equals",
+                    "c_col": "CategoryID"
+                  }
+                ]
+              },
+              "breadCrumb": "OrderDetails > Products",
+              "source": "mysql_northwind",
+              "table": "Categories"
+            },
+            {
+              "nodeindex": 23,
+              "join": {
+                "op": "AND",
+                "predicates": [
+                  {
+                    "p_col": "SupplierID",
+                    "op": "equals",
+                    "c_col": "SupplierID"
+                  }
+                ]
+              },
+              "breadCrumb": "OrderDetails > Products",
+              "source": "mysql_northwind",
+              "table": "Suppliers"
+            }
+          ],
+          "source": "mysql_northwind",
+          "table": "Products"
+        }
+      ],
+      "nodeindex": 1,
+      "source": "mysql_northwind",
+      "table": "OrderDetails"
+    }
+  }
+}

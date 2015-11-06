@@ -1,0 +1,28 @@
+{
+  "entityType": "datamodel",
+  "dependsOn": [
+    "src_csv_weather.json",
+    "domain_create.json"
+  ],
+  "config": {
+    "name": "datamodel_csv_weather",
+    "domain": "TestDomain",
+    "sources": [
+      "csv_weather"
+    ],
+    "transformations": {
+      "csv_weather": {
+        "weather": [
+          "derive power using pow(TEMP,2);"
+        ]
+      }
+    },
+    "treemap": {
+      "nodeindex": 1,
+      "children": [
+      ],
+      "source": "csv_weather",
+      "table": "weather"
+    }
+  }
+}

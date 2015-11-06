@@ -1,0 +1,14 @@
+{
+    "config": {
+        "connection_string": "jdbc:oracle:thin:@52.5.131.69:1521:xe", 
+        "database": "ORACLE", 
+        "driver_name": "oracle.jdbc.driver.OracleDriver", 
+        "hdfs_path": "/sqoop/iw/oracle_northwind", 
+        "name": "oracle_northwind", 
+        "password": "northwind", 
+        "schema": "NORTHWIND", 
+        "sourceType": "rdbms", 
+        "username": "northwind"
+    }, 
+    "entityType": "source"
+}

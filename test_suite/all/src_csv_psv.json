@@ -1,0 +1,14 @@
+{
+    "config": {
+        "escapechar": "\\", 
+        "fileType": "csv", 
+        "hdfs_path": "/sqoop/iw/csv_pipe_separated", 
+        "name": "csv_pipe_separated", 
+        "path": "/csv_tests/pipe_separated_csv", 
+        "quotechar": "\"", 
+        "schema": "csv_psv", 
+        "separator": "|", 
+        "sourceType": "csv"
+    }, 
+    "entityType": "source"
+}

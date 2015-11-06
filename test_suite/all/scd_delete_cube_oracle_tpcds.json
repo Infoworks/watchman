@@ -1,0 +1,7 @@
+{
+  "entityType": "scd_delete",
+  "config": {
+    "name": "cube_oracle_tpcds",
+    "entityType": "cube"
+  }
+}

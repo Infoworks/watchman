@@ -1,0 +1,16 @@
+{
+    "config": {
+        "connection_string": "jdbc:teradata://ec2-54-144-76-210.compute-1.amazonaws.com/TMODE=ANSI,CHARSET=UTF8,database=RX_TB", 
+        "database": "TERADATA", 
+        "dns": "", 
+        "driver_name": "com.teradata.jdbc.TeraDriver", 
+        "hdfs_path": "/sqoop/iw/teradata_rxtb", 
+        "name": "teradata_rxtb", 
+        "password": "infoworks", 
+        "private_key": "", 
+        "schema": "RX_TB", 
+        "sourceType": "rdbms", 
+        "username": "DBC"
+    }, 
+    "entityType": "source"
+}

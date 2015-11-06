@@ -1,0 +1,15 @@
+{
+    "config": {
+        "escapechar": "\\", 
+        "fileType": "csv", 
+        "hdfs_path": "/sqoop/iw/csv_missing_columns", 
+        "name": "csv_missing_columns", 
+        "path": "/csv_tests/missing_columns", 
+        "quotechar": "\"", 
+        "schema": "csv_missing_columns", 
+        "separator": ",", 
+        "sourceType": "csv"
+    }, 
+    "entityType": "source", 
+    "testType": "negative"
+}

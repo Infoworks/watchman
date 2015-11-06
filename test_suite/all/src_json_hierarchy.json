@@ -1,0 +1,11 @@
+{
+    "config": {
+        "fileType": "json", 
+        "hdfs_path": "/sqoop/iw/json_hierarchy", 
+        "name": "json_hierarchy", 
+        "path": "/json_tests/hierarchy", 
+        "sourceType": "json"
+    }, 
+    "entityType": "source", 
+    "testType": "negative"
+}

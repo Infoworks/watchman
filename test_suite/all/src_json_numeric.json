@@ -1,0 +1,10 @@
+{
+    "config": {
+        "fileType": "json", 
+        "hdfs_path": "/sqoop/iw/json_numeric", 
+        "name": "json_numeric", 
+        "path": "/json_tests/datatype_numeric", 
+        "sourceType": "json"
+    }, 
+    "entityType": "source"
+}

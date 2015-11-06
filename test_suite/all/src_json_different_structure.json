@@ -1,0 +1,11 @@
+{
+    "config": {
+        "fileType": "json", 
+        "hdfs_path": "/sqoop/iw/json_different_structure", 
+        "name": "json_different_structure", 
+        "path": "/json_tests/different_structure", 
+        "sourceType": "json"
+    }, 
+    "entityType": "source", 
+    "testType": "negative"
+}

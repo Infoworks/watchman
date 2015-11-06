@@ -1,0 +1,14 @@
+{
+    "config": {
+        "connection_string": "jdbc:oracle:thin:@54.204.113.74:1521:xe", 
+        "database": "ORACLE", 
+        "driver_name": "oracle.jdbc.driver.OracleDriver", 
+        "hdfs_path": "/sqoop/iw/oracle_data", 
+        "name": "oracle_data", 
+        "password": "test_database", 
+        "schema": "TEST_DATABASE", 
+        "sourceType": "rdbms", 
+        "username": "test_database"
+    }, 
+    "entityType": "source"
+}

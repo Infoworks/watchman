@@ -1,0 +1,193 @@
+{
+  "entityType": "datamodel",
+  "dependsOn": [
+    "src_mysql_data.json",
+    "domain_create.json"
+  ],
+  "config": {
+    "name": "datamodel_mysql_data",
+    "domain": "TestDomain",
+    "sources": [
+      "mysql_data"
+    ],
+    "transformations": {
+      "mysql_data": {
+        "root_table": [
+          "derive col_abs using abs(col_pk); ",
+          "derive col_add_res using col_pk+col_dummy; ",
+          "derive col_sub_res using col_pk-col_dummy; ",
+          "derive col_mul_res using col_pk*col_dummy; ",
+          "derive col_div_res using col_pk/col_dummy; ",
+          "derive col_and_res using col_pk&&col_dummy; ",
+          "derive col_or_res using col_pk||col_dummy; ",
+          "derive col_not_res using !col_pk; ",
+          "replace $1 using ($1 > 3) ? 1 : 0; ",
+          "replace $1 using ($1 < 3) ? 1 : 0; ",
+          "replace $1 using ($1 <= 3) ? 1 : 0; ",
+          "replace $1 using ($1 >= 3) ? 1 : 0; ",
+          "replace $1 using ($1 == 3) ? 1 : 0; ",
+          "replace $1 using ($1 != 3) ? 1 : 0; ",
+          "derive col_pow using pow(col_pk,2);",
+          "derive col_exp using exp(col_pk);",
+          "derive col_log using log(col_pk); ",
+          "derive col_ceil using ceil(col_pk); ",
+          "derive col_floor using floor(col_pk); "
+        ],
+        "test_datatype_numeric": [
+          "derive col_pow_bigint using pow(col_bigint,2);",
+          "derive col_pow using pow(col_mediumint,2); "
+        ],
+        "test_datatype_string": [
+          "split $3 using splitter(\"_\",3); ",
+          "split $6 using splitter(\"[\\\\s]+\",3); ",
+          "split $7 using splitter(\"[abc]\",3); ",
+          "replace col_char using contains($2,\"\")?$2:\"null_value\"; ",
+          "replace col_char using contains($2,\"dt_char\")?$2:\"null_value\"; ",
+          "replace $2 using \"xyz\"; ",
+          "derive col_lower using lower(col_varchar); ",
+          "derive col_upper using upper(col_varchar); ",
+          "derive col_trim using trim(col_varchar); ",
+          "derive cond_col using contains(col_varchar,\"dt_varchar|dt_char\")?\"varchar\":\"char\"; ",
+          "split col_text using splitter(\"a\",10); ",
+          "split col_tinytext using splitter(\"[\\\\s]\",10); "
+        ]
+      }
+    },
+    "treemap": {
+      "nodeindex": 2,
+      "treemapId": {
+        "_str": "55d43f06e20b94f3bbc77676"
+      },
+      "children": [
+        {
+          "nodeindex": 3,
+          "breadCrumb": "root_table",
+          "join": {
+            "op": "AND",
+            "predicates": [
+              {
+                "p_col": "col_pk",
+                "c_col": "col_pk",
+                "op": "equals"
+              }
+            ]
+          },
+          "cardinality": {
+            "child_optional": true,
+            "parent_optional": false,
+            "type": "one to one"
+          },
+          "source": "mysql_data",
+          "table": "test_charset_specialchar"
+        },
+        {
+          "nodeindex": 4,
+          "breadCrumb": "root_table",
+          "join": {
+            "op": "AND",
+            "predicates": [
+              {
+                "p_col": "col_pk",
+                "c_col": "col_pk",
+                "op": "equals"
+              }
+            ]
+          },
+          "cardinality": {
+            "child_optional": true,
+            "parent_optional": false,
+            "type": "one to one"
+          },
+          "source": "mysql_data",
+          "table": "test_datatype_datetime"
+        },
+        {
+          "nodeindex": 5,
+          "breadCrumb": "root_table",
+          "join": {
+            "op": "AND",
+            "predicates": [
+              {
+                "p_col": "col_pk",
+                "c_col": "col_pk",
+                "op": "equals"
+              }
+            ]
+          },
+          "cardinality": {
+            "child_optional": true,
+            "parent_optional": false,
+            "type": "one to one"
+          },
+          "source": "mysql_data",
+          "table": "test_datatype_binary"
+        },
+        {
+          "nodeindex": 6,
+          "breadCrumb": "root_table",
+          "join": {
+            "op": "AND",
+            "predicates": [
+              {
+                "p_col": "col_pk",
+                "c_col": "col_pk",
+                "op": "equals"
+              }
+            ]
+          },
+          "cardinality": {
+            "child_optional": true,
+            "parent_optional": false,
+            "type": "unknown"
+          },
+          "source": "mysql_data",
+          "table": "test_datatype_string"
+        },
+        {
+          "nodeindex": 7,
+          "breadCrumb": "root_table",
+          "join": {
+            "op": "AND",
+            "predicates": [
+              {
+                "p_col": "col_pk",
+                "c_col": "col_pk",
+                "op": "equals"
+              }
+            ]
+          },
+          "cardinality": {
+            "child_optional": true,
+            "parent_optional": false,
+            "type": "one to one"
+          },
+          "source": "mysql_data",
+          "table": "test_datatype_misc"
+        },
+        {
+          "nodeindex": 8,
+          "breadCrumb": "root_table",
+          "join": {
+            "op": "AND",
+            "predicates": [
+              {
+                "p_col": "col_pk",
+                "c_col": "col_pk",
+                "op": "equals"
+              }
+            ]
+          },
+          "cardinality": {
+            "child_optional": true,
+            "parent_optional": false,
+            "type": "one to one"
+          },
+          "source": "mysql_data",
+          "table": "test_datatype_numeric"
+        }
+      ],
+      "source": "mysql_data",
+      "table": "root_table"
+    }
+  }
+}

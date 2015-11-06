@@ -1,0 +1,10 @@
+{
+    "config": {
+        "fileType": "json", 
+        "hdfs_path": "/sqoop/iw/json_datetime", 
+        "name": "json_datetime", 
+        "path": "/json_tests/datatype_datetime", 
+        "sourceType": "json"
+    }, 
+    "entityType": "source"
+}
