@@ -1,6 +1,10 @@
 from MeteorClient import MeteorClient
 from misc import g_host_address
+import ejson
 
+# Disable escaping any ejson types since we use ObjectIds everywhere
+# https://www.meteor.com/ejson
+ejson.EJSON_KEYWORDS = ()
 
 client = None
 callback_function = None

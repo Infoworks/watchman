@@ -161,7 +161,7 @@ def crawl_data():
         else:
             tables = [t for t in mongo.client.tables.find({'source': g_source_doc['_id']}, {'_id': True})]
         for t in tables:
-            t['_id'] = str(t['_id'])
+            t['_id'] = {'$type': 'oid', '$value': str(t['_id'])}
 
         params['database'] = connection['database']
         params['driver'] = connection['driver_name']
