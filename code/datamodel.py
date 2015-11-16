@@ -85,7 +85,6 @@ def check_for_domain(dm_object):
     else:
         print "Domain doesn't exist. Creating it."
         meteor.ddp_call(create_domain)
-        # create_domain(dm_object['domain'])
 
 
 def create_domain():
@@ -149,7 +148,7 @@ def create_datamodel(dm_object, domain_id):
     else:
         print 'Datamodel already exists.'
         if g_force_build:
-            meteor.ddp_call(build_datamodel)
+            design_datamodel()  # Update any change in the test configuration
         else:
             print 'Building datamodel skipped.'
             misc.backround_process_terminate(True)
@@ -200,11 +199,7 @@ def replace_table_with_dm_table(node):
 
 
 def get_datamodel_table_id_for_table(source, table):
-    global g_dm_object, g_datamodel_doc
-
-    # datamodel_doc = mongo.client.datamodels.find_one({'name':g_dm_object['name']})
     source_doc = mongo.client.sources.find_one({'name': source})
-
     if source_doc is None:
         print 'Unable to find source "%s"!' % source
         misc.backround_process_terminate(False)
@@ -338,6 +333,7 @@ def check_cube():
                                insert_cube_callback)
         else:
             print 'Cube exists.'
+            design_cube()  # Update any change in the test configuration
             meteor.ddp_call(build_cube)
         misc.background_loop()
 
@@ -382,6 +378,10 @@ def insert_cube_callback(error, result):
     print 'Done!'
 
     g_cube_object['_id'] = ObjectId(result)
+    design_cube()
+
+
+def design_cube():
     for fact in g_cube_object['layout']['facts_table']['facts']:
         fact['datamodelTableId'] = get_dm_table_id(g_cube_object['datamodelId'], fact['datamodelTable'])
         del fact['datamodel']
@@ -390,7 +390,8 @@ def insert_cube_callback(error, result):
 
     print 'Designing cube.'
     mongo.client.cubes.update({'_id': g_cube_object['_id']},
-                              {'$set': {'layout': g_cube_object['layout'], 'hdfs_path': '/datamodels/iw/' + g_cube_object['name']}})
+                              {'$set': {'layout': g_cube_object['layout'],
+                                        'hdfs_path': '/datamodels/iw/' + g_cube_object['name']}})
     print 'Done!'
 
     meteor.ddp_call(build_cube)

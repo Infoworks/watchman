@@ -54,6 +54,8 @@ def create_source(config_path):
     else:
         print 'Source already exists.'
         if g_force_crawl:
+            # Update any change in the test configuration
+            mongo.client.sources.update({'_id': g_source_doc['_id']}, {'$set': source_doc})
             crawl_metadata_or_data()
         else:
             print 'Crawling skipped.'
