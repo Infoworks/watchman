@@ -158,10 +158,24 @@ def crawl_data():
         # Get the tables that need to be crawled and the partition keys for the tables
         tables = g_test_object.get('tables', [])
         if tables:
-            tables = [mongo.client.tables.find_one({'source': g_source_doc['_id'], 'table': t['table']}, {'_id': True})
-                      for t in tables]
+            table_id_list = []
+            for t in tables:
+                table_name = t['table']
+                del t['table']
+                id = mongo.client.tables.find_one({'source': g_source_doc['_id'], 'table': table_name}, {'_id': True})
+                mongo.client.tables.update(id, t)
+                table_id_list.append(id)
+            tables = table_id_list
         else:
             tables = [t for t in mongo.client.tables.find({'source': g_source_doc['_id']}, {'_id': True})]
+            configuration = {
+                'ingest': True,
+                'partition_key': None,
+                'natural_key': [],
+                'sync_type': ''
+            }
+            mongo.client.tables.update({'source': g_source_doc['_id']}, {'$set': {'configuration': configuration}},
+                                       multi=True, upsert=True)
         for t in tables:
             t['_id'] = {'$type': 'oid', '$value': str(t['_id'])}
 
