@@ -176,8 +176,11 @@ def design_datamodel():
     treemap = g_dm_object['treemap']
     if not replace_table_with_dm_table(treemap):
         return
-    mongo.client.datamodels.update({'name': g_dm_object['name']},
-                                   {'$set': {'treemap': treemap, 'hdfs_path': '/datamodels/iw/' + g_dm_object['name']}})
+    mongo.client.datamodels.update({'name': g_dm_object['name']}, {'$set': {
+        'treemap': treemap,
+        'hive_schema': g_dm_object['name'],
+        'hdfs_path': '/datamodels/iw/' + g_dm_object['name']}
+    })
 
     meteor.ddp_call(build_datamodel)
 
@@ -389,9 +392,11 @@ def design_cube():
     get_id_for_dimensions(g_cube_object['layout']['dimensions'])
 
     print 'Designing cube.'
-    mongo.client.cubes.update({'_id': g_cube_object['_id']},
-                              {'$set': {'layout': g_cube_object['layout'],
-                                        'hdfs_path': '/datamodels/iw/' + g_cube_object['name']}})
+    mongo.client.cubes.update({'_id': g_cube_object['_id']}, {'$set': {
+        'layout': g_cube_object['layout'],
+        'hive_schema': g_cube_object['name'],
+        'hdfs_path': '/datamodels/iw/' + g_cube_object['name']}
+    })
     print 'Done!'
 
     meteor.ddp_call(build_cube)

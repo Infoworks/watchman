@@ -1,6 +1,7 @@
 {
   "name": "##NAME##",
   "hdfs_path" : "##HDFS_PATH##",
+  "hive_schema" : "##NAME##",
   "connection": {
     "fileType": "##FILETYPE##",
     "path": "##PATH##",

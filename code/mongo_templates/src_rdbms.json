@@ -1,16 +1,17 @@
 {
-	"name" : "##NAME##",
-	"hdfs_path" : "##HDFS_PATH##",
-	"connection" : {
-		"connection_string" : "##CONNECTION_STRING##",
-		"username" : "##USERNAME##",
-		"password" : "##PASSWORD##",
-		"schema" : "##SCHEMA##",
-		"dns" : "",
-		"private_key" : "",
-		"database" : "##DATABASE##",
-		"driver_name" : "##DRIVER_NAME##"
-	},
-	"usePem" : false,
-	"sourceType" : "##SOURCETYPE##"
+  "name" : "##NAME##",
+  "hdfs_path" : "##HDFS_PATH##",
+  "hive_schema" : "##NAME##",
+  "connection" : {
+	"connection_string" : "##CONNECTION_STRING##",
+	"username" : "##USERNAME##",
+	"password" : "##PASSWORD##",
+	"schema" : "##SCHEMA##",
+	"dns" : "",
+	"private_key" : "",
+	"database" : "##DATABASE##",
+	"driver_name" : "##DRIVER_NAME##"
+  },
+  "usePem" : false,
+  "sourceType" : "##SOURCETYPE##"
 }
