@@ -11,7 +11,7 @@
             "teradata_data"
         ],
         "transformations": {
-            "teradata_datatypes1": {
+            "teradata_data": {
                 "test_datatype_numeric": [
                     "derive col_abs using abs(byteint_col); ",
                     "derive col_add_res using byteint_col+smallint_col; ",
