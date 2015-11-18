@@ -336,6 +336,11 @@ def check_cube():
                                insert_cube_callback)
         else:
             print 'Cube exists.'
+            cube['datamodelId'] = g_cube_object['datamodelId']
+            cube['_id'] = g_cube_object['_id']
+            del cube['datamodel']
+            g_cube_object = cube
+
             design_cube()  # Update any change in the test configuration
             meteor.ddp_call(build_cube)
         misc.background_loop()
