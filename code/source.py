@@ -164,7 +164,7 @@ def crawl_data():
                 table_name = t['table']
                 del t['table']
                 id = mongo.client.tables.find_one({'source': g_source_doc['_id'], 'table': table_name}, {'_id': True})
-                mongo.client.tables.update(id, t)
+                mongo.client.tables.update(id, {'$set': t})
                 table_id_list.append(id)
             tables = table_id_list
         else:
