@@ -1,98 +1,137 @@
 {
   "entityType": "source",
   "config": {
-    "name": "teradata_pbm_small",
+    "name": "teradata_data",
     "sourceType": "rdbms",
-    "hdfs_path": "/sqoop/iw/teradata_pbm_small",
-    "hive_schema": "teradata_pbm_small",
+    "hdfs_path": "/sqoop/iw/teradata_data",
+    "hive_schema": "teradata_data",
     "tables": [
       {
-        "table": "DRUG",
+        "table": "test_datatype_binary",
         "configuration": {
           "ingest": true,
           "partition_key": null,
           "partition_key_derive_function": "",
           "partition_key_derive_column": "",
           "natural_key": [
-            "DRUG_ID"
+            "integer_col"
           ],
           "sync_type": ""
         }
       },
       {
-        "table": "MEMBERS",
+        "table": "test_datatype_interval",
         "configuration": {
           "ingest": true,
           "partition_key": null,
           "partition_key_derive_function": "",
           "partition_key_derive_column": "",
           "natural_key": [
-            "MBR_NBR"
+            "integer_col"
           ],
           "sync_type": ""
         }
       },
       {
-        "table": "PRESCRIBER",
+        "table": "test_datatype_period",
         "configuration": {
           "ingest": true,
           "partition_key": null,
           "partition_key_derive_function": "",
           "partition_key_derive_column": "",
           "natural_key": [
-            "PRSCBR_ID"
+            "integer_col"
           ],
           "sync_type": ""
         }
       },
       {
-        "table": "STORE",
+        "table": "test_datatype_string",
         "configuration": {
           "ingest": true,
           "partition_key": null,
           "partition_key_derive_function": "",
           "partition_key_derive_column": "",
           "natural_key": [
-            "STORE_ID"
+            "column_num"
           ],
           "sync_type": ""
         }
       },
       {
-        "table": "CAMPAIGN",
+        "table": "data_view",
         "configuration": {
           "ingest": true,
           "partition_key": null,
           "partition_key_derive_function": "",
           "partition_key_derive_column": "",
           "natural_key": [
-            "PERSON_NBR"
+            "column_num"
           ],
           "sync_type": ""
         }
       },
       {
-        "table": "RX_FILL",
+        "table": "root_table",
         "configuration": {
           "ingest": true,
           "partition_key": null,
           "partition_key_derive_function": "",
           "partition_key_derive_column": "",
           "natural_key": [
-            "PRSCRT_FILL_ID"
+            "col_pk"
           ],
           "sync_type": ""
         }
       },
       {
-        "table": "RX_PRESCRIPTION",
+        "table": "test_datatype_char",
         "configuration": {
           "ingest": true,
           "partition_key": null,
           "partition_key_derive_function": "",
           "partition_key_derive_column": "",
           "natural_key": [
-            "PRSCRT_ID"
+            "integer_col"
+          ],
+          "sync_type": ""
+        }
+      },
+      {
+        "table": "test_datatype_datetime",
+        "configuration": {
+          "ingest": true,
+          "partition_key": null,
+          "partition_key_derive_function": "",
+          "partition_key_derive_column": "",
+          "natural_key": [
+            "col_num1"
+          ],
+          "sync_type": ""
+        }
+      },
+      {
+        "table": "test_datatype_numdec",
+        "configuration": {
+          "ingest": true,
+          "partition_key": null,
+          "partition_key_derive_function": "",
+          "partition_key_derive_column": "",
+          "natural_key": [
+            "col_row"
+          ],
+          "sync_type": ""
+        }
+      },
+      {
+        "table": "test_datatype_numeric",
+        "configuration": {
+          "ingest": true,
+          "partition_key": null,
+          "partition_key_derive_function": "",
+          "partition_key_derive_column": "",
+          "natural_key": [
+            "col_num"
           ],
           "sync_type": ""
         }
@@ -103,8 +142,8 @@
     "database": "TERADATA",
     "driver_name": "com.teradata.jdbc.TeraDriver",
     "dns": "",
-    "connection_string": "jdbc:teradata://ec2-54-144-76-210.compute-1.amazonaws.com/TMODE=ANSI,CHARSET=UTF8,database=PBM_SMALL",
+    "connection_string": "jdbc:teradata://ec2-54-144-76-210.compute-1.amazonaws.com/TMODE=ANSI,CHARSET=UTF8,database=datatypes",
     "password": "infoworks",
-    "schema": "PBM_SMALL"
+    "schema": "datatypes"
   }
 }
