@@ -1,0 +1,114 @@
+{
+    "entityType": "datamodel",
+    "dependsOn": [
+        "src_oracle_data.json",
+        "domain_create.json"
+    ],
+    "config": {
+        "name": "datamodel_oracle_data",
+        "domain": "TestDomain",
+        "sources": [
+            "oracle_data"
+        ],
+        "transformations": {
+            "oracle_data": {
+                "TEST_NUMERIC_DATATYPES": [
+                    "derive col_abs using abs(COL_NUMBER); ",
+                    "derive col_add_res using COL_NUMBER+COL_NUMERIC; ",
+                    "derive col_sub_res using COL_NUMBER-COL_DECIMAL; ",
+                    "derive col_mul_res using COL_DECIMAL*COL_FLOAT; ",
+                    "derive col_div_res using COL_DECIMAL%COL_FLOAT; ",
+                    "derive col_and_res using COL_NUMBER&&COL_NUMERIC; ",
+                    "derive col_or_res using COL_NUMBER||COL_DECIMAL; ",
+                    "derive col_not_res using !COL_NUMBER; ",
+                    "derive col_less_res using COL_NUMBER<COL_DECIMAL; ",
+                    "derive col_lessequal_res using COL_NUMBER>COL_DECIMAL; ",
+                    "derive col_equal_res using COL_NUMBER==COL_DECIMAL; ",
+                    "derive col_greater_res using COL_NUMBER>COL_DECIMAL; ",
+                    "derive col_greaterequal_res using COL_NUMBE>=|COL_DECIMAL; ",
+                    "derive col_notequal_res using COL_NUMBER!=COL_DECIMAL; ",
+                    "derive col_pow using pow(COL_NUMBER,2);",
+                    "derive col_exp using exp(COL_DECIMAL);",
+                    "derive col_log using log(COL_DECIMAL); ",
+                    "derive col_ceil using ceil(COL_FLOAT); ",
+                    "derive col_floor using floor(COL_FLOAT); ",
+                    "derive col_sqrt using sqrt(COL_NUMBER); ",
+                    "replace $2 using ($2 > 3) ? 1 : 0; ",
+                    "replace $2 using ($1 < 3) ? 1 : 0; ",
+                    "replace $3 using ($1 <= 3) ? 1 : 0; ",
+                    "replace $3 using ($4 >= 3) ? 1 : 0; ",
+                    "replace $3 using ($4 == 3) ? 1 : 0; ",
+                    "replace $3 using ($1 != 3) ? 1 : 0; "
+                ],
+                "TEST_CHAR_DATATYPES": [
+                    "split COL_CHAR using splitter(\"a\",10); ",
+                    "split COL_NCHAR using splitter(\"[\\s]+\",3); ",
+                    "split COL_NCHAR2 using splitter(\"[abc]\",3); ",
+                    "replace COL_VARCHAR using contains($2,\"\")?$2:\"null_value\"; ",
+                    "replace COL_LONG using contains($2,\"dt_char\")?$2:\"null_value\"; ",
+                    "derive col_lower using lower(COL_CHAR); ",
+                    "derive col_upper using upper(COL_NCHAR); ",
+                    "derive col_trim using trim(COL_NCHAR2); ",
+                    "derive charcol using contains(COL_VARCHAR,\"abc|bcd\")?\"aaa\":\"char\"; ",
+                    "derive col_left using left(COL_LONG); ",
+                    "derive col_right using right(COL_VARCHAR); ",
+                    "derive col_left using substring(COL_CHAR,3,2); "
+                ],
+                "TEST_DATETIME_DATATYPES": [
+                    "derive A_date using date(DATE_COL); ",
+                    "derive A_time using time(TIME_COL); ",
+                    "derive A_diff using datediff(DATE_COL,ZIW_START_DATE); ",
+                    "derive A_month using month(DATE_COL); ",
+                    "derive A_monthname using monthname(DATE_COL); ",
+                    "derive A_year using year(DATE_COL); ",
+                    "derive A_day using day(DATE_COL); ",
+                    "derive A_dayotheweek using dayofweek(DATE_COL); ",
+                    "derive A_weekno using dayofweek(DATE_COL); ",
+                    "derive A_quartar using quartar(DATE_COL); ",
+                    "derive A_formatdate using formatdate(DATE_COL,\"yyyy-MMM-dd\"); "
+                ]
+            }
+        },
+        "treemap": {
+            "nodeindex": 2,
+            "children": [
+                {
+                    "nodeindex": 3,
+                    "breadCrumb": "TEST_DATETIME_DATATYPES",
+                    "join": {
+                        "op": "AND",
+                        "predicates": [
+                            {
+                                "p_col": "INT_COL",
+                                "c_col": "INT_COL",
+                                "op": "equals"
+                            }
+                        ]
+                    },
+                    "children": [
+                        {
+                            "nodeindex": 4,
+                            "breadCrumb": "TEST_DATETIME_DATATYPES > TEST_CHAR_DATATYPES",
+                            "join": {
+                                "op": "AND",
+                                "predicates": [
+                                    {
+                                        "p_col": "INT_COL",
+                                        "c_col": "INT_COL",
+                                        "op": "equals"
+                                    }
+                                ]
+                            },
+                            "source": "oracle_data",
+                            "table": "TEST_NUMERIC_DATATYPES"
+                        }
+                    ],
+                    "source": "oracle_data",
+                    "table": "TEST_CHAR_DATATYPES"
+                }
+            ],
+            "source": "oracle_data",
+            "table": "TEST_DATETIME_DATATYPES"
+        }
+    }
+}

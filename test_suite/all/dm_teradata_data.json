@@ -1,279 +1,143 @@
 {
-
-   "entityType": "datamodel",
-
-   "config": {
-
-      "name": "datamodel_teradata_data",
-
-      "domain": "TestDomain",
-
-      "sources": [
-
-         "teradata_data"
-
-      ],
-
-      "transformations": {
-
-         "teradata_datatypes1": {
-
-            "test_datatype_numeric": [
-
-               "derive col_abs using abs(byteint_col); ",
-
-               "derive col_add_res using byteint_col+smallint_col; ",
-
-               "derive col_sub_res using smallint_col-int_col; ",
-
-               "derive col_mul_res using int_col*integer_col; ",
-
-               "derive col_div_res using integer_col%double_precision_col; ",
-
-               "derive col_add_res using byteint_col+smallint_col; ",
-
-               "derive col_and_res using double_precision_col&&bigint_col; ",
-
-               "derive col_or_res using bigint_col||decimal_col; ",
-
-               "derive col_not_res using !numeric_col; ",
-
-               "derive col_less_res using bigint_col<decimal_col; ",
-
-               "derive col_lessequal_res using bigint_col<=decimal_col; ",
-
-               "derive col_equal_res using bigint_col==decimal_col; ",
-
-               "derive col_greater_res using bigint_col>decimal_col; ",
-
-               "derive col_greaterequal_res using bigint_col=>decimal_col; ",
-
-               "derive col_notequal_res using bigint_col!=decimal_col; ",
-
-               "derive col_pow using pow(numeric_col,2);",
-
-               "derive col_exp using exp(decimal_col);",
-
-               "derive col_log using log(numeric_col); ",
-
-               "derive col_ceil using ceil(bigint_col); ",
-
-               "derive col_floor using floor(bigint_col); ",
-
-               "derive col_sqrt using sqrt(bigint_col); ",
-
-               "replace $2 using ($2 > 3) ? 1 : 0; ",
-
-               "replace $2 using ($1 < 3) ? 1 : 0; ",
-
-               "replace $3 using ($1 <= 3) ? 1 : 0; ",
-
-               "replace $3 using ($4 >= 3) ? 1 : 0; ",
-
-               "replace $3 using ($4 == 3) ? 1 : 0; ",
-
-               "replace $3 using ($1 != 3) ? 1 : 0; "
-
-            ],
-
-            "test_datatype_string": [
-
-               "split charcol using splitter(\"a\",10); ",
-
-               "split char_varyingcol using splitter(\"[\\s]+\",3); ",
-
-               "split varcharcol using splitter(\"[abc]\",3); ",
-
-               "replace charactercol using contains($2,\"\")?$2:\"null_value\"; ",
-
-               "replace charactercol using contains($2,\"dt_char\")?$2:\"null_value\"; ",
-
-               "derive col_lower using lower(varcharcol); ",
-
-               "derive col_upper using upper(charcol); ",
-
-               "derive col_trim using trim(varcharcol); ",
-
-               "derive charcol using contains(charcol,\"abc|bcd\")?\"aaa\":\"char\"; ",
-
-               "derive col_left using left(varcharcol); ",
-
-               "derive col_right using right(varcharcol); ",
-
-               "derive col_left using substring(varcharcol,3,2); "
-
-            ],
-
-            "test_datatype_datetime": [
-
-               "derive A_date using date(date_col); ",
-
-               "derive A_time using time(time_col); ",
-
-               "derive A_diff using datediff(date_col,ZIW_START_DATE); ",
-
-               "derive A_month using month(date_col); ",
-
-               "derive A_monthname using monthname(date_col); ",
-
-               "derive A_year using year(date_col); ",
-
-               "derive A_day using day(date_col); ",
-
-               "derive A_dayotheweek using dayofweek(date_col); ",
-
-               "derive A_weekno using dayofweek(date_col); ",
-
-               "derive A_quartar using quartar(date_col); ",
-
-               "derive A_formatdate using formatdate(date_col,\"yyyy-MMM-dd\"); "
-
-            ]
-
-         }
-
-      },
-
-      "treemap": {
-
-         "nodeindex": 5,
-
-         "children": [
-
-            {
-
-               "nodeindex": 6,
-
-               "breadCrumb": "test_datatype_datetime",
-
-               "join": {
-
-                  "op": "AND",
-
-                  "predicates": [
-
-                     {
-
-                        "p_col": "col_num1",
-
-                        "c_col": "integer_col",
-
-                        "op": "equals"
-
-                     }
-
-                  ]
-
-               },
-
-               "children": [
-
-                  {
-
-                     "nodeindex": 7,
-
-                     "breadCrumb": "test_datatype_datetime > test_datatype_char",
-
-                     "join": {
-
-                        "op": "AND",
-
-                        "predicates": [
-
-                           {
-
-                              "p_col": "integer_col",
-
-                              "c_col": "col_num",
-
-                              "op": "equals"
-
-                           },
-
-                           {
-
-                              "p_col": "integer_col",
-
-                              "c_col": "col_num",
-
-                              "op": "equals"
-
-                           },
-
-                           {
-
-                              "p_col": "integer_col",
-
-                              "c_col": "col_num",
-
-                              "op": "equals"
-
-                           }
-
-                        ]
-
-                     },
-
-                     "children": [
-
-                        {
-
-                           "nodeindex": 8,
-
-                           "breadCrumb": "test_datatype_datetime > test_datatype_char > test_datatype_numeric",
-
-                           "join": {
-
-                              "op": "AND",
-
-                              "predicates": [
-
-                                 {
-
-                                    "p_col": "col_num",
-
-                                    "c_col": "column_num",
-
-                                    "op": "equals"
-
-                                 }
-
-                              ]
-
-                           },
-
-                           "source": "teradata_data",
-
-                           "table": "test_datatype_string"
-
-                        }
-
-                     ],
-
-                     "source": "teradata_data",
-
-                     "table": "test_datatype_numeric"
-
-                  }
-
-               ],
-
-               "source": "teradata_data",
-
-               "table": "test_datatype_char"
-
+    "entityType": "datamodel",
+    "dependsOn": [
+        "src_teradata_data.json",
+        "domain_create.json"
+    ],
+    "config": {
+        "name": "datamodel_teradata_data",
+        "domain": "TestDomain",
+        "sources": [
+            "teradata_data"
+        ],
+        "transformations": {
+            "teradata_data": {
+                "test_datatype_numeric": [
+                    "derive col_abs using abs(byteint_col); ",
+                    "derive col_add_res using byteint_col+smallint_col; ",
+                    "derive col_sub_res using smallint_col-int_col; ",
+                    "derive col_mul_res using int_col*integer_col; ",
+                    "derive col_div_res using integer_col%double_precision_col; ",
+                    "derive col_add_res using byteint_col+smallint_col; ",
+                    "derive col_and_res using double_precision_col&&bigint_col; ",
+                    "derive col_or_res using bigint_col||decimal_col; ",
+                    "derive col_not_res using !numeric_col; ",
+                    "derive col_less_res using bigint_col<decimal_col; ",
+                    "derive col_lessequal_res using bigint_col<=decimal_col; ",
+                    "derive col_equal_res using bigint_col==decimal_col; ",
+                    "derive col_greater_res using bigint_col>decimal_col; ",
+                    "derive col_greaterequal_res using bigint_col=>decimal_col; ",
+                    "derive col_notequal_res using bigint_col!=decimal_col; ",
+                    "derive col_pow using pow(numeric_col,2);",
+                    "derive col_exp using exp(decimal_col);",
+                    "derive col_log using log(numeric_col); ",
+                    "derive col_ceil using ceil(bigint_col); ",
+                    "derive col_floor using floor(bigint_col); ",
+                    "derive col_sqrt using sqrt(bigint_col); ",
+                    "replace $2 using ($2 > 3) ? 1 : 0; ",
+                    "replace $2 using ($1 < 3) ? 1 : 0; ",
+                    "replace $3 using ($1 <= 3) ? 1 : 0; ",
+                    "replace $3 using ($4 >= 3) ? 1 : 0; ",
+                    "replace $3 using ($4 == 3) ? 1 : 0; ",
+                    "replace $3 using ($1 != 3) ? 1 : 0; "
+                ],
+                "test_datatype_string": [
+                    "split charcol using splitter(\"a\",10); ",
+                    "split char_varyingcol using splitter(\"[\\s]+\",3); ",
+                    "split varcharcol using splitter(\"[abc]\",3); ",
+                    "replace charactercol using contains($2,\"\")?$2:\"null_value\"; ",
+                    "replace charactercol using contains($2,\"dt_char\")?$2:\"null_value\"; ",
+                    "derive col_lower using lower(varcharcol); ",
+                    "derive col_upper using upper(charcol); ",
+                    "derive col_trim using trim(varcharcol); ",
+                    "derive charcol using contains(charcol,\"abc|bcd\")?\"aaa\":\"char\"; ",
+                    "derive col_left using left(varcharcol); ",
+                    "derive col_right using right(varcharcol); ",
+                    "derive col_left using substring(varcharcol,3,2); "
+                ],
+                "test_datatype_datetime": [
+                    "derive A_date using date(date_col); ",
+                    "derive A_time using time(time_col); ",
+                    "derive A_diff using datediff(date_col,ZIW_START_DATE); ",
+                    "derive A_month using month(date_col); ",
+                    "derive A_monthname using monthname(date_col); ",
+                    "derive A_year using year(date_col); ",
+                    "derive A_day using day(date_col); ",
+                    "derive A_dayotheweek using dayofweek(date_col); ",
+                    "derive A_weekno using dayofweek(date_col); ",
+                    "derive A_quartar using quartar(date_col); ",
+                    "derive A_formatdate using formatdate(date_col,\"yyyy-MMM-dd\"); "
+                ]
             }
-
-         ],
-
-         "source": "teradata_data",
-
-         "table": "test_datatype_datetime"
-
-      },
-
-      "cubes": []
-
-   }
-
+        },
+        "treemap": {
+            "nodeindex": 5,
+            "children": [
+                {
+                    "nodeindex": 6,
+                    "breadCrumb": "test_datatype_datetime",
+                    "join": {
+                        "op": "AND",
+                        "predicates": [
+                            {
+                                "p_col": "col_num1",
+                                "c_col": "integer_col",
+                                "op": "equals"
+                            }
+                        ]
+                    },
+                    "children": [
+                        {
+                            "nodeindex": 7,
+                            "breadCrumb": "test_datatype_datetime > test_datatype_char",
+                            "join": {
+                                "op": "AND",
+                                "predicates": [
+                                    {
+                                        "p_col": "integer_col",
+                                        "c_col": "col_num",
+                                        "op": "equals"
+                                    },
+                                    {
+                                        "p_col": "integer_col",
+                                        "c_col": "col_num",
+                                        "op": "equals"
+                                    },
+                                    {
+                                        "p_col": "integer_col",
+                                        "c_col": "col_num",
+                                        "op": "equals"
+                                    }
+                                ]
+                            },
+                            "children": [
+                                {
+                                    "nodeindex": 8,
+                                    "breadCrumb": "test_datatype_datetime > test_datatype_char > test_datatype_numeric",
+                                    "join": {
+                                        "op": "AND",
+                                        "predicates": [
+                                            {
+                                                "p_col": "col_num",
+                                                "c_col": "column_num",
+                                                "op": "equals"
+                                            }
+                                        ]
+                                    },
+                                    "source": "teradata_data",
+                                    "table": "test_datatype_string"
+                                }
+                            ],
+                            "source": "teradata_data",
+                            "table": "test_datatype_numeric"
+                        }
+                    ],
+                    "source": "teradata_data",
+                    "table": "test_datatype_char"
+                }
+            ],
+            "source": "teradata_data",
+            "table": "test_datatype_datetime"
+        }
+    }
 }
