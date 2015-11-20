@@ -1,0 +1,5 @@
+col_pk,col_char,col_varchar,col_tinytext,col_text,col_mediumtext,col_longtext
+1,dt_char,dt_varchar,dt_tinytext,dt_text,"dt medium text",dt longtext
+2,,,,,,
+3,,,,,,
+4,""",""",,,,,""",  ,"""
