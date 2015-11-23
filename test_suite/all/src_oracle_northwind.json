@@ -1,14 +1,123 @@
 {
-    "config": {
-        "connection_string": "jdbc:oracle:thin:@52.5.131.69:1521:xe", 
-        "database": "ORACLE", 
-        "driver_name": "oracle.jdbc.driver.OracleDriver", 
-        "hdfs_path": "/sqoop/iw/oracle_northwind", 
-        "name": "oracle_northwind", 
-        "password": "northwind", 
-        "schema": "NORTHWIND", 
-        "sourceType": "rdbms", 
-        "username": "northwind"
-    }, 
-    "entityType": "source"
+  "entityType": "source",
+  "config": {
+    "name": "oracle_northwind",
+    "sourceType": "rdbms",
+    "hdfs_path": "/sqoop/iw/oracle_northwind",
+    "hive_schema": "oracle_northwind",
+    "tables": [
+      {
+        "table": "SHIPPERS",
+        "configuration": {
+          "ingest": true,
+          "partition_key": null,
+          "partition_key_derive_function": "",
+          "partition_key_derive_column": "",
+          "natural_key": [
+            "SHIPPER_ID"
+          ],
+          "sync_type": ""
+        }
+      },
+      {
+        "table": "ORDER_DETAILS",
+        "configuration": {
+          "ingest": true,
+          "partition_key": null,
+          "partition_key_derive_function": "",
+          "partition_key_derive_column": "",
+          "natural_key": [
+            "ORDER_ID"
+          ],
+          "sync_type": ""
+        }
+      },
+      {
+        "table": "CUSTOMERS",
+        "configuration": {
+          "ingest": true,
+          "partition_key": null,
+          "partition_key_derive_function": "",
+          "partition_key_derive_column": "",
+          "natural_key": [
+            "CUSTOMER_ID"
+          ],
+          "sync_type": ""
+        }
+      },
+      {
+        "table": "EMPLOYEES",
+        "configuration": {
+          "ingest": true,
+          "partition_key": null,
+          "partition_key_derive_function": "",
+          "partition_key_derive_column": "",
+          "natural_key": [
+            "EMPLOYEE_ID"
+          ],
+          "sync_type": ""
+        }
+      },
+      {
+        "table": "ORDERS",
+        "configuration": {
+          "ingest": true,
+          "partition_key": null,
+          "partition_key_derive_function": "",
+          "partition_key_derive_column": "",
+          "natural_key": [
+            "ORDER_ID"
+          ],
+          "sync_type": ""
+        }
+      },
+      {
+        "table": "PRODUCTS",
+        "configuration": {
+          "ingest": true,
+          "partition_key": null,
+          "partition_key_derive_function": "",
+          "partition_key_derive_column": "",
+          "natural_key": [
+            "PRODUCT_ID"
+          ],
+          "sync_type": ""
+        }
+      },
+      {
+        "table": "SUPPLIERS",
+        "configuration": {
+          "ingest": true,
+          "partition_key": null,
+          "partition_key_derive_function": "",
+          "partition_key_derive_column": "",
+          "natural_key": [
+            "SUPPLIER_ID"
+          ],
+          "sync_type": ""
+        }
+      },
+      {
+        "table": "CATEGORIES",
+        "configuration": {
+          "ingest": true,
+          "partition_key": null,
+          "partition_key_derive_function": "",
+          "partition_key_derive_column": "",
+          "natural_key": [
+            "CATEGORY_ID"
+          ],
+          "sync_type": ""
+        }
+      }
+    ],
+    "username": "northwind",
+    "private_key": "",
+    "database": "ORACLE",
+    "driver_name": "oracle.jdbc.driver.OracleDriver",
+    "dns": "",
+    "connection_string": "jdbc:oracle:thin:@52.5.131.69:1521:xe",
+    "password": "northwind",
+    "schema": "NORTHWIND"
+  }
 }

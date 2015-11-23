@@ -1,16 +1,409 @@
 {
-    "config": {
-        "connection_string": "jdbc:oracle:thin:@52.23.234.232:1521:xe", 
-        "database": "ORACLE", 
-        "dns": "", 
-        "driver_name": "oracle.jdbc.driver.OracleDriver", 
-        "hdfs_path": "/sqoop/iw/oracle_tpcds", 
-        "name": "oracle_tpcds", 
-        "password": "krdeepak12", 
-        "private_key": "", 
-        "schema": "KRD", 
-        "sourceType": "rdbms", 
-        "username": "krd"
-    }, 
-    "entityType": "source"
+  "entityType": "source",
+  "config": {
+    "name": "oracle_tpcds",
+    "sourceType": "rdbms",
+    "hdfs_path": "/sqoop/iw/oracle_tpcds",
+    "hive_schema": "oracle_tpcds",
+    "tables": [
+      {
+        "table": "EXAMPLE",
+        "configuration": {
+          "ingest": true,
+          "partition_key": null,
+          "partition_key_derive_function": "",
+          "partition_key_derive_column": "",
+          "natural_key": [
+            "ID"
+          ],
+          "sync_type": ""
+        }
+      },
+      {
+        "table": "SHIP_MODE",
+        "configuration": {
+          "ingest": true,
+          "partition_key": null,
+          "partition_key_derive_function": "",
+          "partition_key_derive_column": "",
+          "natural_key": [
+            "SM_SHIP_MODE_SK"
+          ],
+          "sync_type": ""
+        }
+      },
+      {
+        "table": "INCOME_BAND",
+        "configuration": {
+          "ingest": true,
+          "partition_key": null,
+          "partition_key_derive_function": "",
+          "partition_key_derive_column": "",
+          "natural_key": [
+            "IB_INCOME_BAND_SK"
+          ],
+          "sync_type": ""
+        }
+      },
+      {
+        "table": "STORE",
+        "configuration": {
+          "ingest": true,
+          "partition_key": null,
+          "partition_key_derive_function": "",
+          "partition_key_derive_column": "",
+          "natural_key": [
+            "S_STORE_SK"
+          ],
+          "sync_type": ""
+        }
+      },
+      {
+        "table": "CUSTOMER_ADDRESS",
+        "configuration": {
+          "ingest": true,
+          "partition_key": null,
+          "partition_key_derive_function": "",
+          "partition_key_derive_column": "",
+          "natural_key": [
+            "CA_ADDRESS_SK"
+          ],
+          "sync_type": ""
+        }
+      },
+      {
+        "table": "CATALOG_PAGE",
+        "configuration": {
+          "ingest": true,
+          "partition_key": null,
+          "partition_key_derive_function": "",
+          "partition_key_derive_column": "",
+          "natural_key": [
+            "CP_CATALOG_PAGE_SK"
+          ],
+          "sync_type": ""
+        }
+      },
+      {
+        "table": "CUSTOMER_DEMOGRAPHICS",
+        "configuration": {
+          "ingest": true,
+          "partition_key": null,
+          "partition_key_derive_function": "",
+          "partition_key_derive_column": "",
+          "natural_key": [
+            "CD_DEMO_SK"
+          ],
+          "sync_type": ""
+        }
+      },
+      {
+        "table": "HOUSEHOLD_DEMOGRAPHICS",
+        "configuration": {
+          "ingest": true,
+          "partition_key": null,
+          "partition_key_derive_function": "",
+          "partition_key_derive_column": "",
+          "natural_key": [
+            "HD_DEMO_SK"
+          ],
+          "sync_type": ""
+        }
+      },
+      {
+        "table": "INVENTORY",
+        "configuration": {
+          "ingest": true,
+          "partition_key": null,
+          "partition_key_derive_function": "",
+          "partition_key_derive_column": "",
+          "natural_key": [
+            "INV_DATE_SK"
+          ],
+          "sync_type": ""
+        }
+      },
+      {
+        "table": "REASON",
+        "configuration": {
+          "ingest": true,
+          "partition_key": null,
+          "partition_key_derive_function": "",
+          "partition_key_derive_column": "",
+          "natural_key": [
+            "R_REASON_SK"
+          ],
+          "sync_type": ""
+        }
+      },
+      {
+        "table": "S_PURCHASE",
+        "configuration": {
+          "ingest": true,
+          "partition_key": null,
+          "partition_key_derive_function": "",
+          "partition_key_derive_column": "",
+          "natural_key": [
+            "PURC_PURCHASE_ID"
+          ],
+          "sync_type": ""
+        }
+      },
+      {
+        "table": "S_PURCHASE_LINEITEM",
+        "configuration": {
+          "ingest": true,
+          "partition_key": null,
+          "partition_key_derive_function": "",
+          "partition_key_derive_column": "",
+          "natural_key": [
+            "PLIN_PURCHASE_ID"
+          ],
+          "sync_type": ""
+        }
+      },
+      {
+        "table": "TEST_CDC",
+        "configuration": {
+          "ingest": true,
+          "partition_key": null,
+          "partition_key_derive_function": "",
+          "partition_key_derive_column": "",
+          "natural_key": [
+            "COL1"
+          ],
+          "sync_type": ""
+        }
+      },
+      {
+        "table": "TIME_DIM",
+        "configuration": {
+          "ingest": true,
+          "partition_key": null,
+          "partition_key_derive_function": "",
+          "partition_key_derive_column": "",
+          "natural_key": [
+            "T_TIME_SK"
+          ],
+          "sync_type": ""
+        }
+      },
+      {
+        "table": "WEB_PAGE",
+        "configuration": {
+          "ingest": true,
+          "partition_key": null,
+          "partition_key_derive_function": "",
+          "partition_key_derive_column": "",
+          "natural_key": [
+            "WP_WEB_PAGE_SK"
+          ],
+          "sync_type": ""
+        }
+      },
+      {
+        "table": "WEB_SITE",
+        "configuration": {
+          "ingest": true,
+          "partition_key": null,
+          "partition_key_derive_function": "",
+          "partition_key_derive_column": "",
+          "natural_key": [
+            "WEB_SITE_SK"
+          ],
+          "sync_type": ""
+        }
+      },
+      {
+        "table": "PROMOTION",
+        "configuration": {
+          "ingest": true,
+          "partition_key": null,
+          "partition_key_derive_function": "",
+          "partition_key_derive_column": "",
+          "natural_key": [
+            "P_PROMO_SK"
+          ],
+          "sync_type": ""
+        }
+      },
+      {
+        "table": "CATALOG_SALES",
+        "configuration": {
+          "ingest": true,
+          "partition_key": null,
+          "partition_key_derive_function": "",
+          "partition_key_derive_column": "",
+          "natural_key": [
+            "CS_SOLD_DATE_SK"
+          ],
+          "sync_type": ""
+        }
+      },
+      {
+        "table": "CALL_CENTER",
+        "configuration": {
+          "ingest": true,
+          "partition_key": null,
+          "partition_key_derive_function": "",
+          "partition_key_derive_column": "",
+          "natural_key": [
+            "CC_CALL_CENTER_SK"
+          ],
+          "sync_type": ""
+        }
+      },
+      {
+        "table": "CATALOG_RETURNS",
+        "configuration": {
+          "ingest": true,
+          "partition_key": null,
+          "partition_key_derive_function": "",
+          "partition_key_derive_column": "",
+          "natural_key": [
+            "CR_RETURNED_DATE_SK"
+          ],
+          "sync_type": ""
+        }
+      },
+      {
+        "table": "CUSTOMER",
+        "configuration": {
+          "ingest": true,
+          "partition_key": null,
+          "partition_key_derive_function": "",
+          "partition_key_derive_column": "",
+          "natural_key": [
+            "C_CUSTOMER_SK"
+          ],
+          "sync_type": ""
+        }
+      },
+      {
+        "table": "DATE_DIM",
+        "configuration": {
+          "ingest": true,
+          "partition_key": null,
+          "partition_key_derive_function": "",
+          "partition_key_derive_column": "",
+          "natural_key": [
+            "D_DATE_SK"
+          ],
+          "sync_type": ""
+        }
+      },
+      {
+        "table": "ITEM",
+        "configuration": {
+          "ingest": true,
+          "partition_key": null,
+          "partition_key_derive_function": "",
+          "partition_key_derive_column": "",
+          "natural_key": [
+            "I_ITEM_SK"
+          ],
+          "sync_type": ""
+        }
+      },
+      {
+        "table": "SSVM",
+        "configuration": {
+          "ingest": true,
+          "partition_key": null,
+          "partition_key_derive_function": "",
+          "partition_key_derive_column": "",
+          "natural_key": [
+            "SS_SOLD_DATE_SK"
+          ],
+          "sync_type": ""
+        }
+      },
+      {
+        "table": "STORE_RETURNS",
+        "configuration": {
+          "ingest": true,
+          "partition_key": null,
+          "partition_key_derive_function": "",
+          "partition_key_derive_column": "",
+          "natural_key": [
+            "SR_RETURNED_DATE_SK"
+          ],
+          "sync_type": ""
+        }
+      },
+      {
+        "table": "STORE_SALES",
+        "configuration": {
+          "ingest": true,
+          "partition_key": null,
+          "partition_key_derive_function": "",
+          "partition_key_derive_column": "",
+          "natural_key": [
+            "SS_SOLD_DATE_SK"
+          ],
+          "sync_type": ""
+        }
+      },
+      {
+        "table": "WEB_RETURNS",
+        "configuration": {
+          "ingest": true,
+          "partition_key": null,
+          "partition_key_derive_function": "",
+          "partition_key_derive_column": "",
+          "natural_key": [
+            "WR_RETURNED_DATE_SK"
+          ],
+          "sync_type": ""
+        }
+      },
+      {
+        "table": "WEB_SALES",
+        "configuration": {
+          "ingest": true,
+          "partition_key": null,
+          "partition_key_derive_function": "",
+          "partition_key_derive_column": "",
+          "natural_key": [
+            "WS_SOLD_DATE_SK"
+          ],
+          "sync_type": ""
+        }
+      },
+      {
+        "table": "SSV",
+        "configuration": {
+          "ingest": true,
+          "partition_key": null,
+          "partition_key_derive_function": "",
+          "partition_key_derive_column": "",
+          "natural_key": [
+            "SS_SOLD_DATE_SK"
+          ],
+          "sync_type": ""
+        }
+      },
+      {
+        "table": "WAREHOUSE",
+        "configuration": {
+          "ingest": true,
+          "partition_key": null,
+          "partition_key_derive_function": "",
+          "partition_key_derive_column": "",
+          "natural_key": [
+            "W_WAREHOUSE_SK"
+          ],
+          "sync_type": ""
+        }
+      }
+    ],
+    "username": "krd",
+    "private_key": "",
+    "database": "ORACLE",
+    "driver_name": "oracle.jdbc.driver.OracleDriver",
+    "dns": "",
+    "connection_string": "jdbc:oracle:thin:@52.23.234.232:1521:xe",
+    "password": "krdeepak12",
+    "schema": "KRD"
+  }
 }
