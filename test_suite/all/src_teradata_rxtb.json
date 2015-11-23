@@ -7,40 +7,118 @@
     "hive_schema": "teradata_rxtb",
     "tables": [
       {
-        "table": "drug_derived_archive",
+        "table": "tb_bi_wc_acc_scan_sts_dly",
         "configuration": {
           "ingest": true,
           "partition_key": null,
           "partition_key_derive_function": "",
           "partition_key_derive_column": "",
           "natural_key": [
-            "DRUG_ID"
+            "STORE_ID"
           ],
           "sync_type": ""
         }
       },
       {
-        "table": "rx_prescription",
+        "table": "rx_fill",
         "configuration": {
           "ingest": true,
           "partition_key": null,
           "partition_key_derive_function": "",
           "partition_key_derive_column": "",
           "natural_key": [
-            "PRSCRT_ID"
+            "PRSCRT_FILL_ID"
           ],
           "sync_type": ""
         }
       },
       {
-        "table": "tb_bi_fact_tc_patient_rnkg",
+        "table": "rxoppty_outcome",
         "configuration": {
           "ingest": true,
           "partition_key": null,
           "partition_key_derive_function": "",
           "partition_key_derive_column": "",
           "natural_key": [
-            "PTNT_ID"
+            "RUN_DT"
+          ],
+          "sync_type": ""
+        }
+      },
+      {
+        "table": "rxoppty_script_final",
+        "configuration": {
+          "ingest": true,
+          "partition_key": null,
+          "partition_key_derive_function": "",
+          "partition_key_derive_column": "",
+          "natural_key": [
+            "RUN_DT"
+          ],
+          "sync_type": ""
+        }
+      },
+      {
+        "table": "tb_bi_wc_rx_fill_process",
+        "configuration": {
+          "ingest": true,
+          "partition_key": null,
+          "partition_key_derive_function": "",
+          "partition_key_derive_column": "",
+          "natural_key": [
+            "PRSCRT_FILL_ID"
+          ],
+          "sync_type": ""
+        }
+      },
+      {
+        "table": "tb_bi_wc_rx_fill_prss_dly",
+        "configuration": {
+          "ingest": true,
+          "partition_key": null,
+          "partition_key_derive_function": "",
+          "partition_key_derive_column": "",
+          "natural_key": [
+            "RX_ACTIVITY_DATE"
+          ],
+          "sync_type": ""
+        }
+      },
+      {
+        "table": "tb_bi_wc_rx_verific_dly",
+        "configuration": {
+          "ingest": true,
+          "partition_key": null,
+          "partition_key_derive_function": "",
+          "partition_key_derive_column": "",
+          "natural_key": [
+            "RX_VERIFIC_DATE"
+          ],
+          "sync_type": ""
+        }
+      },
+      {
+        "table": "tb_bi_wc_triage_queue",
+        "configuration": {
+          "ingest": true,
+          "partition_key": null,
+          "partition_key_derive_function": "",
+          "partition_key_derive_column": "",
+          "natural_key": [
+            "TRIAGE_ID"
+          ],
+          "sync_type": ""
+        }
+      },
+      {
+        "table": "tb_bi_wc_vertical_call",
+        "configuration": {
+          "ingest": true,
+          "partition_key": null,
+          "partition_key_derive_function": "",
+          "partition_key_derive_column": "",
+          "natural_key": [
+            "STORE_ID"
           ],
           "sync_type": ""
         }
@@ -59,27 +137,14 @@
         }
       },
       {
-        "table": "tb_bi_script_base",
+        "table": "tb_bi_fact_tc_patient_rnkg",
         "configuration": {
           "ingest": true,
           "partition_key": null,
           "partition_key_derive_function": "",
           "partition_key_derive_column": "",
           "natural_key": [
-            "PRSCRT_FILL_ID"
-          ],
-          "sync_type": ""
-        }
-      },
-      {
-        "table": "tb_bi_wc_acc_scan_sts_dly",
-        "configuration": {
-          "ingest": true,
-          "partition_key": null,
-          "partition_key_derive_function": "",
-          "partition_key_derive_column": "",
-          "natural_key": [
-            "STORE_ID"
+            "PTNT_ID"
           ],
           "sync_type": ""
         }
@@ -93,19 +158,6 @@
           "partition_key_derive_column": "",
           "natural_key": [
             "ACTION_NOTE_ID"
-          ],
-          "sync_type": ""
-        }
-      },
-      {
-        "table": "tb_bi_wc_obd_req",
-        "configuration": {
-          "ingest": true,
-          "partition_key": null,
-          "partition_key_derive_function": "",
-          "partition_key_derive_column": "",
-          "natural_key": [
-            "OBD_REQ_CNTCT_ID"
           ],
           "sync_type": ""
         }
@@ -137,12 +189,120 @@
         }
       },
       {
-        "table": "testview",
+        "table": "tb_bi_wc_rx_fill_emp_wf",
         "configuration": {
-          "natural_key": [],
+          "ingest": true,
           "partition_key": null,
-          "sync_type": "",
-          "ingest": false
+          "partition_key_derive_function": "",
+          "partition_key_derive_column": "",
+          "natural_key": [
+            "PRSCRT_FILL_ID"
+          ],
+          "sync_type": ""
+        }
+      },
+      {
+        "table": "tb_bi_wc_rx_fill_process_wf",
+        "configuration": {
+          "ingest": true,
+          "partition_key": null,
+          "partition_key_derive_function": "",
+          "partition_key_derive_column": "",
+          "natural_key": [
+            "PRSCRT_FILL_EVNT_ID"
+          ],
+          "sync_type": ""
+        }
+      },
+      {
+        "table": "tb_bi_wc_rx_verific_rjct",
+        "configuration": {
+          "ingest": true,
+          "partition_key": null,
+          "partition_key_derive_function": "",
+          "partition_key_derive_column": "",
+          "natural_key": [
+            "RX_VERIFIC_DATE"
+          ],
+          "sync_type": ""
+        }
+      },
+      {
+        "table": "tb_bi_wc_voicemail",
+        "configuration": {
+          "ingest": true,
+          "partition_key": null,
+          "partition_key_derive_function": "",
+          "partition_key_derive_column": "",
+          "natural_key": [
+            "RXC_VM_ID"
+          ],
+          "sync_type": ""
+        }
+      },
+      {
+        "table": "drug_derived_archive",
+        "configuration": {
+          "ingest": true,
+          "partition_key": null,
+          "partition_key_derive_function": "",
+          "partition_key_derive_column": "",
+          "natural_key": [
+            "DRUG_ID"
+          ],
+          "sync_type": ""
+        }
+      },
+      {
+        "table": "rx_prescription",
+        "configuration": {
+          "ingest": true,
+          "partition_key": null,
+          "partition_key_derive_function": "",
+          "partition_key_derive_column": "",
+          "natural_key": [
+            "PRSCRT_ID"
+          ],
+          "sync_type": ""
+        }
+      },
+      {
+        "table": "tb_bi_dim_store",
+        "configuration": {
+          "ingest": true,
+          "partition_key": null,
+          "partition_key_derive_function": "",
+          "partition_key_derive_column": "",
+          "natural_key": [
+            "STORE_ID"
+          ],
+          "sync_type": ""
+        }
+      },
+      {
+        "table": "tb_bi_script_base",
+        "configuration": {
+          "ingest": true,
+          "partition_key": null,
+          "partition_key_derive_function": "",
+          "partition_key_derive_column": "",
+          "natural_key": [
+            "PRSCRT_FILL_ID"
+          ],
+          "sync_type": ""
+        }
+      },
+      {
+        "table": "tb_bi_wc_obd_req",
+        "configuration": {
+          "ingest": true,
+          "partition_key": null,
+          "partition_key_derive_function": "",
+          "partition_key_derive_column": "",
+          "natural_key": [
+            "OBD_REQ_CNTCT_ID"
+          ],
+          "sync_type": ""
         }
       },
       {
@@ -183,180 +343,15 @@
           ],
           "sync_type": ""
         }
-      },
-      {
-        "table": "tb_bi_wc_vertical_call",
-        "configuration": {
-          "ingest": true,
-          "partition_key": null,
-          "partition_key_derive_function": "",
-          "partition_key_derive_column": "",
-          "natural_key": [
-            "STORE_ID"
-          ],
-          "sync_type": ""
-        }
-      },
-      {
-        "table": "rxoppty_outcome",
-        "configuration": {
-          "ingest": true,
-          "partition_key": null,
-          "partition_key_derive_function": "",
-          "partition_key_derive_column": "",
-          "natural_key": [
-            "RUN_DT"
-          ],
-          "sync_type": ""
-        }
-      },
-      {
-        "table": "rxoppty_script_final",
-        "configuration": {
-          "ingest": true,
-          "partition_key": null,
-          "partition_key_derive_function": "",
-          "partition_key_derive_column": "",
-          "natural_key": [
-            "RUN_DT"
-          ],
-          "sync_type": ""
-        }
-      },
-      {
-        "table": "rx_fill",
-        "configuration": {
-          "ingest": true,
-          "partition_key": null,
-          "partition_key_derive_function": "",
-          "partition_key_derive_column": "",
-          "natural_key": [
-            "PRSCRT_FILL_ID"
-          ],
-          "sync_type": ""
-        }
-      },
-      {
-        "table": "tb_bi_dim_store",
-        "configuration": {
-          "ingest": true,
-          "partition_key": null,
-          "partition_key_derive_function": "",
-          "partition_key_derive_column": "",
-          "natural_key": [
-            "STORE_ID"
-          ],
-          "sync_type": ""
-        }
-      },
-      {
-        "table": "tb_bi_wc_rx_fill_emp_wf",
-        "configuration": {
-          "ingest": true,
-          "partition_key": null,
-          "partition_key_derive_function": "",
-          "partition_key_derive_column": "",
-          "natural_key": [
-            "PRSCRT_FILL_ID"
-          ],
-          "sync_type": ""
-        }
-      },
-      {
-        "table": "tb_bi_wc_rx_fill_process",
-        "configuration": {
-          "ingest": true,
-          "partition_key": null,
-          "partition_key_derive_function": "",
-          "partition_key_derive_column": "",
-          "natural_key": [
-            "PRSCRT_FILL_ID"
-          ],
-          "sync_type": ""
-        }
-      },
-      {
-        "table": "tb_bi_wc_rx_fill_process_wf",
-        "configuration": {
-          "natural_key": [],
-          "partition_key": null,
-          "sync_type": "",
-          "ingest": false
-        }
-      },
-      {
-        "table": "tb_bi_wc_rx_fill_prss_dly",
-        "configuration": {
-          "ingest": true,
-          "partition_key": null,
-          "partition_key_derive_function": "",
-          "partition_key_derive_column": "",
-          "natural_key": [
-            "RX_ACTIVITY_DATE"
-          ],
-          "sync_type": ""
-        }
-      },
-      {
-        "table": "tb_bi_wc_rx_verific_dly",
-        "configuration": {
-          "ingest": true,
-          "partition_key": null,
-          "partition_key_derive_function": "",
-          "partition_key_derive_column": "",
-          "natural_key": [
-            "RX_VERIFIC_DATE"
-          ],
-          "sync_type": ""
-        }
-      },
-      {
-        "table": "tb_bi_wc_rx_verific_rjct",
-        "configuration": {
-          "ingest": true,
-          "partition_key": null,
-          "partition_key_derive_function": "",
-          "partition_key_derive_column": "",
-          "natural_key": [
-            "RX_VERIFIC_DATE"
-          ],
-          "sync_type": ""
-        }
-      },
-      {
-        "table": "tb_bi_wc_voicemail",
-        "configuration": {
-          "ingest": true,
-          "partition_key": null,
-          "partition_key_derive_function": "",
-          "partition_key_derive_column": "",
-          "natural_key": [
-            "RXC_VM_ID"
-          ],
-          "sync_type": ""
-        }
-      },
-      {
-        "table": "tb_bi_wc_triage_queue",
-        "configuration": {
-          "ingest": true,
-          "partition_key": null,
-          "partition_key_derive_function": "",
-          "partition_key_derive_column": "",
-          "natural_key": [
-            "TRIAGE_ID"
-          ],
-          "sync_type": ""
-        }
       }
     ],
+    "connection_string": "jdbc:teradata://ec2-54-144-76-210.compute-1.amazonaws.com/TMODE=ANSI,CHARSET=UTF8,database=RX_TB",
     "username": "DBC",
+    "password": "infoworks",
+    "schema": "RX_TB",
+    "dns": "",
     "private_key": "",
     "database": "TERADATA",
-    "driver_name": "com.teradata.jdbc.TeraDriver",
-    "dns": "",
-    "connection_string": "jdbc:teradata://ec2-54-144-76-210.compute-1.amazonaws.com/TMODE=ANSI,CHARSET=UTF8,database=RX_TB",
-    "password": "infoworks",
-    "schema": "RX_TB"
+    "driver_name": "com.teradata.jdbc.TeraDriver"
   }
 }
