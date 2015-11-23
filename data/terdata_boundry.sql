@@ -238,7 +238,7 @@ CREATE TABLE orc_keywords (
 	"getOutput()"	INTEGER,
 	"ReadORC"	INTEGER
 );
-INSERT INTO orc_keywords VALUES (1,'');
+INSERT INTO orc_keywords VALUES (1,1,1,1,1,1,1,1,1,1,1,1,1,1);
 
 -------------------
 --Java Keywords
