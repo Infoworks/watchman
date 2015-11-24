@@ -1,0 +1,14 @@
+{
+  "name": "##NAME##",
+  "hdfs_path" : "##HDFS_PATH##",
+  "hive_schema" : "##NAME##",
+  "connection": {
+    "host": "##HOST##",
+    "port": "##PORT##",
+    "username": "##USERNAME##",
+    "password": "##PASSWORD##",
+    "auth_type": "##AUTH_TYPE##",
+    "type": "##TYPE##"
+  },
+  "sourceType": "##SOURCETYPE##"
+}

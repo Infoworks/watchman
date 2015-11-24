@@ -77,7 +77,22 @@ def insert_source_callback(error, result):
 
 
 def crawl_metadata_or_data():
+    global g_source_doc
+
     if g_source_doc['sourceType'] == 'rdbms':
+        meteor.ddp_call(crawl_metadata)
+    elif g_source_doc['sourceType'] == 'sftp':
+        # Delete existing tables and add only the ones in the test configuration
+        if g_source_doc['tables']:
+            for table in g_source_doc['tables']:
+                mongo.client.tables.delete_one({'_id': table})
+            mongo.client.sources.update({'_id': g_source_doc['_id']}, {'$set': {'tables': []}})
+
+        for table in g_test_object['tables']:
+            table['source'] = g_source_doc['_id']
+        table_ids = mongo.client.tables.insert_many(g_test_object['tables']).inserted_ids
+        mongo.client.sources.update({'_id': g_source_doc['_id']}, {'$push': {'tables': {'$each': table_ids}}})
+        g_source_doc = mongo.client.sources.find_one({'_id': g_source_doc['_id']})
         meteor.ddp_call(crawl_metadata)
     else:
         meteor.ddp_call(crawl_data)
@@ -87,7 +102,10 @@ def crawl_metadata():
     global g_source_doc
 
     connection = g_source_doc['connection']
-    params = {}
+    params = {
+        'source': str(g_source_doc['_id']),
+        'crawl': 'schema'
+    }
     if g_source_doc['sourceType'] == 'rdbms':
         params['database'] = connection['database']
         params['driver'] = connection['driver_name']
@@ -95,11 +113,13 @@ def crawl_metadata():
         params['private_key'] = connection['private_key']
         params['schema'] = connection['schema']
         params['overwrite'] = 'true'
-        params['source'] = str(g_source_doc['_id'])
         params['url'] = connection['connection_string']
         params['username'] = connection['username']
         params['password'] = connection['password']
-        params['crawl'] = 'schema'
+    elif g_source_doc['sourceType'] == 'sftp':
+        params['connection'] = connection
+        params['hive_schema'] = g_source_doc['hive_schema']
+        params['tables'] = g_source_doc['tables']
     else:
         print 'Unknown source type ' + g_source_doc['sourceType']
         misc.backround_process_terminate()
@@ -155,6 +175,12 @@ def crawl_data():
     elif g_source_doc['sourceType'] == 'json':
         params['fileType'] = connection['fileType']
         params['inputDir'] = connection['path']
+    elif g_source_doc['sourceType'] == 'sftp':
+        params['connection'] = connection
+        params['crawl'] = 'data'
+        params['source'] = str(g_source_doc['_id'])
+        params['hive_schema'] = g_source_doc['hive_schema']
+        params['tables'] = g_source_doc['tables']
     elif g_source_doc['sourceType'] == 'rdbms':
         # Get the tables that need to be crawled and the partition keys for the tables
         tables = g_test_object.get('tables', [])

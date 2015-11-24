@@ -1,0 +1,6 @@
+{
+  "entityType": "shell",
+  "config": {
+    "script": "webtrends/setup.sh"
+  }
+}

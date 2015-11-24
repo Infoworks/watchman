@@ -1,0 +1,33 @@
+{
+  "entityType": "source",
+  "dependsOn": [
+    "src_sftp_webtrends_setup.json"
+  ]
+  "config": {
+    "name": "sftp_webtrends",
+    "sourceType": "sftp",
+    "hdfs_path": "/sqoop/iw/sftp_webtrends",
+    "hive_schema": "sftp_webtrends",
+    "tables": [
+      {
+        "table": "webtrend_cvscom_s",
+        "configuration": {
+          "file_prefix": "webtrend_cvscom_s",
+          "remote_path": "/tmp/sftp_webtrends_files/",
+          "hdfs_path": "/sqoop/iw/sftp_webtrends",
+          "ingest": true,
+          "partition_key": [
+            "monthly_capture"
+          ],
+          "natural_key": [],
+          "sync_type": "full-load"
+        }
+      }
+    ],
+    "host": "127.0.0.1"
+    "port": "22",
+    "username": "sftpuser",
+    "password": "infoworks123",
+    "auth_type": "password"
+  }
+}
