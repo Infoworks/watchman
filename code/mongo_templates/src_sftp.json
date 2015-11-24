@@ -7,8 +7,7 @@
     "port": "##PORT##",
     "username": "##USERNAME##",
     "password": "##PASSWORD##",
-    "auth_type": "##AUTH_TYPE##",
-    "type": "##TYPE##"
+    "auth_type": "##AUTH_TYPE##"
   },
   "sourceType": "##SOURCETYPE##"
 }

@@ -83,7 +83,7 @@ def crawl_metadata_or_data():
         meteor.ddp_call(crawl_metadata)
     elif g_source_doc['sourceType'] == 'sftp':
         # Delete existing tables and add only the ones in the test configuration
-        if g_source_doc['tables']:
+        if g_source_doc.get('tables'):
             for table in g_source_doc['tables']:
                 mongo.client.tables.delete_one({'_id': table})
             mongo.client.sources.update({'_id': g_source_doc['_id']}, {'$set': {'tables': []}})
@@ -119,7 +119,7 @@ def crawl_metadata():
     elif g_source_doc['sourceType'] == 'sftp':
         params['connection'] = connection
         params['hive_schema'] = g_source_doc['hive_schema']
-        params['tables'] = g_source_doc['tables']
+        params['tables'] = [str(table_id) for table_id in g_source_doc['tables']]
     else:
         print 'Unknown source type ' + g_source_doc['sourceType']
         misc.backround_process_terminate()
@@ -180,7 +180,7 @@ def crawl_data():
         params['crawl'] = 'data'
         params['source'] = str(g_source_doc['_id'])
         params['hive_schema'] = g_source_doc['hive_schema']
-        params['tables'] = g_source_doc['tables']
+        params['tables'] = [{'_id': {'$type': 'oid', '$value': str(table_id)}} for table_id in g_source_doc['tables']]
     elif g_source_doc['sourceType'] == 'rdbms':
         # Get the tables that need to be crawled and the partition keys for the tables
         tables = g_test_object.get('tables', [])
