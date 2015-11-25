@@ -311,9 +311,9 @@ def validate_data_callback(error, result):
 
 def validate_data_done_callback(error, result):
     if error:
-        misc.backround_process_terminate()
+        misc.backround_process_terminate(True)
         return
-    
+
     print 'Validating data of datamodel completed.'
     misc.backround_process_terminate(True)
     return
