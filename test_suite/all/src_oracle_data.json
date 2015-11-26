@@ -1,14 +1,190 @@
+
 {
-    "config": {
-        "connection_string": "jdbc:oracle:thin:@54.204.113.74:1521:xe", 
-        "database": "ORACLE", 
-        "driver_name": "oracle.jdbc.driver.OracleDriver", 
-        "hdfs_path": "/sqoop/iw/oracle_data", 
-        "name": "oracle_data", 
-        "password": "test_database", 
-        "schema": "TEST_DATABASE", 
-        "sourceType": "rdbms", 
-        "username": "test_database"
-    }, 
-    "entityType": "source"
+  "entityType": "source",
+  "config": {
+    "name": "oracle_data",
+    "sourceType": "rdbms",
+    "hdfs_path": "/sqoop/iw/oracle_data",
+    "hive_schema": "oracle_data",
+    "tables": [
+      {
+        "table": "TEST_LARGEOBJECTS_DATATYPES",
+        "configuration": {
+          "ingest": true,
+          "partition_key": null,
+          "partition_key_derive_function": "",
+          "partition_key_derive_column": "",
+          "natural_key": [
+            "INT_COL"
+          ],
+          "sync_type": ""
+        }
+      },
+      {
+        "table": "TEST_DATETIME_DATATYPES",
+        "configuration": {
+          "ingest": true,
+          "partition_key": null,
+          "partition_key_derive_function": "",
+          "partition_key_derive_column": "",
+          "natural_key": [
+            "INT_COL"
+          ],
+          "sync_type": ""
+        }
+      },
+      {
+        "table": "ROOT_TABLE",
+        "configuration": {
+          "ingest": true,
+          "partition_key": null,
+          "partition_key_derive_function": "",
+          "partition_key_derive_column": "",
+          "natural_key": [
+            "COL_PK"
+          ],
+          "sync_type": ""
+        }
+      },
+      {
+        "table": "TEST_CHAR_DATATYPES",
+        "configuration": {
+          "ingest": true,
+          "partition_key": null,
+          "partition_key_derive_function": "",
+          "partition_key_derive_column": "",
+          "natural_key": [
+            "INT_COL"
+          ],
+          "sync_type": ""
+        }
+      },
+      {
+        "table": "TEST_MISC_DATATYPES",
+        "configuration": {
+          "ingest": true,
+          "partition_key": null,
+          "partition_key_derive_function": "",
+          "partition_key_derive_column": "",
+          "natural_key": [
+            "INT_COL"
+          ],
+          "sync_type": ""
+        }
+      },
+      {
+        "table": "TEST_ORC_KEYWORDS",
+        "configuration": {
+          "ingest": true,
+          "partition_key": null,
+          "partition_key_derive_function": "",
+          "partition_key_derive_column": "",
+          "natural_key": [
+            "INTEGER_COL"
+          ],
+          "sync_type": ""
+        }
+      },
+      {
+        "table": "TEST_SPECIALCHAR",
+        "configuration": {
+          "ingest": true,
+          "partition_key": null,
+          "partition_key_derive_function": "",
+          "partition_key_derive_column": "",
+          "natural_key": [
+            "INTEGER_COL"
+          ],
+          "sync_type": ""
+        }
+      },
+      {
+        "table": "ORACLE_KEYWORDS",
+        "configuration": {
+          "ingest": true,
+          "partition_key": null,
+          "partition_key_derive_function": "",
+          "partition_key_derive_column": "",
+          "natural_key": [
+            "INT_COL"
+          ],
+          "sync_type": ""
+        }
+      },
+      {
+        "table": "TEST_AVRO_KEYWORDS",
+        "configuration": {
+          "ingest": true,
+          "partition_key": null,
+          "partition_key_derive_function": "",
+          "partition_key_derive_column": "",
+          "natural_key": [
+            "INTEGER_COL"
+          ],
+          "sync_type": ""
+        }
+      },
+      {
+        "table": "TEST_HBASE_KEYWORDS",
+        "configuration": {
+          "ingest": true,
+          "partition_key": null,
+          "partition_key_derive_function": "",
+          "partition_key_derive_column": "",
+          "natural_key": [
+            "INTEGER_COL"
+          ],
+          "sync_type": ""
+        }
+      },
+      {
+        "table": "TEST_HIVE_KEYWORDS",
+        "configuration": {
+          "ingest": true,
+          "partition_key": null,
+          "partition_key_derive_function": "",
+          "partition_key_derive_column": "",
+          "natural_key": [
+            "INTEGER_COL"
+          ],
+          "sync_type": ""
+        }
+      },
+      {
+        "table": "TEST_NUMERIC_DATATYPES",
+        "configuration": {
+          "ingest": true,
+          "partition_key": null,
+          "partition_key_derive_function": "",
+          "partition_key_derive_column": "",
+          "natural_key": [
+            "INT_COL"
+          ],
+          "sync_type": ""
+        }
+      },
+      {
+        "table": "TEST_JAVA_KEYWORDS",
+        "configuration": {
+          "ingest": true,
+          "partition_key": null,
+          "partition_key_derive_function": "",
+          "partition_key_derive_column": "",
+          "natural_key": [
+            "INTEGER_COL"
+          ],
+          "sync_type": ""
+        }
+      }
+    ],
+    "connection_string": "jdbc:oracle:thin:@52.5.131.69:1521:xe",
+    "username": "oracle_datatypes",
+    "password": "oracle",
+    "schema": "ORACLE_DATATYPES",
+    "dns": "",
+    "private_key": "",
+    "database": "ORACLE",
+    "driver_name": "oracle.jdbc.driver.OracleDriver"
+  }
 }
+
