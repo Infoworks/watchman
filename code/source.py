@@ -8,6 +8,7 @@ import socket
 g_test_object = {}
 g_source_doc = {}
 g_force_crawl = True
+g_tables_to_validate = []
 
 
 def main(config_path):
@@ -205,6 +206,7 @@ def crawl_data():
                                        multi=True, upsert=True)
         for t in tables:
             t['_id'] = {'$type': 'oid', '$value': str(t['_id'])}
+            g_tables_to_validate.append({'_id': t['_id']})
 
         params['database'] = connection['database']
         params['driver'] = connection['driver_name']
@@ -261,6 +263,7 @@ def validate_data():
     params = {
         'entityType': 'source',
         'entityId': str(g_source_doc['_id']),
+        'tables': g_tables_to_validate,
     }
     job = {
         'jobType': 'source_validate',
