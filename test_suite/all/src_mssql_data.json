@@ -6,7 +6,7 @@
         "driver_name": "net.sourceforge.jtds.jdbc.Driver", 
         "hdfs_path": "/sqoop/iw/mssql_data", 
         "name": "mssql_data", 
-        "password": "infoworks", 
+        "password": "aW5mb3dvcmtz", 
         "private_key": "", 
         "schema": "dbo", 
         "sourceType": "rdbms", 

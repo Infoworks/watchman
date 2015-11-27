@@ -6,7 +6,7 @@
         "driver_name": "net.sourceforge.jtds.jdbc.Driver", 
         "hdfs_path": "/sqoop/iw/mssql_pbm_small", 
         "name": "mssql_pbm_small", 
-        "password": "infoworks", 
+        "password": "aW5mb3dvcmtz", 
         "private_key": "", 
         "schema": "dbo", 
         "sourceType": "rdbms", 

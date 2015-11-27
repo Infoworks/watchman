@@ -403,7 +403,7 @@
     "driver_name": "oracle.jdbc.driver.OracleDriver",
     "dns": "",
     "connection_string": "jdbc:oracle:thin:@52.23.234.232:1521:xe",
-    "password": "krdeepak12",
+    "password": "a3JkZWVwYWsxMg==",
     "schema": "KRD"
   }
 }

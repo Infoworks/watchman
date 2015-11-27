@@ -5,7 +5,7 @@
         "driver_name": "com.mysql.jdbc.Driver", 
         "hdfs_path": "/sqoop/iw/mysql_northwind", 
         "name": "mysql_northwind", 
-        "password": "123", 
+        "password": "MTIz", 
         "schema": "northwind", 
         "sourceType": "rdbms", 
         "username": "root"
