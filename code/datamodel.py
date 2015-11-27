@@ -224,15 +224,22 @@ def get_datamodel_table_id_for_table(source, table):
         new_dm_table['datamodelId'] = g_datamodel_doc['_id']
         
         # check for transformations in config
-        if g_dm_object.get('transformations'):
-            if g_dm_object['transformations'].get(source) and g_dm_object['transformations'][source].get(table):
-                new_dm_table['transform_rules'] = g_dm_object['transformations'][source][table]
+        try:
+            new_dm_table['transform_rules'] = g_dm_object['transformations'][source][table]
+        except KeyError:
+            pass
 
         new_dm_table_id = mongo.client.datamodel_tables.insert(new_dm_table)
 
         print 'Inserted dm_table: "%s"' % new_dm_table_id
         return new_dm_table_id
     else:
+        try:
+            mongo.client.datamodel_tables.update_one(
+                {'_id': dm_table_doc['_id']},
+                {'$set': {'transform_rules': g_dm_object['transformations'][source][table]}})
+        except KeyError:
+            pass
         return dm_table_doc['_id']
 
 
