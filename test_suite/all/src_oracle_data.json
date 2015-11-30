@@ -1,190 +1,243 @@
-
 {
   "entityType": "source",
   "config": {
-    "name": "oracle_data",
+    "name": "teradata_data",
     "sourceType": "rdbms",
-    "hdfs_path": "/sqoop/iw/oracle_data",
-    "hive_schema": "oracle_data",
+    "hdfs_path": "/sqoop/iw/teradata_data",
+    "hive_schema": "teradata_data",
     "tables": [
       {
-        "table": "TEST_LARGEOBJECTS_DATATYPES",
+        "table": "test_avro_keywords",
         "configuration": {
-          "ingest": true,
-          "partition_key": null,
-          "partition_key_derive_function": "",
-          "partition_key_derive_column": "",
+          "sync_type": "",
           "natural_key": [
-            "INT_COL"
+            "integer_col"
           ],
-          "sync_type": ""
+          "ingest": true,
+          "partition_key_derive_function": "",
+          "partition_key": null,
+          "partition_key_derive_column": ""
         }
       },
       {
-        "table": "TEST_DATETIME_DATATYPES",
+        "table": "test_datatype_binary",
         "configuration": {
-          "ingest": true,
-          "partition_key": null,
-          "partition_key_derive_function": "",
-          "partition_key_derive_column": "",
+          "sync_type": "",
           "natural_key": [
-            "INT_COL"
+            "integer_col"
           ],
-          "sync_type": ""
+          "ingest": true,
+          "partition_key_derive_function": "",
+          "partition_key": null,
+          "partition_key_derive_column": ""
         }
       },
       {
-        "table": "ROOT_TABLE",
+        "table": "test_datatype_interval",
         "configuration": {
-          "ingest": true,
-          "partition_key": null,
-          "partition_key_derive_function": "",
-          "partition_key_derive_column": "",
+          "sync_type": "",
           "natural_key": [
-            "COL_PK"
+            "integer_col"
           ],
-          "sync_type": ""
+          "ingest": true,
+          "partition_key_derive_function": "complete-value",
+          "partition_key": [
+            "integer_col"
+          ],
+          "partition_key_derive_column": "integer_col"
         }
       },
       {
-        "table": "TEST_CHAR_DATATYPES",
+        "table": "test_datatype_numdec",
         "configuration": {
-          "ingest": true,
-          "partition_key": null,
-          "partition_key_derive_function": "",
-          "partition_key_derive_column": "",
+          "sync_type": "",
           "natural_key": [
-            "INT_COL"
+            "col_row"
           ],
-          "sync_type": ""
+          "ingest": true,
+          "partition_key_derive_function": "complete-value",
+          "partition_key": [
+            "col_row"
+          ],
+          "partition_key_derive_column": "col_row"
         }
       },
       {
-        "table": "TEST_MISC_DATATYPES",
+        "table": "test_datatype_numeric",
         "configuration": {
-          "ingest": true,
-          "partition_key": null,
-          "partition_key_derive_function": "",
-          "partition_key_derive_column": "",
+          "sync_type": "",
           "natural_key": [
-            "INT_COL"
+            "col_num"
           ],
-          "sync_type": ""
+          "ingest": true,
+          "partition_key_derive_function": "complete-value",
+          "partition_key": [
+            "col_num"
+          ],
+          "partition_key_derive_column": "col_num"
         }
       },
       {
-        "table": "TEST_ORC_KEYWORDS",
+        "table": "test_datatype_period",
         "configuration": {
-          "ingest": true,
-          "partition_key": null,
-          "partition_key_derive_function": "",
-          "partition_key_derive_column": "",
+          "sync_type": "",
           "natural_key": [
-            "INTEGER_COL"
+            "integer_col"
           ],
-          "sync_type": ""
+          "ingest": true,
+          "partition_key_derive_function": "",
+          "partition_key": null,
+          "partition_key_derive_column": ""
         }
       },
       {
-        "table": "TEST_SPECIALCHAR",
+        "table": "test_datatype_string",
         "configuration": {
-          "ingest": true,
-          "partition_key": null,
-          "partition_key_derive_function": "",
-          "partition_key_derive_column": "",
+          "sync_type": "",
           "natural_key": [
-            "INTEGER_COL"
+            "column_num"
           ],
-          "sync_type": ""
+          "ingest": true,
+          "partition_key_derive_function": "complete-value",
+          "partition_key": [
+            "column_num"
+          ],
+          "partition_key_derive_column": "column_num"
         }
       },
       {
-        "table": "ORACLE_KEYWORDS",
+        "table": "test_hbase_keywords",
         "configuration": {
-          "ingest": true,
-          "partition_key": null,
-          "partition_key_derive_function": "",
-          "partition_key_derive_column": "",
+          "sync_type": "",
           "natural_key": [
-            "INT_COL"
+            "integer_col"
           ],
-          "sync_type": ""
+          "ingest": true,
+          "partition_key_derive_function": "",
+          "partition_key": null,
+          "partition_key_derive_column": ""
         }
       },
       {
-        "table": "TEST_AVRO_KEYWORDS",
+        "table": "test_orc_keywords",
         "configuration": {
-          "ingest": true,
-          "partition_key": null,
-          "partition_key_derive_function": "",
-          "partition_key_derive_column": "",
+          "sync_type": "",
           "natural_key": [
-            "INTEGER_COL"
+            "integer_col"
           ],
-          "sync_type": ""
+          "ingest": true,
+          "partition_key_derive_function": "",
+          "partition_key": null,
+          "partition_key_derive_column": ""
         }
       },
       {
-        "table": "TEST_HBASE_KEYWORDS",
+        "table": "data_view",
         "configuration": {
-          "ingest": true,
-          "partition_key": null,
-          "partition_key_derive_function": "",
-          "partition_key_derive_column": "",
+          "sync_type": "",
           "natural_key": [
-            "INTEGER_COL"
+            "column_num"
           ],
-          "sync_type": ""
+          "ingest": true,
+          "partition_key_derive_function": "complete-value",
+          "partition_key": [
+            "column_num"
+          ],
+          "partition_key_derive_column": "column_num"
         }
       },
       {
-        "table": "TEST_HIVE_KEYWORDS",
+        "table": "root_table",
         "configuration": {
-          "ingest": true,
-          "partition_key": null,
-          "partition_key_derive_function": "",
-          "partition_key_derive_column": "",
+          "sync_type": "",
           "natural_key": [
-            "INTEGER_COL"
+            "col_pk"
           ],
-          "sync_type": ""
+          "ingest": true,
+          "partition_key_derive_function": "complete-value",
+          "partition_key": [
+            "col_pk"
+          ],
+          "partition_key_derive_column": "col_pk"
         }
       },
       {
-        "table": "TEST_NUMERIC_DATATYPES",
+        "table": "test_datatype_datetime",
         "configuration": {
-          "ingest": true,
-          "partition_key": null,
-          "partition_key_derive_function": "",
-          "partition_key_derive_column": "",
+          "sync_type": "",
           "natural_key": [
-            "INT_COL"
+            "col_num1"
           ],
-          "sync_type": ""
+          "ingest": true,
+          "partition_key_derive_function": "complete-value",
+          "partition_key": [
+            "col_num1"
+          ],
+          "partition_key_derive_column": "col_num1"
         }
       },
       {
-        "table": "TEST_JAVA_KEYWORDS",
+        "table": "test_specialchar",
         "configuration": {
-          "ingest": true,
-          "partition_key": null,
-          "partition_key_derive_function": "",
-          "partition_key_derive_column": "",
+          "sync_type": "",
           "natural_key": [
-            "INTEGER_COL"
+            "integer_col"
           ],
-          "sync_type": ""
+          "ingest": true,
+          "partition_key_derive_function": "",
+          "partition_key": null,
+          "partition_key_derive_column": ""
+        }
+      },
+      {
+        "table": "test_hive_keywords",
+        "configuration": {
+          "sync_type": "",
+          "natural_key": [
+            "integer_col"
+          ],
+          "ingest": true,
+          "partition_key_derive_function": "",
+          "partition_key": null,
+          "partition_key_derive_column": ""
+        }
+      },
+      {
+        "table": "test_datatype_char",
+        "configuration": {
+          "sync_type": "",
+          "natural_key": [
+            "integer_col"
+          ],
+          "ingest": true,
+          "partition_key_derive_function": "complete-value",
+          "partition_key": [
+            "integer_col"
+          ],
+          "partition_key_derive_column": "integer_col"
+        }
+      },
+      {
+        "table": "test_java_keywords",
+        "configuration": {
+          "sync_type": "",
+          "natural_key": [
+            "integer_col"
+          ],
+          "ingest": true,
+          "partition_key_derive_function": "",
+          "partition_key": null,
+          "partition_key_derive_column": ""
         }
       }
     ],
-    "connection_string": "jdbc:oracle:thin:@52.5.131.69:1521:xe",
-    "username": "oracle_datatypes",
-    "password": "oracle",
-    "schema": "ORACLE_DATATYPES",
-    "dns": "",
+    "username": "DBC",
     "private_key": "",
-    "database": "ORACLE",
-    "driver_name": "oracle.jdbc.driver.OracleDriver"
+    "database": "TERADATA",
+    "driver_name": "com.teradata.jdbc.TeraDriver",
+    "dns": "",
+    "connection_string": "jdbc:teradata://ec2-54-144-76-210.compute-1.amazonaws.com/TMODE=ANSI,CHARSET=UTF8,database=datatypes",
+    "password": "infoworks",
+    "schema": "datatypes"
   }
 }
-
