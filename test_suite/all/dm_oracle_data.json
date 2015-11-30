@@ -18,7 +18,7 @@
           "derive A_day using day(DATE_COL); ",
           "derive A_dayotheweek using dayofweek(DATE_COL); ",
           "derive A_weekno using dayofweek(DATE_COL); ",
-          "derive A_quartar using quartar(DATE_COL); ",
+          "derive A_quartar using quarter(DATE_COL); ",
           "derive A_formatdate using formatdate(DATE_COL,\"yyyy-MMM-dd\"); "
         ],
         "TEST_CHAR_DATATYPES": [
