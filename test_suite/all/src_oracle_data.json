@@ -33,6 +33,19 @@
         }
       },
       {
+        "table": "TEST_LARGEOBJECTS_DATATYPES",
+        "configuration": {
+          "ingest": true,
+          "partition_key": null,
+          "partition_key_derive_function": "",
+          "partition_key_derive_column": "",
+          "natural_key": [
+            "INT_COL"
+          ],
+          "sync_type": ""
+        }
+      },
+      {
         "table": "TEST_NUMERIC_DATATYPES",
         "configuration": {
           "sync_type": "",
