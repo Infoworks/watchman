@@ -1,5 +1,9 @@
 {
   "entityType": "datamodel",
+  "dependsOn": [
+    "domain_create.json",
+    "src_oracle_data.json"
+  ],
   "config": {
     "name": "Datamodel_oracle",
     "domain": "Testdomain_oracle",
