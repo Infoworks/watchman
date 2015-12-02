@@ -143,7 +143,7 @@
     "driver_name": "com.teradata.jdbc.TeraDriver",
     "dns": "",
     "connection_string": "jdbc:teradata://ec2-54-144-76-210.compute-1.amazonaws.com/TMODE=ANSI,CHARSET=UTF8,database=datatypes",
-    "password": "infoworks",
+    "password": "aW5mb3dvcmtz",
     "schema": "datatypes"
   }
 }

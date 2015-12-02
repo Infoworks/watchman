@@ -117,7 +117,7 @@
     "driver_name": "oracle.jdbc.driver.OracleDriver",
     "dns": "",
     "connection_string": "jdbc:oracle:thin:@52.5.131.69:1521:xe",
-    "password": "northwind",
+    "password": "bm9ydGh3aW5k",
     "schema": "NORTHWIND"
   }
 }

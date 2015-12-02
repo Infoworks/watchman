@@ -5,7 +5,7 @@
         "driver_name": "com.mysql.jdbc.Driver", 
         "hdfs_path": "/sqoop/iw/mysql_data", 
         "name": "mysql_data", 
-        "password": "123", 
+        "password": "MTIz", 
         "schema": "test_mysql", 
         "sourceType": "rdbms", 
         "username": "root"

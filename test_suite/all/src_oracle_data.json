@@ -78,7 +78,7 @@
     "driver_name": "oracle.jdbc.driver.OracleDriver",
     "dns": "",
     "connection_string": "jdbc:oracle:thin:@52.5.131.69:1521:xe",
-    "password": "oracle",
+    "password": "b3JhY2xl",
     "schema": "ORACLE_DATATYPES"
   }
 }
