@@ -144,10 +144,11 @@ INSERT INTO binary_data VALUES (7, 'ffd8ffe000104a46494600010100000100010000ffdb
 ----------------
 DROP TABLE graphic_data;
 CREATE MULTISET TABLE graphic_data (
+	col_pk		INTEGER,
 	col_graphic	GRAPHIC(100),
 	col_vargraphic	VARGRAPHIC(100)
 );
-INSERT INTO graphic_data VALUES (1, );
+INSERT INTO graphic_data VALUES (1, , );
 
 -------------
 --datatype char
@@ -462,10 +463,9 @@ CREATE MULTISET TABLE special_char (
 	"\b"	INTEGER,
 	","	INTEGER,
 	":"	INTEGER,
-	"\"	INTEGER,
 	"\"	INTEGER
 );
 INSERT INTO special_char VALUES (1, 1, 1, 1, 1, 1, 1, 1, 1);
 
-CREATE VIEW data_view AS SELECT * FROM string_data, numeric_data, datetime_data, interval_data;
+CREATE VIEW data_view AS SELECT * FROM string_data;
 
