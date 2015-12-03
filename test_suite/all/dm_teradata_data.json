@@ -1,9 +1,5 @@
 {
   "entityType": "datamodel",
-  "dependsOn": [
-    "domain_create.json",
-    "src_teradata_data.json"
-  ],
   "config": {
     "name": "datamodel_teradata_data",
     "domain": "TestDomain",
@@ -12,129 +8,73 @@
     ],
     "transformations": {
       "teradata_data": {
-              "test_datatype_datetime": [
-          "derive A_date using date(date_col);",
-          "derive A_time using time(time_col);",
-          "derive A_monthname using monthname(date_col);",
-          "derive A_year using year(date_col);",
-          "derive A_day using day(date_col);",
-          "derive A_dayotheweek using dayofweek(date_col);",
-          "derive A_weekno using dayofweek(date_col);",
-          "derive A_diff using datediff(date_col,ZIW_START_DATE);",
-          "derive A_formatdate using formatdate(date_col,\"yyyy-MMM-dd\");",
-          "derive A_quartar using quarter(date_col);"
-        ],
         "test_datatype_numeric": [
-          "replace $2 using ($2 > 3) ? 1 : 0; ",
+          "replace $2 using ($2 > 3) ? 1 : 0;",
           "replace $2 using ($1 < 3) ? 1 : 0;",
           "replace $3 using ($1 <= 3) ? 1 : 0;",
           "replace $3 using ($4 >= 3) ? 1 : 0;",
           "replace $3 using ($4 == 3) ? 1 : 0;",
-          "replace $3 using ($1 != 3) ? 1 : 0; ",
-          "derive col_abs using abs(byteint_col);",
-          "derive col_add_res using byteint_col+byteint_col;",
-          "derive col_sub_res using smallint_col-int_col;",
-          "derive col_mul_res using int_col/integer_col; ",
-          "derive col_and_res using double_precision_col&&bigint_col;",
-          "derive col_or_res using bigint_col||decimal_col; ",
-          "derive col_not_res using !numeric_col; ",
-          "derive col_pow using pow(numeric_col,2);",
-          "derive col_exp using exp(decimal_col);",
-          "derive col_log using log(numeric_col); ",
+          "replace $3 using ($1 != 3) ? 1 : 0;",
+          "derive col_sqrt using sqrt(bigint_col);",
+          "derive col_floor using floor(bigint_col);",
           "derive col_ceil using ceil(bigint_col);",
-          "derive col_floor using floor(bigint_col); ",
-          "derive col_sqrt using sqrt(bigint_col);"
+          "derive col_log using log(numeric_col);",
+          "derive col_exp using exp(decimal_col);",
+          "derive col_pow using pow(numeric_col,2);",
+          "derive col_not_res using !numeric_col;",
+          "derive col_or_res using bigint_col||decimal_col;",
+          "derive col_and_res using double_precision_col&&bigint_col;",
+          "derive col_abs using abs(byteint_col);",
+          "derive col_mul_res using int_col/integer_col;",
+          "derive col_sub_res using smallint_col-int_col;",
+          "derive col_add_res using byteint_col+byteint_col;"
+        ],
+        "test_datatype_datetime": [
+          "derive A_quartar using quarter(date_col);",
+          "derive A_formatdate using formatdate(date_col,\"yyyy-MMM-dd\");",
+          "derive A_diff using datediff(date_col,ZIW_START_DATE);",
+          "derive A_date using date(date_col);",
+          "derive A_weekno using dayofweek(date_col);",
+          "derive A_time using time(time_col);",
+          "derive A_dayotheweek using dayofweek(date_col);",
+          "derive A_monthname using monthname(date_col);",
+          "derive A_monthname using monthname(date_col);",
+          "derive A_day using day(date_col);",
+          "derive A_year using year(date_col);",
+          "derive A_day using day(date_col);"
         ],
         "test_datatype_string": [
-          "split charcol using splitter(\"a\",10);",
-          "split char_varyingcol using splitter(\"[s]+\",3);",
-          "split varcharcol using splitter(\"[abc]\",3); ",
-          "derive col_lower using lower(varcharcol);",
-          "derive col_upper using upper(charcol); ",
-          "derive col_trim using trim(varcharcol); ",
-          "derive col_left using left(varcharcol,3); "
+          "split charcol using splitter(\"a\",10);  ",
+          "split char_varyingcol using splitter(\"[s]+\",3);  ",
+          "split varcharcol using splitter(\"[abc]\",3);  ",
+          "derive col_lower using lower(varcharcol);  ",
+          "derive col_upper using upper(charcol);  ",
+          "derive col_trim using trim(varcharcol);  ",
+          "derive col_left using left(varcharcol,3);  "
         ]
       }
     },
-    "hdfs_path": "/Datamodel_test",
-    "hive_schema": "Datamodel_test",
+    "hdfs_path": "/datamodels/iw/datamodel_teradata_data",
+    "hive_schema": "datamodel_teradata_data",
     "treemap": {
-      "nodeindex": 1,
+      "nodeindex": 17,
       "children": [
         {
-          "nodeindex": 3,
+          "nodeindex": 18,
           "breadCrumb": "root_table",
-          "children": [
-            {
-              "nodeindex": 4,
-              "breadCrumb": "root_table > test_datatype_datetime",
-              "join": {
-                "op": "AND",
-                "predicates": [
-                  {
-                    "p_col": "col_num1",
-                    "c_col": "integer_col",
-                    "op": "equals"
-                  }
-                ]
-              },
-              "discovered_cardinality": {
-                "parent": "one",
-                "self_optional": true,
-                "parent_optional": true,
-                "self": "one"
-              },
-              "source": "teradata_data",
-              "table": "test_datatype_period"
-            },
-            {
-              "nodeindex": 5,
-              "breadCrumb": "root_table > test_datatype_datetime",
-              "join": {
-                "op": "AND",
-                "predicates": [
-                  {
-                    "p_col": "col_num1",
-                    "c_col": "integer_col",
-                    "op": "equals"
-                  }
-                ]
-              },
-              "discovered_cardinality": {
-                "parent": "one",
-                "self_optional": true,
-                "parent_optional": true,
-                "self": "one"
-              },
-              "source": "teradata_data",
-              "table": "test_datatype_interval"
-            }
-          ],
           "join": {
             "op": "AND",
             "predicates": [
               {
                 "p_col": "col_pk",
-                "c_col": "col_num1",
+                "c_col": "col_num",
                 "op": "equals"
               }
             ]
           },
-          "discovered_cardinality": {
-            "parent": "one",
-            "self_optional": false,
-            "parent_optional": true,
-            "self": "one"
-          },
-          "source": "teradata_data",
-          "table": "test_datatype_datetime"
-        },
-        {
-          "nodeindex": 6,
-          "breadCrumb": "root_table",
           "children": [
             {
-              "nodeindex": 7,
+              "nodeindex": 21,
               "breadCrumb": "root_table > test_datatype_numeric",
               "join": {
                 "op": "AND",
@@ -148,39 +88,107 @@
               },
               "discovered_cardinality": {
                 "parent": "one",
-                "self_optional": true,
                 "parent_optional": false,
-                "self": "one"
+                "self": "one",
+                "self_optional": true
               },
               "source": "teradata_data",
               "table": "test_datatype_numdec"
             }
           ],
-          "join": {
-            "op": "AND",
-            "predicates": [
-              {
-                "p_col": "col_pk",
-                "c_col": "col_num",
-                "op": "equals"
-              }
-            ]
-          },
           "discovered_cardinality": {
             "parent": "one",
-            "self_optional": false,
             "parent_optional": true,
-            "self": "one"
+            "self": "one",
+            "self_optional": false
           },
           "source": "teradata_data",
           "table": "test_datatype_numeric"
         },
         {
-          "nodeindex": 8,
+          "nodeindex": 19,
           "breadCrumb": "root_table",
+          "join": {
+            "op": "AND",
+            "predicates": [
+              {
+                "p_col": "col_pk",
+                "c_col": "col_num1",
+                "op": "equals"
+              }
+            ]
+          },
           "children": [
             {
-              "nodeindex": 9,
+              "nodeindex": 22,
+              "breadCrumb": "root_table > test_datatype_datetime",
+              "join": {
+                "op": "AND",
+                "predicates": [
+                  {
+                    "p_col": "col_num1",
+                    "c_col": "integer_col",
+                    "op": "equals"
+                  }
+                ]
+              },
+              "discovered_cardinality": {
+                "parent": "one",
+                "parent_optional": true,
+                "self": "one",
+                "self_optional": true
+              },
+              "source": "teradata_data",
+              "table": "test_datatype_interval"
+            },
+            {
+              "nodeindex": 23,
+              "breadCrumb": "root_table > test_datatype_datetime",
+              "join": {
+                "op": "AND",
+                "predicates": [
+                  {
+                    "p_col": "col_num1",
+                    "c_col": "integer_col",
+                    "op": "equals"
+                  }
+                ]
+              },
+              "discovered_cardinality": {
+                "parent": "one",
+                "parent_optional": true,
+                "self": "one",
+                "self_optional": true
+              },
+              "source": "teradata_data",
+              "table": "test_datatype_period"
+            }
+          ],
+          "discovered_cardinality": {
+            "parent": "one",
+            "parent_optional": true,
+            "self": "one",
+            "self_optional": false
+          },
+          "source": "teradata_data",
+          "table": "test_datatype_datetime"
+        },
+        {
+          "nodeindex": 20,
+          "breadCrumb": "root_table",
+          "join": {
+            "op": "AND",
+            "predicates": [
+              {
+                "p_col": "col_pk",
+                "c_col": "column_num",
+                "op": "equals"
+              }
+            ]
+          },
+          "children": [
+            {
+              "nodeindex": 24,
               "breadCrumb": "root_table > test_datatype_string",
               "join": {
                 "op": "AND",
@@ -194,36 +202,26 @@
               },
               "discovered_cardinality": {
                 "parent": "one",
-                "self_optional": true,
                 "parent_optional": false,
-                "self": "one"
+                "self": "one",
+                "self_optional": true
               },
               "source": "teradata_data",
               "table": "test_datatype_char"
             }
           ],
-          "join": {
-            "op": "AND",
-            "predicates": [
-              {
-                "p_col": "col_pk",
-                "c_col": "column_num",
-                "op": "equals"
-              }
-            ]
-          },
           "discovered_cardinality": {
             "parent": "one",
-            "self_optional": false,
             "parent_optional": true,
-            "self": "one"
+            "self": "one",
+            "self_optional": false
           },
           "source": "teradata_data",
           "table": "test_datatype_string"
         }
       ],
       "treemapId": {
-        "_str": "5659b1ceb800680afb1ff2c9"
+        "_str": "565e9e25b3503e07c27763da"
       },
       "source": "teradata_data",
       "table": "root_table"
