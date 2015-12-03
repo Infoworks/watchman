@@ -21,12 +21,12 @@ def check_job_status(job_id, callback, sleep_duration=1):
                 print '%s %s (%s) - canceled!' % (job_doc['jobType'], job_doc['entityId'], job_id)
                 callback('job failed', None)
                 return
-            elif job_doc['status'] == 'failed' or job_doc['queueingStatus'] in ('blocked', 'dequeued'):
+            elif job_doc['status'] in ('failed', 'blocked') or job_doc['queueingStatus'] == 'dequeued':
                 print '==============='
                 print 'Job %s of %s failed! To track the error, go to:' % (job_doc['jobType'], job_name)
                 print 'http://%s:3000/admin/%s' % (
                     check_output(['curl', '-s', 'http://169.254.169.254/latest/meta-data/public-ipv4']),
-                    'job_queue' if job_doc['queueingStatus'] == 'blocked' else 'job_logs?jobId=' + job_id
+                    'job_queue' if job_doc['status'] == 'blocked' else 'job_logs?jobId=' + job_id
                 )
                 print '==============='
 
