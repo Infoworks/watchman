@@ -1,14 +1,123 @@
 {
-    "config": {
-        "connection_string": "jdbc:mysql://127.0.0.1:3306/test_mysql", 
-        "database": "MYSQL", 
-        "driver_name": "com.mysql.jdbc.Driver", 
-        "hdfs_path": "/sqoop/iw/mysql_data", 
-        "name": "mysql_data", 
-        "password": "MTIz", 
-        "schema": "test_mysql", 
-        "sourceType": "rdbms", 
-        "username": "root"
-    }, 
-    "entityType": "source"
+  "entityType": "source",
+  "config": {
+    "name": "mysql_data",
+    "sourceType": "rdbms",
+    "hdfs_path": "/sqoop/iw/mysql_data",
+    "hive_schema": "mysql_data",
+    "tables": [
+      {
+        "table": "root_table",
+        "configuration": {
+          "natural_key": [
+            "col_pk"
+          ],
+          "partition_key": null,
+          "sync_type": "",
+          "ingest": true,
+          "partition_key_derive_function": "",
+          "partition_key_derive_column": ""
+        }
+      },
+      {
+        "table": "test_charset_specialchar",
+        "configuration": {
+          "natural_key": [
+            "col_pk"
+          ],
+          "partition_key": null,
+          "sync_type": "",
+          "ingest": true,
+          "partition_key_derive_function": "",
+          "partition_key_derive_column": ""
+        }
+      },
+      {
+        "table": "test_datatype_misc",
+        "configuration": {
+          "natural_key": [
+            "col_pk"
+          ],
+          "partition_key": null,
+          "sync_type": "",
+          "ingest": true,
+          "partition_key_derive_function": "",
+          "partition_key_derive_column": ""
+        }
+      },
+      {
+        "table": "test_datatype_numeric",
+        "configuration": {
+          "natural_key": [
+            "col_pk"
+          ],
+          "partition_key": null,
+          "sync_type": "",
+          "ingest": true,
+          "partition_key_derive_function": "",
+          "partition_key_derive_column": ""
+        }
+      },
+      {
+        "table": "test_datatype_binary",
+        "configuration": {
+          "natural_key": [
+            "col_pk"
+          ],
+          "partition_key": null,
+          "sync_type": "",
+          "ingest": true,
+          "partition_key_derive_function": "",
+          "partition_key_derive_column": ""
+        }
+      },
+      {
+        "table": "test_datatype_datetime",
+        "configuration": {
+          "natural_key": [
+            "col_pk"
+          ],
+          "partition_key": null,
+          "sync_type": "",
+          "ingest": true,
+          "partition_key_derive_function": "",
+          "partition_key_derive_column": ""
+        }
+      },
+      {
+        "table": "test_datatype_string",
+        "configuration": {
+          "natural_key": [
+            "col_pk"
+          ],
+          "partition_key": null,
+          "sync_type": "",
+          "ingest": true,
+          "partition_key_derive_function": "",
+          "partition_key_derive_column": ""
+        }
+      },
+      {
+        "table": "data_view",
+        "configuration": {
+          "natural_key": [
+            "col_integer"
+          ],
+          "partition_key": null,
+          "sync_type": "",
+          "ingest": true,
+          "partition_key_derive_function": "",
+          "partition_key_derive_column": ""
+        }
+      }
+    ],
+    "username": "mysql_user",
+    "private_key": "",
+    "database": "MYSQL",
+    "driver_name": "com.mysql.jdbc.Driver",
+    "dns": "",
+    "connection_string": "jdbc:mysql://ip-172-30-0-200.ec2.internal:3306/test_mysql",
+    "password": "MTIz",
+    "schema": "mysql_boundary"
+  }
 }
