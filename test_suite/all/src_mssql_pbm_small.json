@@ -1,17 +1,97 @@
 {
-    "config": {
-        "connection_string": "jdbc:jtds:sqlserver://54.211.168.124:1433/pbm_small", 
-        "database": "SQL Server", 
-        "dns": "", 
-        "driver_name": "net.sourceforge.jtds.jdbc.Driver", 
-        "hdfs_path": "/sqoop/iw/mssql_pbm_small", 
-        "name": "mssql_pbm_small", 
-        "password": "aW5mb3dvcmtz", 
-        "private_key": "", 
-        "schema": "dbo", 
-        "sourceType": "rdbms", 
-        "tables": [], 
-        "username": "hadoop"
-    }, 
-    "entityType": "source"
+  "entityType": "source",
+  "config": {
+    "name": "mssql_pbm_small",
+    "sourceType": "rdbms",
+    "hdfs_path": "/sqoop/iw/mssql_pbm_small",
+    "hive_schema": "mssql_pbm_small",
+    "tables": [
+      {
+        "table": "DRUG",
+        "configuration": {
+          "natural_key": [
+            "DRUG_ID"
+          ],
+          "partition_key": null,
+          "sync_type": "",
+          "ingest": true,
+          "partition_key_derive_function": "",
+          "partition_key_derive_column": ""
+        }
+      },
+      {
+        "table": "MEMBERS",
+        "configuration": {
+          "natural_key": [
+            "MBR_NBR"
+          ],
+          "partition_key": null,
+          "sync_type": "",
+          "ingest": true,
+          "partition_key_derive_function": "",
+          "partition_key_derive_column": ""
+        }
+      },
+      {
+        "table": "PRESCRIBER",
+        "configuration": {
+          "natural_key": [
+            "PRSCBR_ID"
+          ],
+          "partition_key": null,
+          "sync_type": "",
+          "ingest": true,
+          "partition_key_derive_function": "",
+          "partition_key_derive_column": ""
+        }
+      },
+      {
+        "table": "RX_PRESCRIPTION",
+        "configuration": {
+          "natural_key": [
+            "PRSCRT_ID"
+          ],
+          "partition_key": null,
+          "sync_type": "",
+          "ingest": true,
+          "partition_key_derive_function": "",
+          "partition_key_derive_column": ""
+        }
+      },
+      {
+        "table": "STORE",
+        "configuration": {
+          "natural_key": [
+            "STORE_ID"
+          ],
+          "partition_key": null,
+          "sync_type": "",
+          "ingest": true,
+          "partition_key_derive_function": "",
+          "partition_key_derive_column": ""
+        }
+      },
+      {
+        "table": "RX_FILL",
+        "configuration": {
+          "natural_key": [
+            "PRSCRT_FILL_ID"
+          ],
+          "partition_key": null,
+          "sync_type": "",
+          "ingest": true,
+          "partition_key_derive_function": "",
+          "partition_key_derive_column": ""
+        }
+      }
+    ],
+    "username": "hadoop",
+    "private_key": "",
+    "database": "SQL Server",
+    "driver_name": "net.sourceforge.jtds.jdbc.Driver",
+    "dns": "",
+    "connection_string": "jdbc:jtds:sqlserver://54.211.168.124:1433/pbm_small",
+    "password": "aW5mb3dvcmtz",
+    "schema": "dbo"
+  }
 }
