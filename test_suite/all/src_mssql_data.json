@@ -1,17 +1,84 @@
 {
-    "config": {
-        "connection_string": "jdbc:jtds:sqlserver://54.211.168.124:1433/datatypes", 
-        "database": "SQL Server", 
-        "dns": "", 
-        "driver_name": "net.sourceforge.jtds.jdbc.Driver", 
-        "hdfs_path": "/sqoop/iw/mssql_data", 
-        "name": "mssql_data", 
-        "password": "aW5mb3dvcmtz", 
-        "private_key": "", 
-        "schema": "dbo", 
-        "sourceType": "rdbms", 
-        "tables": [], 
-        "username": "hadoop"
-    }, 
-    "entityType": "source"
+  "entityType": "source",
+  "config": {
+    "name": "mssql_data",
+    "sourceType": "rdbms",
+    "hdfs_path": "/sqoop/iw/mssql_data",
+    "hive_schema": "mssql_data",
+    "tables": [
+      {
+        "table": "test_datatype_binary",
+        "configuration": {
+          "natural_key": [
+            "col_binary"
+          ],
+          "partition_key": null,
+          "sync_type": "",
+          "ingest": true,
+          "partition_key_derive_function": "",
+          "partition_key_derive_column": ""
+        }
+      },
+      {
+        "table": "test_datatype_datetime",
+        "configuration": {
+          "natural_key": [
+            "col_date"
+          ],
+          "partition_key": null,
+          "sync_type": "",
+          "ingest": true,
+          "partition_key_derive_function": "",
+          "partition_key_derive_column": ""
+        }
+      },
+      {
+        "table": "test_datatype_numeric",
+        "configuration": {
+          "natural_key": [
+            "col_tinyint"
+          ],
+          "partition_key": null,
+          "sync_type": "",
+          "ingest": true,
+          "partition_key_derive_function": "",
+          "partition_key_derive_column": ""
+        }
+      },
+      {
+        "table": "test_datatype_string",
+        "configuration": {
+          "natural_key": [
+            "col_char"
+          ],
+          "partition_key": null,
+          "sync_type": "",
+          "ingest": true,
+          "partition_key_derive_function": "",
+          "partition_key_derive_column": ""
+        }
+      },
+      {
+        "table": "data_view",
+        "configuration": {
+          "natural_key": [
+            "col_char"
+          ],
+          "partition_key": null,
+          "sync_type": "",
+          "ingest": true,
+          "partition_key_derive_function": "",
+          "partition_key_derive_column": ""
+        }
+      }
+    ],
+    "username": "hadoop",
+    "private_key": "",
+    "database": "SQL Server",
+    "driver_name": "net.sourceforge.jtds.jdbc.Driver",
+    "dns": "",
+    "connection_string": "jdbc:jtds:sqlserver://54.211.168.124:1433/datatypes",
+    "password": "aW5mb3dvcmtz",
+    "schema": "dbo"
+  }
 }
