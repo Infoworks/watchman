@@ -6,7 +6,7 @@
   ],
   "config": {
     "name": "Datamodel_oracle",
-    "domain": "Testdomain_oracle",
+    "domain": "Testdomain",
     "sources": [
       "oracle_data"
     ],
