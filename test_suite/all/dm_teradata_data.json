@@ -9,39 +9,50 @@
     "transformations": {
       "teradata_data": {
         "test_datatype_numeric": [
-          "replace $2 using ($2 > 3) ? 1 : 0;",
-          "replace $2 using ($1 < 3) ? 1 : 0;",
-          "replace $3 using ($1 <= 3) ? 1 : 0;",
-          "replace $3 using ($4 >= 3) ? 1 : 0;",
-          "replace $3 using ($4 == 3) ? 1 : 0;",
-          "replace $3 using ($1 != 3) ? 1 : 0;",
-          "derive col_sqrt using sqrt(bigint_col);",
-          "derive col_floor using floor(bigint_col);",
-          "derive col_ceil using ceil(bigint_col);",
-          "derive col_log using log(numeric_col);",
-          "derive col_exp using exp(decimal_col);",
-          "derive col_pow using pow(numeric_col,2);",
-          "derive col_not_res using !numeric_col;",
-          "derive col_or_res using bigint_col||decimal_col;",
-          "derive col_and_res using double_precision_col&&bigint_col;",
-          "derive col_abs using abs(byteint_col);",
-          "derive col_mul_res using int_col/integer_col;",
-          "derive col_sub_res using smallint_col-int_col;",
-          "derive col_add_res using byteint_col+byteint_col;"
+		"derive col_add_res using value/col_name+value/col_name;"
+		"derive col_sub_res using  value/col_name-value/col_name;"
+		"derive col_mul_res using  value/col_name*value/col_name;"
+		"derive col_div_res using value/col_name/value/col_name;"
+		"derive col_and_res using byteint_col&&byteint_col;"
+		"derive col_or_res using byteint_col||byteint_col;"
+		"derive col_not_res using !column_name;"
+		"derive col_abd_res using abs(column_name);"
+		"derive up using column_name * 1000;"
+		"derive col_log using log(col_name);"
+		"derive col_sqrt using sqrt(col_name);"
+		"derive col_pow using pow(col_name, value);"
+		"derive col_exp using exp(col_name);"
+		"derive col_ceil using ceil(col_name);"
+		"derive col_in using in(col_name);"
+		"derive col_floor using floor(col_name);"
+		"derive col_mod using col_num%col_name;"
+		"derive col_grt_res using (col_num > 10) ? 1 : 0 ;"
+		"derive col_grteql_res using (col_num >= 10) ? 1 : 0 ;"
+		"derive col_ler_res using (col_num < 10) ? 1 : 0 ;"
+		"derive col_lereql_res using (col_num <= 10) ? 1 : 0 ;"
+		"derive col_eql_res using (col_num == 10) ? 1 : 0 ;"
+		"derive col_noteql_res using (col_num != 10) ? 1 : 0 ;"
         ],
         "test_datatype_datetime": [
-          "derive A_quartar using quarter(date_col);",
-          "derive A_formatdate using formatdate(date_col,\"yyyy-MMM-dd\");",
-          "derive A_diff using datediff(date_col,ZIW_START_DATE);",
-          "derive A_date using date(date_col);",
-          "derive A_weekno using dayofweek(date_col);",
-          "derive A_time using time(time_col);",
-          "derive A_dayotheweek using dayofweek(date_col);",
-          "derive A_monthname using monthname(date_col);",
-          "derive A_monthname using monthname(date_col);",
-          "derive A_day using day(date_col);",
-          "derive A_year using year(date_col);",
-          "derive A_day using day(date_col);"
+		"derive A_date using date(date_col,\"yyyy-MMM-dd\");",
+		"derive A_interval using addinterval(timestamp, 2015, 12, 21, 21, 21, 21)
+		"derive A_Subinterval using subinterval(timestamp, 2015, 12, 21, 21, 21, 21)
+		"derive A_diff using datediff(date_col, ZIW_START_DATE);",
+		"derive A_formatdate using formatdate(date_col,\"yyyy-MMM-dd\");",
+		"derive TODAY using today();",
+		"derive A_daysbwt using daysbetween(date_col, ZIW_START_DATE);",
+		"derive SINCE as dayssince(date_col);",
+		"derive MBETWEEN as monthsbetween(date_col, ZIW_START_DATE);",
+		"derive MSINCE as monthssince(date_col);",
+		"derive YBETWEEN as monthsbetween(date_col, ZIW_START_DATE);",
+		"derive YSINCE as monthssince(date_col);",
+		"derive A_month using month(date_col);",
+		"derive A_monthname using monthname(date_col);",
+		"derive A_year using year(date_col);",
+		"derive A_day using day(date_col);",
+		"derive A_quartar using quarter(date_col);",
+		"derive A_dayofweek using dayofweek(date_col);",
+		"derive A_weekno using weeknumber(date_col);"
         ],
         "test_datatype_string": [
           "split charcol using splitter(\"a\",10);  ",
