@@ -108,15 +108,8 @@ def crawl_metadata():
         'crawl': 'schema'
     }
     if g_source_doc['sourceType'] == 'rdbms':
-        params['database'] = connection['database']
-        params['driver'] = connection['driver_name']
-        params['dns'] = connection['dns']
-        params['private_key'] = connection['private_key']
-        params['schema'] = connection['schema']
+        params['connection'] = connection
         params['overwrite'] = 'true'
-        params['url'] = connection['connection_string']
-        params['username'] = connection['username']
-        params['password'] = connection['password']
     elif g_source_doc['sourceType'] == 'sftp':
         params['connection'] = connection
         params['hive_schema'] = g_source_doc['hive_schema']
@@ -208,16 +201,9 @@ def crawl_data():
             t['_id'] = {'$type': 'oid', '$value': str(t['_id'])}
             g_tables_to_validate.append({'_id': t['_id']})
 
-        params['database'] = connection['database']
-        params['driver'] = connection['driver_name']
-        params['dns'] = connection['dns']
-        params['private_key'] = connection['private_key']
-        params['schema'] = connection['schema']
+        params['connection'] = connection
         params['overwrite'] = 'true'
         params['source'] = str(g_source_doc['_id'])
-        params['url'] = connection['connection_string']
-        params['username'] = connection['username']
-        params['password'] = connection['password']
         params['crawl'] = 'data'
         params['tables'] = tables
 
