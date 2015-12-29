@@ -3,6 +3,7 @@
     "dependsOn": [
     "domain_create.json",
     "src_teradata_data.json"
+    ],
   "config": {
     "name": "datamodel_teradata_data",
     "domain": "TestDomain",
