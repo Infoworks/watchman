@@ -12,14 +12,8 @@ def main(config_path):
 
     params = {
         'source': str(source_doc['_id']),
-        'schema': source_doc['connection']['schema'],
-        'database': source_doc['connection']['database'],
-        'driver': source_doc['connection']['driver_name'],
-        'dns': source_doc['connection']['dns'],
-        'private_key': source_doc['connection']['private_key'],
-        'url': source_doc['connection']['connection_string'],
-        'username': source_doc['connection']['username'],
-        'password': source_doc['connection']['password']
+        'connection': source_doc['connection'],
+        'tables': [{'_id': {'$type': 'oid', '$value': str(i)}} for i in source_doc['tables']],
     }
     cdc.do_job('source_cdc', source_doc['_id'], params)
 

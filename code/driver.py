@@ -132,7 +132,10 @@ def main():
     chains = [[]]
     test_dependencies = []
     for test in tests:
-        test_name = os.path.splitext(test)[0]
+        test_name, file_type = os.path.splitext(test)
+        if file_type != '.json':
+            continue
+
         test = os.path.join(suite, test)
         try:
             with open(test, 'r') as config_file:

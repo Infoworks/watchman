@@ -1,0 +1,10 @@
+{
+  "entityType": "shell",
+  "dependsOn": [
+    "src_teradata_cdc_insert_merge_delta.json"
+  ],
+  "config": {
+    "script": "python2.7 -O -u cdc_validate.py",
+    "source": "src_teradata_cdc.json"
+  }
+}

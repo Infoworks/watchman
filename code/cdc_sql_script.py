@@ -20,7 +20,9 @@ def main(config_path):
         return
 
     with open(config_path, 'r') as config_file:
-        sql_script_path = json.loads(config_file.read())['config'].get('sql_script_path')
+        config = json.loads(config_file.read())['config']
+        sql_script_path = config.get('sql_script_path')
+        repeat = config.get('repeat', 1)
     if not sql_script_path:
         print 'SQL script missing from configuration'
         misc.g_exit_code = 1
@@ -37,7 +39,7 @@ def main(config_path):
         jpype.startJVM(jpype.getDefaultJVMPath(), '-Djava.class.path={jar_location}'.format(
             jar_location=':'.join(jar_location[database])))
         conn = jaydebeapi.connect(connection['driver_name'],
-                                  [connection_string, connection['username'], connection['password']],
+                                  [connection_string, connection['username'], connection['password'].decode('base64')],
                                   jar_location[database])
         cursor = conn.cursor()
     except Exception as e:
@@ -49,7 +51,15 @@ def main(config_path):
     query_count = 0
     with open(sql_script_path, 'r') as f:
         for row in f:
-            cursor.execute(row)
+            if len(row) < 2:  # Empty line
+                continue
+            end = row.find(';')
+            if end != -1:
+                row = row[:end]
+
+            for _ in range(repeat):
+                cursor.execute(row)
+
             query_count += 1
     conn.commit()
     conn.close()
