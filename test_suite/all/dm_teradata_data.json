@@ -39,8 +39,8 @@
         ],
         "test_datatype_datetime": [
 		"derive A_date using date(date_col,\"yyyy-MMM-dd\");",
-		"derive A_interval using addinterval(timestamp, 2015, 12, 21, 21, 21, 21)
-		"derive A_Subinterval using subinterval(timestamp, 2015, 12, 21, 21, 21, 21)
+		"derive A_interval using addinterval(timestamp, 2015, 12, 21, 21, 21, 21);",
+		"derive A_Subinterval using subinterval(timestamp, 2015, 12, 21, 21, 21, 21);",
 		"derive A_diff using datediff(date_col, ZIW_START_DATE);",
 		"derive A_formatdate using formatdate(date_col,\"yyyy-MMM-dd\");",
 		"derive TODAY using today();",
