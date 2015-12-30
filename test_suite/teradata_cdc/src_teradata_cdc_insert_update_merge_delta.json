@@ -1,0 +1,9 @@
+{
+  "entityType": "source_cdc_merge_delta",
+  "dependsOn": [
+    "src_teradata_cdc_insert_update_fetch_delta.json"
+  ],
+  "config": {
+    "name": "teradata_cdc"
+  }
+}
