@@ -56,9 +56,7 @@ def main(config_path):
             end = row.find(';')
             if end != -1:
                 row = row[:end]
-
-            for _ in range(repeat):
-                cursor.execute(row)
+            cursor.executemany(row, [() for _ in range(repeat)])
 
             query_count += 1
     conn.commit()
