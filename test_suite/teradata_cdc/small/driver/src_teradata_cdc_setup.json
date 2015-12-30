@@ -1,0 +1,6 @@
+{
+  "entityType": "shell",
+  "config": {
+    "script": "python2.7 -O -u driver.py '$TEST_FOLDER/../../setup'"
+  }
+}

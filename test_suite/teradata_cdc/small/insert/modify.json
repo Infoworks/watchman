@@ -1,8 +1,5 @@
 {
   "entityType": "source_rdbms_modify",
-  "dependsOn": [
-    "src_teradata_cdc.json"
-  ],
   "config": {
     "name": "teradata_cdc",
     "sql_script_path": "insert.sql",
