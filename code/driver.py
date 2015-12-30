@@ -72,18 +72,17 @@ class TestsRunner(object):
         except IOError:
             pass
 
-        if sys.stdout.isatty():  # Are we on a terminal?
-            process.io_buffer.seek(0)
+        process.io_buffer.seek(0)
+        i = process.io_buffer.readline()
+        while i:
+            if i[-1] == '\n':
+                sys.stdout.write(process.name)
+                sys.stdout.write(' ')
+                sys.stdout.write(i)
+            else:
+                print process.name, i
             i = process.io_buffer.readline()
-            while i:
-                if i[-1] == '\n':
-                    sys.stdout.write(process.name)
-                    sys.stdout.write(' ')
-                    sys.stdout.write(i)
-                else:
-                    print process.name, i
-                i = process.io_buffer.readline()
-            process.io_buffer.truncate(0)
+        process.io_buffer.truncate(0)
 
     @staticmethod
     def get_python_command(script):
