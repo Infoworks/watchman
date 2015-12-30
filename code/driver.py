@@ -139,7 +139,7 @@ def main():
         test = os.path.join(suite, test)
         try:
             with open(test, 'r') as config_file:
-                cases[test] = json.load(config_file)
+                cases[test] = json.loads(config_file.read().replace('$TEST_FOLDER', suite))
         except Exception:
             print 'Invalid test object ' + test
             continue
