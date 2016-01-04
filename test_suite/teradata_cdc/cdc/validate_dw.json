@@ -1,0 +1,10 @@
+{
+  "entityType": "shell",
+  "dependsOn": [
+    "merge_delta.json"
+  ],
+  "config": {
+    "script": "python2.7 -O -u cdc_validate.py",
+    "source": "../setup/full_load.json"
+  }
+}

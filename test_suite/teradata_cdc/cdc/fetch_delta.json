@@ -1,0 +1,6 @@
+{
+  "entityType": "source_cdc_fetch_delta",
+  "config": {
+    "name": "teradata_cdc"
+  }
+}

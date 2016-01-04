@@ -72,18 +72,17 @@ class TestsRunner(object):
         except IOError:
             pass
 
-        if sys.stdout.isatty():  # Are we on a terminal?
-            process.io_buffer.seek(0)
+        process.io_buffer.seek(0)
+        i = process.io_buffer.readline()
+        while i:
+            if i[-1] == '\n':
+                sys.stdout.write(process.name)
+                sys.stdout.write(' ')
+                sys.stdout.write(i)
+            else:
+                print process.name, i
             i = process.io_buffer.readline()
-            while i:
-                if i[-1] == '\n':
-                    sys.stdout.write(process.name)
-                    sys.stdout.write(' ')
-                    sys.stdout.write(i)
-                else:
-                    print process.name, i
-                i = process.io_buffer.readline()
-            process.io_buffer.truncate(0)
+        process.io_buffer.truncate(0)
 
     @staticmethod
     def get_python_command(script):
@@ -132,11 +131,14 @@ def main():
     chains = [[]]
     test_dependencies = []
     for test in tests:
-        test_name = os.path.splitext(test)[0]
+        test_name, file_type = os.path.splitext(test)
+        if file_type != '.json':
+            continue
+
         test = os.path.join(suite, test)
         try:
             with open(test, 'r') as config_file:
-                cases[test] = json.load(config_file)
+                cases[test] = json.loads(config_file.read().replace('$TEST_FOLDER', suite))
         except Exception:
             print 'Invalid test object ' + test
             continue

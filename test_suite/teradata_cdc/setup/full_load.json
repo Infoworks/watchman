@@ -1,0 +1,55 @@
+{
+  "entityType": "source",
+  "dependsOn": [
+    "setup.json"
+  ],
+  "config": {
+    "name": "teradata_cdc",
+    "sourceType": "rdbms",
+    "hdfs_path": "/sqoop/iw/teradata_cdc",
+    "hive_schema": "teradata_cdc",
+    "tables": [
+      {
+        "table": "type_one",
+        "configuration": {
+          "ingest": true,
+          "partition_key": null,
+          "partition_key_derive_function": "",
+          "partition_key_derive_column": "",
+          "natural_key": [
+            "id"
+          ],
+          "sync_type": "cdc-timestamp-column",
+          "timestamp_column_insert": "record_add_ts",
+          "timestamp_column_update": "record_update_ts"
+        }
+      },
+      {
+        "table": "type_two",
+        "configuration": {
+          "ingest": true,
+          "partition_key": null,
+          "partition_key_derive_function": "",
+          "partition_key_derive_column": "",
+          "natural_key": [
+            "id",
+            "version"
+          ],
+          "sync_type": "cdc-query",
+          "query_insert": "SELECT * FROM type_two WHERE effective_ts > CAST(last_ingested_timestamp AS TIMESTAMP)",
+          "query_update": "SELECT * FROM type_two WHERE expiry_ts > CAST(last_ingested_timestamp AS TIMESTAMP) AND expiry_ts < CURRENT_TIMESTAMP",
+          "eff_date_column": "effective_ts",
+          "exprn_date_column": "expiry_ts"
+        }
+      }
+    ],
+    "connection_string": "jdbc:teradata://ec2-54-144-76-210.compute-1.amazonaws.com/TMODE=ANSI,CHARSET=UTF8,database=teradata_cdc",
+    "username": "dbc",
+    "password": "aW5mb3dvcmtz",
+    "schema": "teradata_cdc",
+    "dns": "",
+    "private_key": "",
+    "database": "TERADATA",
+    "driver_name": "com.teradata.jdbc.TeraDriver"
+  }
+}
