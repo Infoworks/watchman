@@ -158,19 +158,8 @@ def crawl_data():
     global g_source_doc
 
     connection = g_source_doc['connection']
-    params = {}
-    if g_source_doc['sourceType'] == 'csv':
-        params['fileType'] = connection['fileType']
-        params['inputDir'] = connection['path']
-        params['seperator'] = connection['separator']  # Ya, that's right!
-        params['quotechar'] = connection['quotechar']
-        params['escapechar'] = connection['escapechar']
-        params['schema'] = connection['schema']
-    elif g_source_doc['sourceType'] == 'json':
-        params['fileType'] = connection['fileType']
-        params['inputDir'] = connection['path']
-    elif g_source_doc['sourceType'] == 'sftp':
-        params['connection'] = connection
+    params = {'connection': connection}
+    if g_source_doc['sourceType'] == 'sftp':
         params['crawl'] = 'data'
         params['source'] = str(g_source_doc['_id'])
         params['hive_schema'] = g_source_doc['hive_schema']
@@ -201,7 +190,6 @@ def crawl_data():
             t['_id'] = {'$type': 'oid', '$value': str(t['_id'])}
             g_tables_to_validate.append({'_id': t['_id']})
 
-        params['connection'] = connection
         params['overwrite'] = 'true'
         params['source'] = str(g_source_doc['_id'])
         params['crawl'] = 'data'
