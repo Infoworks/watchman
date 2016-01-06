@@ -24,7 +24,7 @@
           "derive up using byteint_col * 1000;",
           "derive col_log using log(col_num);",
           "derive col_sqrt using sqrt(col_num);",
-          "derive col_pow using pow(col_num, value);",
+          "derive col_pow using pow(col_num, 5);",
           "derive col_exp using exp(col_num);",
           "derive col_ceil using ceil(col_num);",
           "derive col_in using in(col_num);",
