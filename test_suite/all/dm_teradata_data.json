@@ -27,7 +27,7 @@
           "derive col_pow using pow(col_num, 5);",
           "derive col_exp using exp(col_num);",
           "derive col_ceil using ceil(col_num);",
-          "derive col_in using in(col_num);",
+          "derive col_in using ln(col_num);",
           "derive col_floor using floor(col_num);",
           "derive col_mod using %col_num;",
           "derive col_grt_res using (col_num > 10) ? 1 : 0 ;",
