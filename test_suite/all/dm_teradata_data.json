@@ -29,7 +29,7 @@
           "derive col_ceil using ceil(col_num);",
           "derive col_in using ln(col_num);",
           "derive col_floor using floor(col_num);",
-          "derive col_mod using %col_num;",
+          "derive col_mod using col_num%col_num;",
           "derive col_grt_res using (col_num > 10) ? 1 : 0 ;",
           "derive col_grteql_res using (col_num >= 10) ? 1 : 0 ;",
           "derive col_ler_res using (col_num < 10) ? 1 : 0 ;",
