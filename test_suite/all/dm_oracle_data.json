@@ -34,7 +34,6 @@
           "derive col_mul_res using COL_DECIMAL*COL_FLOAT;"
         ],
         "TEST_DATETIME_DATATYPES": [
-          "derive A_date using date(DATE_COL); ",
           "derive A_time using time(TS_COL);",
           "derive A_diff using datediff(DATE_COL,ZIW_START_DATE);",
           "derive A_month using month(DATE_COL);",
