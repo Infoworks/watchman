@@ -186,6 +186,9 @@ def crawl_data():
             mongo.client.tables.update({'source': g_source_doc['_id']}, {'$set': {'configuration': configuration}},
                                        multi=True, upsert=True)
 
+        for t in tables:
+            t['_id'] = {'$type': 'oid', '$value': str(t['_id'])}
+
         params['overwrite'] = 'true'
         params['source'] = str(g_source_doc['_id'])
         params['crawl'] = 'data'
