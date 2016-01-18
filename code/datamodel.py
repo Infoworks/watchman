@@ -279,51 +279,7 @@ def build_datamodel_done_callback(error, result):
         return
     
     print 'Datamodel build completed.'
-    meteor.ddp_call(validate_data)
-
-
-def validate_data():
-    global g_datamodel_doc
-
-    params = {
-        'entityType': 'datamodel',
-        'entityId': str(g_datamodel_doc['_id']),
-    }
-    job = {
-        'jobType': 'datamodel_validate',
-        'queueingStatus': 'queued',
-        'entityIdStr': str(g_datamodel_doc['_id']),
-        'entityType': 'datamodel',
-        'status': 'pending',
-        'params': params,
-    }
-
-    print 'Queueing datamodel validation job.'
-    if __debug__:
-        print json.dumps(job)
-    meteor.client.call('submitJobWithStringId', [job], validate_data_callback)
-
-
-def validate_data_callback(error, result):
-    if error:
-        print 'Error: ' + error
-        misc.backround_process_terminate()
-        return
-
-    job_id = result
-    print 'Queued job with id: ' + job_id
-    mongo.client.datamodels.update({'_id': g_datamodel_doc['_id']}, {'$set': {'last_validate_job': ObjectId(job_id)}})
-    mongo.check_job_status(job_id, validate_data_done_callback)
-
-
-def validate_data_done_callback(error, result):
-    if error:
-        misc.backround_process_terminate(True)
-        return
-
-    print 'Validating data of datamodel completed.'
     misc.backround_process_terminate(True)
-    return
 
 
 def check_cube():
@@ -450,49 +406,7 @@ def build_cube_done_callback(error, result):
         return
 
     print 'Cube build completed.'
-    meteor.ddp_call(validate_cube)
-
-
-def validate_cube():
-    params = {
-        'entityType': 'cube',
-        'entityId': str(g_cube_object['_id']),
-    }
-    job = {
-        'jobType': 'cube_validate',
-        'queueingStatus': 'queued',
-        'entityIdStr': str(g_cube_object['_id']),
-        'entityType': 'cube',
-        'status': 'pending',
-        'params': params,
-    }
-
-    print 'Queueing cube validation job.'
-    if __debug__:
-        print json.dumps(job)
-    meteor.client.call('submitJobWithStringId', [job], validate_cube_callback)
-
-
-def validate_cube_callback(error, result):
-    if error:
-        print 'Error: ' + error
-        misc.backround_process_terminate()
-        return
-
-    job_id = result
-    print 'Queued job with id: ' + job_id
-    mongo.client.cubes.update({'_id': g_cube_object['_id']}, {'$set': {'last_validate_job': ObjectId(job_id)}})
-    mongo.check_job_status(job_id, validate_cube_done_callback)
-
-
-def validate_cube_done_callback(error, result):
-    if error:
-        misc.backround_process_terminate()
-        return
-
-    print 'Validation of cube completed.'
     misc.backround_process_terminate(True)
-    return
 
 
 if __name__ == '__main__':

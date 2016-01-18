@@ -8,7 +8,6 @@ import socket
 g_test_object = {}
 g_source_doc = {}
 g_force_crawl = True
-g_tables_to_validate = []
 
 
 def main(config_path):
@@ -186,9 +185,6 @@ def crawl_data():
             }
             mongo.client.tables.update({'source': g_source_doc['_id']}, {'$set': {'configuration': configuration}},
                                        multi=True, upsert=True)
-        for t in tables:
-            t['_id'] = {'$type': 'oid', '$value': str(t['_id'])}
-            g_tables_to_validate.append({'_id': t['_id']})
 
         params['overwrite'] = 'true'
         params['source'] = str(g_source_doc['_id'])
@@ -228,50 +224,6 @@ def crawl_data_done_callback(error, result):
         return
 
     print 'Crawling data of source completed.'
-    meteor.ddp_call(validate_data)
-
-
-def validate_data():
-    global g_source_doc
-
-    params = {
-        'entityType': 'source',
-        'entityId': str(g_source_doc['_id']),
-        'tables': g_tables_to_validate,
-    }
-    job = {
-        'jobType': 'source_validate',
-        'queueingStatus': 'queued',
-        'entityIdStr': str(g_source_doc['_id']),
-        'entityType': 'source',
-        'status': 'pending',
-        'params': params,
-    }
-
-    print 'Queueing source validation job.'
-    if __debug__:
-        print json.dumps(job)
-    meteor.client.call('submitJobWithStringId', [job], validate_data_callback)
-
-
-def validate_data_callback(error, result):
-    if error:
-        print 'Error: ' + error
-        misc.backround_process_terminate()
-        return
-
-    job_id = result
-    print 'Queued job with id: ' + job_id
-    mongo.client.sources.update({'_id': g_source_doc['_id']}, {'$set': {'last_validate_job': ObjectId(job_id)}})
-    mongo.check_job_status(job_id, validate_data_done_callback)
-
-
-def validate_data_done_callback(error, result):
-    if error:
-        misc.backround_process_terminate()
-        return
-
-    print 'Validating data of source completed.'
     misc.backround_process_terminate(True)
 
 
