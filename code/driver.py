@@ -166,7 +166,7 @@ def main():
     print '\n\t'.join(tests_failed)
     print '==============='
 
-    if len(tests_failed) > 0:
+    if len(tests_failed) > 1:  # Inserting print statement in the list
         sys.exit(1)
 
 
