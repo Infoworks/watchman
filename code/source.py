@@ -8,12 +8,14 @@ import socket
 g_test_object = {}
 g_source_doc = {}
 g_force_crawl = True
+g_delete_entity = False
 
 
 def main(config_path):
-    global g_force_crawl
+    global g_force_crawl, g_delete_entity
 
     g_force_crawl = True if os.getenv('crawl', 'true') == 'true' else False
+    g_delete_entity = True if os.getenv('cleanup', 'false') == 'true' else False
 
     meteor.connect()
     create_source(config_path)
@@ -227,6 +229,17 @@ def crawl_data_done_callback(error, result):
         return
 
     print 'Crawling data of source completed.'
+
+    if g_delete_entity:
+        meteor.client.call('deleteSourceByName', [g_test_object['name'], True], delete_done_callback)
+
+
+def delete_done_callback(error, result):
+    if error:
+        misc.backround_process_terminate()
+        return
+
+    print 'Entity deleted.'
     misc.backround_process_terminate(True)
 
 

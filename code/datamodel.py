@@ -9,12 +9,14 @@ g_datamodel_doc = {}
 g_cube_object = {}
 g_config_path = ''
 g_force_build = True
+g_delete_entity = False
 
 
 def main(config_path):
-    global g_config_path, g_force_build
+    global g_config_path, g_force_build, g_delete_entity
     g_config_path = config_path
     g_force_build = True if os.getenv('build_datamodel', 'true') == 'true' else False
+    g_delete_entity = True if os.getenv('cleanup', 'false') == 'true' else False
 
     meteor.connect()
     check_config()
@@ -277,9 +279,10 @@ def build_datamodel_done_callback(error, result):
     if error:
         misc.backround_process_terminate()
         return
-    
     print 'Datamodel build completed.'
-    misc.backround_process_terminate(True)
+
+    if g_delete_entity:
+        meteor.client.call('deleteDatamodelByName', [g_dm_object['name'], True], delete_done_callback)
 
 
 def check_cube():
@@ -406,8 +409,18 @@ def build_cube_done_callback(error, result):
         return
 
     print 'Cube build completed.'
-    misc.backround_process_terminate(True)
 
+    if g_delete_entity:
+        meteor.client.call('deleteCubeByName', [g_cube_object['name'], True], delete_done_callback)
+
+
+def delete_done_callback(error, result):
+    if error:
+        misc.backround_process_terminate()
+        return
+
+    print 'Entity deleted.'
+    misc.backround_process_terminate(True)
 
 if __name__ == '__main__':
     main(sys.argv[1])
