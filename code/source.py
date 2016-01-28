@@ -231,7 +231,14 @@ def crawl_data_done_callback(error, result):
     print 'Crawling data of source completed.'
 
     if g_delete_entity:
-        meteor.client.call('deleteSourceByName', [g_test_object['name'], True], delete_done_callback)
+        meteor.ddp_call(delete_source)
+    else:
+        misc.backround_process_terminate(True)
+
+
+def delete_source():
+    print 'Deleting entity.'
+    meteor.client.call('deleteSourceByName', [g_test_object['name'], True], delete_done_callback)
 
 
 def delete_done_callback(error, result):

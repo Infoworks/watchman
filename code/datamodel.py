@@ -282,7 +282,14 @@ def build_datamodel_done_callback(error, result):
     print 'Datamodel build completed.'
 
     if g_delete_entity:
-        meteor.client.call('deleteDatamodelByName', [g_dm_object['name'], True], delete_done_callback)
+        meteor.ddp_call(delete_datamodel)
+    else:
+        misc.backround_process_terminate(True)
+
+
+def delete_datamodel():
+    print 'Deleting entity.'
+    meteor.client.call('deleteDatamodelByName', [g_dm_object['name'], True], delete_done_callback)
 
 
 def check_cube():
@@ -411,7 +418,14 @@ def build_cube_done_callback(error, result):
     print 'Cube build completed.'
 
     if g_delete_entity:
-        meteor.client.call('deleteCubeByName', [g_cube_object['name'], True], delete_done_callback)
+        meteor.ddp_call(delete_cube)
+    else:
+        misc.backround_process_terminate(True)
+
+
+def delete_cube():
+    print 'Deleting entity.'
+    meteor.client.call('deleteCubeByName', [g_cube_object['name'], True], delete_done_callback)
 
 
 def delete_done_callback(error, result):
