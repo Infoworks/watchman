@@ -20,7 +20,7 @@ def get_source_doc(config_path):
 def get_cdc_tables(tables):
     ret = []
     for i in tables:
-        table = mongo.client.sources.find_one({'_id': i}, {'configuration': True})
+        table = mongo.client.tables.find_one({'_id': i}, {'configuration': True})
         if table['configuration'].get('sync_type', 'full-load') not in ('full-load', ''):
             ret.append({'_id': {'$type': 'oid', '$value': str(i)}})
     return ret
