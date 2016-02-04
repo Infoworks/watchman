@@ -1,0 +1,557 @@
+{
+  "entityType": "datamodel",
+  "dependsOn": [
+    "src_teradata_cdc_demo_update.json",
+    "domain_create.json"
+  ],
+  "config": {
+    "name": "datamodel_teradata_cdc_demo",
+    "domain": "TestDomain",
+    "sources": [
+      "teradata_cdc_demo"
+    ],
+    "transformations": {
+      "teradata_cdc_demo": {
+        "RX_FILL": [
+          "derive FILL_DATE using longfromdate(REC_EFF_DT);"
+        ],
+        "MEMBERS": [
+          "derive AGE using yearssince(MBR_DOB);  ",
+          "derive ELIGIBLE using istodaybetween(MBR_EFF_DT, MBR_EXP_DT) ? \"Y\" : \"N\";"
+        ]
+      }
+    },
+    "treemap": {
+      "nodeindex": 5,
+      "treemapId": {
+        "_str": "56069916367496c50add9013"
+      },
+      "children": [
+        {
+          "nodeindex": 7,
+          "join": {
+            "predicates": [
+              {
+                "c_col": "DRUG_ID",
+                "p_col": "DRUG_ID",
+                "op": "equals"
+              }
+            ],
+            "op": "AND"
+          },
+          "discovered_cardinality": {
+            "parent": "many",
+            "parent_optional": false,
+            "self": "one",
+            "self_optional": false
+          },
+          "breadCrumb": "RX_PRESCRIPTION",
+          "source": "teradata_cdc_demo",
+          "table": "DRUG"
+        },
+        {
+          "nodeindex": 8,
+          "join": {
+            "predicates": [
+              {
+                "c_col": "PRSCBR_ID",
+                "p_col": "PRSCBR_ID",
+                "op": "equals"
+              }
+            ],
+            "op": "AND"
+          },
+          "discovered_cardinality": {
+            "parent": "one",
+            "parent_optional": false,
+            "self": "one",
+            "self_optional": false
+          },
+          "breadCrumb": "RX_PRESCRIPTION",
+          "source": "teradata_cdc_demo",
+          "table": "PRESCRIBER"
+        },
+        {
+          "nodeindex": 9,
+          "join": {
+            "predicates": [
+              {
+                "c_col": "PRSCRT_ID",
+                "p_col": "PRSCRT_ID",
+                "op": "equals"
+              }
+            ],
+            "op": "AND"
+          },
+          "breadCrumb": "RX_PRESCRIPTION",
+          "children": [
+            {
+              "nodeindex": 10,
+              "join": {
+                "predicates": [
+                  {
+                    "c_col": "MBR_NBR",
+                    "p_col": "MBR_NBR",
+                    "op": "equals"
+                  }
+                ],
+                "op": "AND"
+              },
+              "discovered_cardinality": {
+                "parent": "many",
+                "parent_optional": false,
+                "self": "one",
+                "self_optional": false
+              },
+              "breadCrumb": "RX_PRESCRIPTION > RX_FILL",
+              "source": "teradata_cdc_demo",
+              "table": "MEMBERS"
+            },
+            {
+              "nodeindex": 11,
+              "join": {
+                "predicates": [
+                  {
+                    "c_col": "STORE_ID",
+                    "p_col": "STORE_ID",
+                    "op": "equals"
+                  }
+                ],
+                "op": "AND"
+              },
+              "discovered_cardinality": {
+                "parent": "many",
+                "parent_optional": false,
+                "self": "one",
+                "self_optional": false
+              },
+              "breadCrumb": "RX_PRESCRIPTION > RX_FILL",
+              "source": "teradata_cdc_demo",
+              "table": "STORE"
+            }
+          ],
+          "discovered_cardinality": {
+            "parent": "one",
+            "parent_optional": false,
+            "self": "many",
+            "self_optional": false
+          },
+          "source": "teradata_cdc_demo",
+          "table": "RX_FILL"
+        }
+      ],
+      "source": "teradata_cdc_demo",
+      "table": "RX_PRESCRIPTION"
+    },
+    "cubes": [
+      {
+        "name": "cube_teradata_cdc_demo",
+        "datamodel": "datamodel_teradata_cdc_demo",
+        "layout": {
+          "facts_table": {
+            "name": "factTable",
+            "loc": "0 0",
+            "facts": [
+              {
+                "name": "FILL_DATE",
+                "description": "",
+                "column": "FILL_DATE",
+                "type": "BIGINT",
+                "breadcrumb": "RX_PRESCRIPTION",
+                "join": {
+                  "predicates": [
+                    {
+                      "c_col": "PRSCRT_ID",
+                      "p_col": "PRSCRT_ID",
+                      "op": "equals"
+                    }
+                  ],
+                  "op": "AND"
+                },
+                "measures": [
+                  {
+                    "name": "max_fill_date",
+                    "function": "max"
+                  }
+                ],
+                "datamodel": "datamodel_teradata_cdc_demo",
+                "datamodelTable": "RX_FILL"
+              }
+            ],
+            "calculated_facts": []
+          },
+          "dimensions": [
+            {
+              "fkey": "STORE_iw_fkey",
+              "pkey": "STORE_iw_pkey",
+              "name": "STORE",
+              "loc": "354 -246",
+              "type": "dimension",
+              "attrs": [
+                {
+                  "name": "STORE_ID",
+                  "column": "STORE_ID",
+                  "type": "BIGINT",
+                  "breadcrumb": "RX_PRESCRIPTION > RX_FILL",
+                  "join": {
+                    "predicates": [
+                      {
+                        "c_col": "STORE_ID",
+                        "p_col": "STORE_ID",
+                        "op": "equals"
+                      }
+                    ],
+                    "op": "AND"
+                  },
+                  "datamodel": "datamodel_teradata_cdc_demo",
+                  "datamodelTable": "STORE"
+                },
+                {
+                  "name": "CHAIN_ID",
+                  "column": "CHAIN_ID",
+                  "type": "INT",
+                  "breadcrumb": "RX_PRESCRIPTION > RX_FILL",
+                  "join": {
+                    "predicates": [
+                      {
+                        "c_col": "STORE_ID",
+                        "p_col": "STORE_ID",
+                        "op": "equals"
+                      }
+                    ],
+                    "op": "AND"
+                  },
+                  "datamodel": "datamodel_teradata_cdc_demo",
+                  "datamodelTable": "STORE"
+                },
+                {
+                  "name": "AREA_ID",
+                  "column": "AREA_ID",
+                  "type": "INT",
+                  "breadcrumb": "RX_PRESCRIPTION > RX_FILL",
+                  "join": {
+                    "predicates": [
+                      {
+                        "c_col": "STORE_ID",
+                        "p_col": "STORE_ID",
+                        "op": "equals"
+                      }
+                    ],
+                    "op": "AND"
+                  },
+                  "datamodel": "datamodel_teradata_cdc_demo",
+                  "datamodelTable": "STORE"
+                },
+                {
+                  "name": "STORE_ST_LIC_NBR",
+                  "column": "STORE_ST_LIC_NBR",
+                  "type": "BIGINT",
+                  "breadcrumb": "RX_PRESCRIPTION > RX_FILL",
+                  "join": {
+                    "predicates": [
+                      {
+                        "c_col": "STORE_ID",
+                        "p_col": "STORE_ID",
+                        "op": "equals"
+                      }
+                    ],
+                    "op": "AND"
+                  },
+                  "datamodel": "datamodel_teradata_cdc_demo",
+                  "datamodelTable": "STORE"
+                }
+              ],
+              "hierarchies": [],
+              "dimensions": []
+            },
+            {
+              "fkey": "MEMBERS_iw_fkey",
+              "pkey": "MEMBERS_iw_pkey",
+              "name": "MEMBERS",
+              "loc": "-230 -244",
+              "type": "dimension",
+              "attrs": [
+                {
+                  "name": "MBR_NBR",
+                  "column": "MBR_NBR",
+                  "type": "INT",
+                  "breadcrumb": "RX_PRESCRIPTION > RX_FILL",
+                  "join": {
+                    "predicates": [
+                      {
+                        "c_col": "MBR_NBR",
+                        "p_col": "MBR_NBR",
+                        "op": "equals"
+                      }
+                    ],
+                    "op": "AND"
+                  },
+                  "datamodel": "datamodel_teradata_cdc_demo",
+                  "datamodelTable": "MEMBERS"
+                },
+                {
+                  "name": "MBR_NAME",
+                  "column": "MBR_NAME",
+                  "type": "TEXT",
+                  "breadcrumb": "RX_PRESCRIPTION > RX_FILL",
+                  "join": {
+                    "predicates": [
+                      {
+                        "c_col": "MBR_NBR",
+                        "p_col": "MBR_NBR",
+                        "op": "equals"
+                      }
+                    ],
+                    "op": "AND"
+                  },
+                  "datamodel": "datamodel_teradata_cdc_demo",
+                  "datamodelTable": "MEMBERS"
+                },
+                {
+                  "name": "MBR_DOB",
+                  "column": "MBR_DOB",
+                  "type": "DATE",
+                  "breadcrumb": "RX_PRESCRIPTION > RX_FILL",
+                  "join": {
+                    "predicates": [
+                      {
+                        "c_col": "MBR_NBR",
+                        "p_col": "MBR_NBR",
+                        "op": "equals"
+                      }
+                    ],
+                    "op": "AND"
+                  },
+                  "datamodel": "datamodel_teradata_cdc_demo",
+                  "datamodelTable": "MEMBERS"
+                },
+                {
+                  "name": "MBR_EFF_DT",
+                  "column": "MBR_EFF_DT",
+                  "type": "DATE",
+                  "breadcrumb": "RX_PRESCRIPTION > RX_FILL",
+                  "join": {
+                    "predicates": [
+                      {
+                        "c_col": "MBR_NBR",
+                        "p_col": "MBR_NBR",
+                        "op": "equals"
+                      }
+                    ],
+                    "op": "AND"
+                  },
+                  "datamodel": "datamodel_teradata_cdc_demo",
+                  "datamodelTable": "MEMBERS"
+                },
+                {
+                  "name": "MBR_EXP_DT",
+                  "column": "MBR_EXP_DT",
+                  "type": "DATE",
+                  "breadcrumb": "RX_PRESCRIPTION > RX_FILL",
+                  "join": {
+                    "predicates": [
+                      {
+                        "c_col": "MBR_NBR",
+                        "p_col": "MBR_NBR",
+                        "op": "equals"
+                      }
+                    ],
+                    "op": "AND"
+                  },
+                  "datamodel": "datamodel_teradata_cdc_demo",
+                  "datamodelTable": "MEMBERS"
+                },
+                {
+                  "name": "MAIL_BENEFIT",
+                  "column": "MAIL_BENEFIT",
+                  "type": "TEXT",
+                  "breadcrumb": "RX_PRESCRIPTION > RX_FILL",
+                  "join": {
+                    "predicates": [
+                      {
+                        "c_col": "MBR_NBR",
+                        "p_col": "MBR_NBR",
+                        "op": "equals"
+                      }
+                    ],
+                    "op": "AND"
+                  },
+                  "datamodel": "datamodel_teradata_cdc_demo",
+                  "datamodelTable": "MEMBERS"
+                },
+                {
+                  "name": "AGE",
+                  "column": "AGE",
+                  "type": "VARCHAR",
+                  "breadcrumb": "RX_PRESCRIPTION > RX_FILL",
+                  "join": {
+                    "predicates": [
+                      {
+                        "c_col": "MBR_NBR",
+                        "p_col": "MBR_NBR",
+                        "op": "equals"
+                      }
+                    ],
+                    "op": "AND"
+                  },
+                  "datamodel": "datamodel_teradata_cdc_demo",
+                  "datamodelTable": "MEMBERS"
+                },
+                {
+                  "name": "ELIGIBLE",
+                  "column": "ELIGIBLE",
+                  "type": "VARCHAR",
+                  "breadcrumb": "RX_PRESCRIPTION > RX_FILL",
+                  "join": {
+                    "predicates": [
+                      {
+                        "c_col": "MBR_NBR",
+                        "p_col": "MBR_NBR",
+                        "op": "equals"
+                      }
+                    ],
+                    "op": "AND"
+                  },
+                  "datamodel": "datamodel_teradata_cdc_demo",
+                  "datamodelTable": "MEMBERS"
+                }
+              ],
+              "hierarchies": [],
+              "dimensions": []
+            },
+            {
+              "fkey": "DRUG_iw_fkey",
+              "pkey": "DRUG_iw_pkey",
+              "name": "DRUG",
+              "loc": "64 -228",
+              "type": "dimension",
+              "attrs": [
+                {
+                  "name": "DRUG_ID",
+                  "column": "DRUG_ID",
+                  "type": "INT",
+                  "breadcrumb": "RX_PRESCRIPTION",
+                  "join": {
+                    "predicates": [
+                      {
+                        "c_col": "DRUG_ID",
+                        "p_col": "DRUG_ID",
+                        "op": "equals"
+                      }
+                    ],
+                    "op": "AND"
+                  },
+                  "datamodel": "datamodel_teradata_cdc_demo",
+                  "datamodelTable": "DRUG"
+                },
+                {
+                  "name": "PROD_NDC",
+                  "column": "PROD_NDC",
+                  "type": "TEXT",
+                  "breadcrumb": "RX_PRESCRIPTION",
+                  "join": {
+                    "predicates": [
+                      {
+                        "c_col": "DRUG_ID",
+                        "p_col": "DRUG_ID",
+                        "op": "equals"
+                      }
+                    ],
+                    "op": "AND"
+                  },
+                  "datamodel": "datamodel_teradata_cdc_demo",
+                  "datamodelTable": "DRUG"
+                }
+              ],
+              "hierarchies": [],
+              "dimensions": []
+            },
+            {
+              "fkey": "PRESCRIBER_iw_fkey",
+              "pkey": "PRESCRIBER_iw_pkey",
+              "name": "PRESCRIBER",
+              "loc": "225 82",
+              "type": "dimension",
+              "attrs": [
+                {
+                  "name": "PRSCBR_ID",
+                  "column": "PRSCBR_ID",
+                  "type": "INT",
+                  "breadcrumb": "RX_PRESCRIPTION",
+                  "join": {
+                    "predicates": [
+                      {
+                        "c_col": "PRSCBR_ID",
+                        "p_col": "PRSCBR_ID",
+                        "op": "equals"
+                      }
+                    ],
+                    "op": "AND"
+                  },
+                  "datamodel": "datamodel_teradata_cdc_demo",
+                  "datamodelTable": "PRESCRIBER"
+                },
+                {
+                  "name": "DEA_NBR",
+                  "column": "DEA_NBR",
+                  "type": "BIGINT",
+                  "breadcrumb": "RX_PRESCRIPTION",
+                  "join": {
+                    "predicates": [
+                      {
+                        "c_col": "PRSCBR_ID",
+                        "p_col": "PRSCBR_ID",
+                        "op": "equals"
+                      }
+                    ],
+                    "op": "AND"
+                  },
+                  "datamodel": "datamodel_teradata_cdc_demo",
+                  "datamodelTable": "PRESCRIBER"
+                },
+                {
+                  "name": "LAST_NM",
+                  "column": "LAST_NM",
+                  "type": "TEXT",
+                  "breadcrumb": "RX_PRESCRIPTION",
+                  "join": {
+                    "predicates": [
+                      {
+                        "c_col": "PRSCBR_ID",
+                        "p_col": "PRSCBR_ID",
+                        "op": "equals"
+                      }
+                    ],
+                    "op": "AND"
+                  },
+                  "datamodel": "datamodel_teradata_cdc_demo",
+                  "datamodelTable": "PRESCRIBER"
+                },
+                {
+                  "name": "ST_LIC_NBR",
+                  "column": "ST_LIC_NBR",
+                  "type": "BIGINT",
+                  "breadcrumb": "RX_PRESCRIPTION",
+                  "join": {
+                    "predicates": [
+                      {
+                        "c_col": "PRSCBR_ID",
+                        "p_col": "PRSCBR_ID",
+                        "op": "equals"
+                      }
+                    ],
+                    "op": "AND"
+                  },
+                  "datamodel": "datamodel_teradata_cdc_demo",
+                  "datamodelTable": "PRESCRIBER"
+                }
+              ],
+              "hierarchies": [],
+              "dimensions": []
+            }
+          ]
+        }
+      }
+    ]
+  }
+}

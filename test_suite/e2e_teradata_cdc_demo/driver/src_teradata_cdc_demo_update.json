@@ -1,0 +1,9 @@
+{
+  "entityType": "shell",
+  "dependsOn": [
+    "src_teradata_cdc_demo_insert.json"
+  ],
+  "config": {
+    "script": "python2.7 -O -u driver.py '$TEST_FOLDER/../update'"
+  }
+}

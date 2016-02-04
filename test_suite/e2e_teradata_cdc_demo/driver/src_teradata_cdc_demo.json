@@ -1,0 +1,109 @@
+{
+  "entityType": "source",
+  "dependsOn": [
+    "setup.json"
+  ],
+  "config": {
+    "name": "teradata_cdc_demo",
+    "sourceType": "rdbms",
+    "hdfs_path": "/sqoop/iw/teradata_cdc_demo",
+    "hive_schema": "teradata_cdc_demo",
+    "tables": [
+      {
+        "table": "DRUG",
+        "configuration": {
+          "ingest": true,
+          "partition_key": null,
+          "partition_key_derive_function": "",
+          "partition_key_derive_column": "",
+          "natural_key": [
+            "DRUG_ID"
+          ],
+          "sync_type": "full-load"
+        }
+      },
+      {
+        "table": "MEMBERS",
+        "configuration": {
+          "ingest": true,
+          "partition_key": [
+              "ZIW_LOAD_TIME_STAMP"
+          ],
+          "partition_key_derive_function": "year-month",
+          "partition_key_derive_column": "year_mon_partition",
+          "natural_key": [
+            "MBR_NBR"
+          ],
+          "sync_type": "full-load"
+        }
+      },
+      {
+        "table": "PRESCRIBER",
+        "configuration": {
+          "ingest": true,
+          "partition_key": null,
+          "partition_key_derive_function": "",
+          "partition_key_derive_column": "",
+          "natural_key": [
+            "PRSCBR_ID"
+          ],
+          "sync_type": "full-load"
+        }
+      },
+      {
+        "table": "STORE",
+        "configuration": {
+          "ingest": true,
+          "partition_key": null,
+          "partition_key_derive_function": "",
+          "partition_key_derive_column": "",
+          "natural_key": [
+            "STORE_ID"
+          ],
+          "sync_type": "full-load"
+        }
+      },
+      {
+        "table": "RX_FILL",
+        "configuration": {
+          "ingest": true,
+          "partition_key": null,
+          "partition_key_derive_function": "",
+          "partition_key_derive_column": "",
+          "natural_key": [
+            "PRSCRT_FILL_ID",
+            "REC_HIST_GID"
+          ],
+          "sync_type": "cdc-query",
+          "query_insert": "SELECT * FROM RX_FILL WHERE REC_HIST_GID IN (SELECT REC_HIST_GID FROM T_REC_HIST WHERE PRCS_GID IN (998877) AND REC_ADD_TS > CAST (last_ingested_timestamp AS TIMESTAMP))",
+          "query_update": "SELECT * FROM RX_FILL A INNER JOIN (SELECT TEMP.PRSCRT_FILL_ID AS TPRSCRT_FILL_ID, (TEMP.REC_EFF_DT-1) AS TREC_EXP_DT FROM (SELECT * FROM RX_FILL WHERE REC_HIST_GID IN (SELECT REC_HIST_GID FROM T_REC_HIST WHERE PRCS_GID IN (998877) AND REC_ADD_TS > last_ingested_timestamp)) TEMP) B ON A.PRSCRT_FILL_ID=B.TPRSCRT_FILL_ID AND A.REC_EXP_DT=B.TREC_EXP_DT",
+          "eff_date_column": "REC_EFF_DT",
+          "exprn_date_column": "REC_EXP_DT"
+        }
+      },
+      {
+        "table": "RX_PRESCRIPTION",
+        "configuration": {
+          "ingest": true,
+          "partition_key": null,
+          "partition_key_derive_function": "",
+          "partition_key_derive_column": "",
+          "natural_key": [
+            "PRSCRT_ID"
+          ],
+          "sync_type": "cdc-timestamp-column",
+          "timestamp_column_insert": "record_add_ts",
+          "timestamp_column_update": "record_update_ts"
+        }
+      }
+    ],
+    "username": "DBC",
+    "private_key": "",
+    "database": "TERADATA",
+    "driver_name": "com.teradata.jdbc.TeraDriver",
+    "dns": "",
+    "connection_string": "jdbc:teradata://172.30.0.69/TMODE=ANSI,CHARSET=UTF8,database=TERADATA_CDC_DEMO",
+    "password": "aW5mb3dvcmtz",
+    "schema": "TERADATA_CDC_DEMO"
+  }
+}

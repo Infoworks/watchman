@@ -1,0 +1,8 @@
+{
+  "entityType": "source_rdbms_modify",
+  "config": {
+    "name": "teradata_cdc_demo",
+    "sql_script_path": "setup.sql",
+    "repeat": 1
+  }
+}
