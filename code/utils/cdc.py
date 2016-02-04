@@ -1,6 +1,7 @@
 import json
 from utils import meteor, mongo, misc
 import socket
+import time
 
 
 def get_source_doc(config_path):
@@ -42,6 +43,7 @@ def do_job(job_type, entity_id, job_params):
         print json.dumps(job)
 
     print 'Queueing the job.'
+    time.sleep(5)  # Make sure client has connected before logging in
     meteor.ddp_call(job_submit)
     misc.background_loop()
 
