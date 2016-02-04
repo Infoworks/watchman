@@ -27,7 +27,7 @@
         "configuration": {
           "ingest": true,
           "partition_key": [
-              "ZIW_LOAD_TIME_STAMP"
+              "ZIW_TARGET_START_TIME_STAMP"
           ],
           "partition_key_derive_function": "year-month",
           "partition_key_derive_column": "year_mon_partition",
