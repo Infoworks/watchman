@@ -17,6 +17,15 @@ def get_source_doc(config_path):
     print 'Source: "%s" does not exist.' % test_object.get('name')
 
 
+def get_cdc_tables(tables):
+    ret = []
+    for i in tables:
+        table = mongo.client.sources.find_one({'_id': i}, {'configuration': True})
+        if table['configuration'].get('sync_type', 'full-load') not in ('full-load', ''):
+            ret.append({'_id': {'$type': 'oid', '$value': str(i)}})
+    return ret
+
+
 def do_job(job_type, entity_id, job_params):
     global job
 

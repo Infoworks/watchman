@@ -13,7 +13,7 @@ def main(config_path):
     params = {
         'source': str(source_doc['_id']),
         'connection': source_doc['connection'],
-        'tables': [{'_id': {'$type': 'oid', '$value': str(i)}} for i in source_doc['tables']],
+        'tables': cdc.get_cdc_tables(source_doc['tables']),
     }
     cdc.do_job('source_cdc', source_doc['_id'], params)
 
