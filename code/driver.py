@@ -111,15 +111,15 @@ class TestsRunner(object):
             return TestsRunner.get_python_command('scd_delete.py')
         elif entity_type == 'shell':
             return shlex.split(cases[test]['config']['script'])
+        elif entity_type == 'test_case':
+            run_test(cases[test]['config']['test_case'])
         else:
             print 'Unknown entity type %s in test %s' % (entity_type, test)
 
 
-def main():
-    suite = sys.argv[1]
+def run_test(suite):
     try:
         tests = os.listdir(suite)
-        tests.sort()
     except Exception:
         print 'Unable to find test cases in ' + suite
         return
@@ -157,17 +157,6 @@ def main():
 
     for chain in chains:
         TestsRunner(chain).run()
-
-    tests_succeeded.insert(0, '%d test(s) succeeded:' % len(tests_succeeded))
-    tests_failed.insert(0, '%d test(s) failed' % len(tests_failed))
-    print '==============='
-    print 'Summary:'
-    print '\n\t'.join(tests_succeeded)
-    print '\n\t'.join(tests_failed)
-    print '==============='
-
-    if len(tests_failed) > 1:  # Inserting print statement in the list
-        sys.exit(1)
 
 
 def insert(edge, chains):
@@ -210,4 +199,15 @@ def insert(edge, chains):
         return False
     return True
 
-main()
+
+run_test(sys.argv[1])
+tests_succeeded.insert(0, '%d test(s) succeeded:' % len(tests_succeeded))
+tests_failed.insert(0, '%d test(s) failed' % len(tests_failed))
+print '==============='
+print 'Summary:'
+print '\n\t'.join(tests_succeeded)
+print '\n\t'.join(tests_failed)
+print '==============='
+
+if len(tests_failed) > 1:  # Inserting print statement in the list
+    sys.exit(1)
