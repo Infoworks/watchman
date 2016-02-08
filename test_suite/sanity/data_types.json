@@ -1,6 +1,6 @@
 {
   "entityType": "test_case",
   "config": {
-    "script": "$TEST_FOLDER/../dm_transformation"
+    "test_case": "$TEST_FOLDER/../dm_transformation"
   }
 }
