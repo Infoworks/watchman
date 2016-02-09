@@ -3,7 +3,7 @@
   "dependsOn": [
     "modify.json"
   ],
-  "test_case": {
-    "script": "$TEST_FOLDER/../cdc"
+  "config": {
+    "test_case": "$TEST_FOLDER/../cdc"
   }
 }
