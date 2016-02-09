@@ -176,7 +176,6 @@ def insert(edge, chains):
     # Remove edge[1] from one of the lower chains (compared to edge[1])
     for i in range(min(insert_position, len(chains))):
         if edge[1] in chains[i]:
-            found[1] = True
             chains[i].remove(edge[1])
             break
 
