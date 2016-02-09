@@ -173,9 +173,10 @@ def insert(edge, chains):
         chains[insert_position].append(edge[0])
 
     insert_position += 1
-    # Remove edge[1] from one of the lower chains (compared to edge[1])
+    # Remove edge[1] from one of the lower chains (compared to edge[0])
     for i in range(min(insert_position, len(chains))):
         if edge[1] in chains[i]:
+            found[1] = True
             chains[i].remove(edge[1])
             break
 
@@ -186,6 +187,7 @@ def insert(edge, chains):
     # Insert edge[1] in the appropriate chain
     if found[1]:
         chains[insert_position].append(edge[1])
+        return True  # The dependency has been found on a lower chain, run the process again
     else:
         for i in range(insert_position, len(chains)):
             if edge[1] in chains[i]:
@@ -195,7 +197,7 @@ def insert(edge, chains):
             chains[insert_position].append(edge[1])
 
     if found[0] and found[1]:
-        return False
+        return False  # All dependencies have been resolved
     return True
 
 
