@@ -1,9 +1,9 @@
 {
-  "entityType": "shell",
+  "entityType": "test_case",
   "dependsOn": [
     "modify.json"
   ],
-  "config": {
-    "script": "python2.7 -O -u driver.py '$TEST_FOLDER/../cdc'"
+  "test_case": {
+    "script": "$TEST_FOLDER/../cdc"
   }
 }
