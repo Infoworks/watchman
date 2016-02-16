@@ -1,10 +1,10 @@
 {
   "entityType": "source",
   "config": {
-    "name": "teradata_with_ts_partition",
+    "name": "teradata_with_ts_partition1",
     "sourceType": "rdbms",
-    "hdfs_path": "/sqoop/iw/teradata_with_ts_partition",
-    "hive_schema": "teradata_with_ts_partition",
+    "hdfs_path": "/sqoop/iw/teradata_with_ts_partition1",
+    "hive_schema": "teradata_with_ts_partition1",
     "tables": [
       {
         "table": "DRUG",
