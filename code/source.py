@@ -163,6 +163,8 @@ def crawl_data():
         params['source'] = str(g_source_doc['_id'])
         params['hive_schema'] = g_source_doc['hive_schema']
         params['tables'] = [{'_id': {'$type': 'oid', '$value': str(table_id)}} for table_id in g_source_doc['tables']]
+    elif g_source_doc['sourceType'] == 'csv':
+        params['tables'] = []
     elif g_source_doc['sourceType'] == 'rdbms':
         # Get the tables that need to be crawled and the partition keys for the tables
         tables = g_test_object.get('tables', [])
