@@ -3,394 +3,247 @@
   "config": {
     "name": "mysql_northwind",
     "sourceType": "rdbms",
-    "hdfs_path": "/sqoop/iw/mysql_northwind",
+    "hdfs_path": "/source/mysql_northwind/",
     "hive_schema": "mysql_northwind",
     "tables": [
       {
         "table": "CustomerCustomerDemo",
+        "origTableName": "CustomerCustomerDemo",
         "configuration": {
-          "natural_key": [
-            "CustomerID"
-          ],
-          "partition_key": null,
-          "sync_type": "",
-          "ingest": true,
-          "partition_key_derive_function": "",
-          "partition_key_derive_column": ""
-        }
-      },
-      {
-        "table": "CustomerDemographics",
-        "configuration": {
-          "natural_key": [
-            "CustomerTypeID"
-          ],
-          "partition_key": null,
-          "sync_type": "",
-          "ingest": true,
-          "partition_key_derive_function": "",
-          "partition_key_derive_column": ""
-        }
-      },
-      {
-        "table": "EmployeeTerritories",
-        "configuration": {
-          "natural_key": [
-            "EmployeeID"
-          ],
-          "partition_key": null,
-          "sync_type": "",
-          "ingest": true,
-          "partition_key_derive_function": "",
-          "partition_key_derive_column": ""
-        }
-      },
-      {
-        "table": "Region",
-        "configuration": {
-          "natural_key": [
-            "RegionID"
-          ],
-          "partition_key": null,
-          "sync_type": "",
-          "ingest": true,
-          "partition_key_derive_function": "",
-          "partition_key_derive_column": ""
-        }
-      },
-      {
-        "table": "Shippers",
-        "configuration": {
-          "natural_key": [
-            "ShipperID"
-          ],
-          "partition_key": null,
-          "sync_type": "",
-          "ingest": true,
-          "partition_key_derive_function": "",
-          "partition_key_derive_column": ""
-        }
-      },
-      {
-        "table": "OrderDetails",
-        "configuration": {
-          "natural_key": [
-            "OrderID"
-          ],
-          "partition_key": null,
-          "sync_type": "",
-          "ingest": true,
-          "partition_key_derive_function": "",
-          "partition_key_derive_column": ""
-        }
-      },
-      {
-        "table": "CurrentProductList",
-        "configuration": {
-          "natural_key": [
-            "ProductID"
-          ],
-          "partition_key": null,
-          "sync_type": "",
-          "ingest": true,
-          "partition_key_derive_function": "",
-          "partition_key_derive_column": ""
-        }
-      },
-      {
-        "table": "CustomerandSuppliersbyCity",
-        "configuration": {
-          "natural_key": [
-            "City"
-          ],
-          "partition_key": null,
-          "sync_type": "",
-          "ingest": true,
-          "partition_key_derive_function": "",
-          "partition_key_derive_column": ""
-        }
-      },
-      {
-        "table": "OrderDetailsExtended",
-        "configuration": {
-          "natural_key": [
-            "OrderID"
-          ],
-          "partition_key": null,
-          "sync_type": "",
-          "ingest": true,
-          "partition_key_derive_function": "",
-          "partition_key_derive_column": ""
-        }
-      },
-      {
-        "table": "ProductsbyCategory",
-        "configuration": {
-          "natural_key": [
-            "CategoryName"
-          ],
-          "partition_key": null,
-          "sync_type": "",
-          "ingest": true,
-          "partition_key_derive_function": "",
-          "partition_key_derive_column": ""
-        }
-      },
-      {
-        "table": "Alphabeticallistofproducts",
-        "configuration": {
-          "natural_key": [
-            "ProductID"
-          ],
-          "partition_key": null,
-          "sync_type": "",
-          "ingest": true,
-          "partition_key_derive_function": "",
-          "partition_key_derive_column": ""
-        }
-      },
-      {
-        "table": "Invoices",
-        "configuration": {
-          "natural_key": [
-            "ShipName"
-          ],
-          "partition_key": null,
-          "sync_type": "",
-          "ingest": true,
-          "partition_key_derive_function": "",
-          "partition_key_derive_column": ""
-        }
-      },
-      {
-        "table": "Categories",
-        "configuration": {
-          "natural_key": [
-            "CategoryID"
-          ],
-          "partition_key": null,
-          "sync_type": "",
-          "ingest": true,
-          "partition_key_derive_function": "",
-          "partition_key_derive_column": ""
-        }
-      },
-      {
-        "table": "Customers",
-        "configuration": {
-          "natural_key": [
-            "CustomerID"
-          ],
-          "partition_key": null,
-          "sync_type": "",
-          "ingest": true,
-          "partition_key_derive_function": "",
-          "partition_key_derive_column": ""
-        }
-      },
-      {
-        "table": "Employees",
-        "configuration": {
-          "natural_key": [
-            "EmployeeID"
-          ],
-          "partition_key": null,
-          "sync_type": "",
-          "ingest": true,
-          "partition_key_derive_function": "",
-          "partition_key_derive_column": ""
-        }
-      },
-      {
-        "table": "Orders",
-        "configuration": {
-          "natural_key": [
-            "OrderID"
-          ],
-          "partition_key": null,
-          "sync_type": "",
-          "ingest": true,
-          "partition_key_derive_function": "",
-          "partition_key_derive_column": ""
-        }
-      },
-      {
-        "table": "Products",
-        "configuration": {
-          "natural_key": [
-            "ProductID"
-          ],
-          "partition_key": null,
-          "sync_type": "",
-          "ingest": true,
-          "partition_key_derive_function": "",
-          "partition_key_derive_column": ""
-        }
-      },
-      {
-        "table": "Suppliers",
-        "configuration": {
-          "natural_key": [
-            "SupplierID"
-          ],
-          "partition_key": null,
-          "sync_type": "",
-          "ingest": true,
-          "partition_key_derive_function": "",
-          "partition_key_derive_column": ""
-        }
-      },
-      {
-        "table": "Territories",
-        "configuration": {
-          "natural_key": [
-            "TerritoryID"
-          ],
-          "partition_key": null,
-          "sync_type": "",
-          "ingest": true,
-          "partition_key_derive_function": "",
-          "partition_key_derive_column": ""
-        }
-      },
-      {
-        "table": "CategorySalesfor1997",
-        "configuration": {
-          "natural_key": [
-            "CategoryName"
-          ],
-          "partition_key": null,
-          "sync_type": "",
-          "ingest": true,
-          "partition_key_derive_function": "",
-          "partition_key_derive_column": ""
-        }
-      },
-      {
-        "table": "OrderSubtotals",
-        "configuration": {
-          "natural_key": [
-            "OrderID"
-          ],
-          "partition_key": null,
-          "sync_type": "",
-          "ingest": true,
-          "partition_key_derive_function": "",
-          "partition_key_derive_column": ""
+          "sync_type": "full-load",
+          "hive_table_name": "CustomerCustomerDemo"
         }
       },
       {
         "table": "OrdersQry",
+        "origTableName": "Orders Qry",
         "configuration": {
-          "natural_key": [
-            "OrderID"
-          ],
-          "partition_key": null,
-          "sync_type": "",
-          "ingest": true,
-          "partition_key_derive_function": "",
-          "partition_key_derive_column": ""
+          "sync_type": "full-load",
+          "hive_table_name": "Orders Qry"
         }
       },
       {
-        "table": "ProductSalesfor1997",
+        "table": "ProductsbyCategory",
+        "origTableName": "Products by Category",
         "configuration": {
-          "natural_key": [
-            "CategoryName"
-          ],
-          "partition_key": null,
-          "sync_type": "",
-          "ingest": true,
-          "partition_key_derive_function": "",
-          "partition_key_derive_column": ""
-        }
-      },
-      {
-        "table": "ProductsAboveAveragePrice",
-        "configuration": {
-          "natural_key": [
-            "ProductName"
-          ],
-          "partition_key": null,
-          "sync_type": "",
-          "ingest": true,
-          "partition_key_derive_function": "",
-          "partition_key_derive_column": ""
+          "sync_type": "full-load",
+          "hive_table_name": "Products by Category"
         }
       },
       {
         "table": "QuarterlyOrders",
+        "origTableName": "Quarterly Orders",
         "configuration": {
-          "natural_key": [
-            "CustomerID"
-          ],
-          "partition_key": null,
-          "sync_type": "",
-          "ingest": true,
-          "partition_key_derive_function": "",
-          "partition_key_derive_column": ""
+          "sync_type": "full-load",
+          "hive_table_name": "Quarterly Orders"
+        }
+      },
+      {
+        "table": "EmployeeTerritories",
+        "origTableName": "EmployeeTerritories",
+        "configuration": {
+          "sync_type": "full-load",
+          "hive_table_name": "EmployeeTerritories"
+        }
+      },
+      {
+        "table": "Shippers",
+        "origTableName": "Shippers",
+        "configuration": {
+          "sync_type": "full-load",
+          "hive_table_name": "Shippers"
+        }
+      },
+      {
+        "table": "CategorySalesfor1997",
+        "origTableName": "Category Sales for 1997",
+        "configuration": {
+          "sync_type": "full-load",
+          "hive_table_name": "Category Sales for 1997"
+        }
+      },
+      {
+        "table": "ProductsAboveAveragePrice",
+        "origTableName": "Products Above Average Price",
+        "configuration": {
+          "sync_type": "full-load",
+          "hive_table_name": "Products Above Average Price"
+        }
+      },
+      {
+        "table": "OrderDetailsExtended",
+        "origTableName": "Order Details Extended",
+        "configuration": {
+          "sync_type": "full-load",
+          "hive_table_name": "Order Details Extended"
+        }
+      },
+      {
+        "table": "OrderDetails",
+        "origTableName": "OrderDetails",
+        "configuration": {
+          "sync_type": "full-load",
+          "hive_table_name": "OrderDetails"
+        }
+      },
+      {
+        "table": "Territories",
+        "origTableName": "Territories",
+        "configuration": {
+          "sync_type": "full-load",
+          "hive_table_name": "Territories"
+        }
+      },
+      {
+        "table": "CustomerandSuppliersbyCity",
+        "origTableName": "Customer and Suppliers by City",
+        "configuration": {
+          "sync_type": "full-load",
+          "hive_table_name": "Customer and Suppliers by City"
+        }
+      },
+      {
+        "table": "OrderSubtotals",
+        "origTableName": "Order Subtotals",
+        "configuration": {
+          "sync_type": "full-load",
+          "hive_table_name": "Order Subtotals"
+        }
+      },
+      {
+        "table": "ProductSalesfor1997",
+        "origTableName": "Product Sales for 1997",
+        "configuration": {
+          "sync_type": "full-load",
+          "hive_table_name": "Product Sales for 1997"
+        }
+      },
+      {
+        "table": "CustomerDemographics",
+        "origTableName": "CustomerDemographics",
+        "configuration": {
+          "sync_type": "full-load",
+          "hive_table_name": "CustomerDemographics"
+        }
+      },
+      {
+        "table": "Region",
+        "origTableName": "Region",
+        "configuration": {
+          "sync_type": "full-load",
+          "hive_table_name": "Region"
+        }
+      },
+      {
+        "table": "Employees",
+        "origTableName": "Employees",
+        "configuration": {
+          "sync_type": "full-load",
+          "hive_table_name": "Employees"
+        }
+      },
+      {
+        "table": "Categories",
+        "origTableName": "Categories",
+        "configuration": {
+          "sync_type": "full-load",
+          "hive_table_name": "Categories"
+        }
+      },
+      {
+        "table": "Customers",
+        "origTableName": "Customers",
+        "configuration": {
+          "sync_type": "full-load",
+          "hive_table_name": "Customers"
+        }
+      },
+      {
+        "table": "Orders",
+        "origTableName": "Orders",
+        "configuration": {
+          "sync_type": "full-load",
+          "hive_table_name": "Orders"
+        }
+      },
+      {
+        "table": "Products",
+        "origTableName": "Products",
+        "configuration": {
+          "sync_type": "full-load",
+          "hive_table_name": "Products"
+        }
+      },
+      {
+        "table": "Suppliers",
+        "origTableName": "Suppliers",
+        "configuration": {
+          "sync_type": "full-load",
+          "hive_table_name": "Suppliers"
+        }
+      },
+      {
+        "table": "Alphabeticallistofproducts",
+        "origTableName": "Alphabetical list of products",
+        "configuration": {
+          "sync_type": "full-load",
+          "hive_table_name": "Alphabetical list of products"
+        }
+      },
+      {
+        "table": "Invoices",
+        "origTableName": "Invoices",
+        "configuration": {
+          "sync_type": "full-load",
+          "hive_table_name": "Invoices"
         }
       },
       {
         "table": "SalesTotalsbyAmount",
+        "origTableName": "Sales Totals by Amount",
         "configuration": {
-          "natural_key": [
-            "SaleAmount"
-          ],
-          "partition_key": null,
-          "sync_type": "",
-          "ingest": true,
-          "partition_key_derive_function": "",
-          "partition_key_derive_column": ""
+          "sync_type": "full-load",
+          "hive_table_name": "Sales Totals by Amount"
         }
       },
       {
         "table": "SalesbyCategory",
+        "origTableName": "Sales by Category",
         "configuration": {
-          "natural_key": [
-            "CategoryID"
-          ],
-          "partition_key": null,
-          "sync_type": "",
-          "ingest": true,
-          "partition_key_derive_function": "",
-          "partition_key_derive_column": ""
+          "sync_type": "full-load",
+          "hive_table_name": "Sales by Category"
         }
       },
       {
         "table": "SummaryofSalesbyQuarter",
+        "origTableName": "Summary of Sales by Quarter",
         "configuration": {
-          "natural_key": [
-            "ShippedDate"
-          ],
-          "partition_key": null,
-          "sync_type": "",
-          "ingest": true,
-          "partition_key_derive_function": "",
-          "partition_key_derive_column": ""
+          "sync_type": "full-load",
+          "hive_table_name": "Summary of Sales by Quarter"
         }
       },
       {
         "table": "SummaryofSalesbyYear",
+        "origTableName": "Summary of Sales by Year",
         "configuration": {
-          "natural_key": [
-            "ShippedDate"
-          ],
-          "partition_key": null,
-          "sync_type": "",
-          "ingest": true,
-          "partition_key_derive_function": "",
-          "partition_key_derive_column": ""
+          "sync_type": "full-load",
+          "hive_table_name": "Summary of Sales by Year"
+        }
+      },
+      {
+        "table": "CurrentProductList",
+        "origTableName": "Current Product List",
+        "configuration": {
+          "sync_type": "full-load",
+          "hive_table_name": "Current Product List"
         }
       }
     ],
+    "connection_string": "jdbc:mysql://localhost:3306/northwind",
     "username": "root",
-    "private_key": "",
-    "database": "MYSQL",
-    "driver_name": "com.mysql.jdbc.Driver",
-    "dns": "",
-    "connection_string": "jdbc:mysql://ip-172-30-0-200.ec2.internal:3306/northwind",
     "password": "MTIz",
-    "schema": "northwind"
+    "schema": "northwind",
+    "database": "MYSQL",
+    "driver_name": "com.mysql.jdbc.Driver"
   }
 }
