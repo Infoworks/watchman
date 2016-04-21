@@ -1,109 +1,271 @@
 {
   "entityType": "source",
-  "dependsOn": [
-    "setup.json"
-  ],
   "config": {
-    "name": "teradata_cdc_demo",
+    "name": "Teradata_cdc_demo",
     "sourceType": "rdbms",
-    "hdfs_path": "/sqoop/iw/teradata_cdc_demo",
-    "hive_schema": "teradata_cdc_demo",
+    "hdfs_path": "/source/Teradata_cdc_demo",
+    "hive_schema": "Teradata_cdc_demo",
     "tables": [
       {
+        "table": "T_REC_HIST",
+        "origTableName": "T_REC_HIST",
+        "configuration": {
+          "hive_table_name": "T_REC_HIST",
+          "sync_type": "full-load",
+          "split_by_key": null,
+          "split_by_key_extract_from_col": false,
+          "split_by_key_derive_function": "",
+          "split_by_key_derive_column": "",
+          "chunk_load": {
+            "status": "disabled",
+            "column": {},
+            "derive_function": null
+          },
+          "partition_key": null,
+          "partition_key_extract_from_col": false,
+          "partition_key_derive_function": "",
+          "partition_key_derive_column": "",
+          "partition_value_changeable": false,
+          "natural_key": [],
+          "query_insert": "",
+          "query_insert_column": "",
+          "query_update": "",
+          "query_update_column": "",
+          "number_of_mappers": null,
+          "number_of_reducers": null,
+          "number_of_secondary_partitions": null,
+          "number_of_merge_parallel_secondary_partitions": null,
+          "number_of_merge_parallel_inmemory_secondary_partitions": null,
+          "offset_cdc_start": 0,
+          "offset_cdc_end": 0
+        }
+      },
+      {
         "table": "DRUG",
+        "origTableName": "DRUG",
         "configuration": {
-          "ingest": true,
+          "hive_table_name": "DRUG",
+          "sync_type": "full-load",
+          "split_by_key": null,
+          "split_by_key_extract_from_col": false,
+          "split_by_key_derive_function": "",
+          "split_by_key_derive_column": "",
+          "chunk_load": {
+            "status": "disabled",
+            "column": {},
+            "derive_function": null
+          },
           "partition_key": null,
+          "partition_key_extract_from_col": false,
           "partition_key_derive_function": "",
           "partition_key_derive_column": "",
-          "natural_key": [
-            "DRUG_ID"
-          ],
-          "sync_type": "full-load"
-        }
-      },
-      {
-        "table": "MEMBERS",
-        "configuration": {
-          "ingest": true,
-          "partition_key": [
-              "ZIW_TARGET_START_TIME_STAMP"
-          ],
-          "partition_key_derive_function": "year-month",
-          "partition_key_derive_column": "year_mon_partition",
-          "natural_key": [
-            "MBR_NBR"
-          ],
-          "sync_type": "full-load"
-        }
-      },
-      {
-        "table": "PRESCRIBER",
-        "configuration": {
-          "ingest": true,
-          "partition_key": null,
-          "partition_key_derive_function": "",
-          "partition_key_derive_column": "",
-          "natural_key": [
-            "PRSCBR_ID"
-          ],
-          "sync_type": "full-load"
-        }
-      },
-      {
-        "table": "STORE",
-        "configuration": {
-          "ingest": true,
-          "partition_key": null,
-          "partition_key_derive_function": "",
-          "partition_key_derive_column": "",
-          "natural_key": [
-            "STORE_ID"
-          ],
-          "sync_type": "full-load"
-        }
-      },
-      {
-        "table": "RX_FILL",
-        "configuration": {
-          "ingest": true,
-          "partition_key": null,
-          "partition_key_derive_function": "",
-          "partition_key_derive_column": "",
-          "natural_key": [
-            "PRSCRT_FILL_ID",
-            "REC_HIST_GID"
-          ],
-          "sync_type": "cdc-query",
-          "query_insert": "SELECT * FROM RX_FILL WHERE REC_HIST_GID IN (SELECT REC_HIST_GID FROM T_REC_HIST WHERE PRCS_GID IN (998877) AND REC_ADD_TS > CAST (last_ingested_timestamp AS TIMESTAMP))",
-          "query_update": "SELECT * FROM RX_FILL A INNER JOIN (SELECT TEMP.PRSCRT_FILL_ID AS TPRSCRT_FILL_ID, (TEMP.REC_EFF_DT-1) AS TREC_EXP_DT FROM (SELECT * FROM RX_FILL WHERE REC_HIST_GID IN (SELECT REC_HIST_GID FROM T_REC_HIST WHERE PRCS_GID IN (998877) AND REC_ADD_TS > last_ingested_timestamp)) TEMP) B ON A.PRSCRT_FILL_ID=B.TPRSCRT_FILL_ID AND A.REC_EXP_DT=B.TREC_EXP_DT",
-          "eff_date_column": "REC_EFF_DT",
-          "exprn_date_column": "REC_EXP_DT"
+          "partition_value_changeable": false,
+          "natural_key": [],
+          "query_insert": "",
+          "query_insert_column": "",
+          "query_update": "",
+          "query_update_column": "",
+          "number_of_mappers": null,
+          "number_of_reducers": null,
+          "number_of_secondary_partitions": null,
+          "number_of_merge_parallel_secondary_partitions": null,
+          "number_of_merge_parallel_inmemory_secondary_partitions": null,
+          "offset_cdc_start": 0,
+          "offset_cdc_end": 0
         }
       },
       {
         "table": "RX_PRESCRIPTION",
+        "origTableName": "RX_PRESCRIPTION",
         "configuration": {
-          "ingest": true,
+          "hive_table_name": "RX_PRESCRIPTION",
+          "sync_type": "cdc-timestamp-column",
+          "split_by_key": null,
+          "split_by_key_extract_from_col": false,
+          "split_by_key_derive_function": "",
+          "split_by_key_derive_column": "",
+          "chunk_load": {
+            "status": "disabled",
+            "column": {},
+            "derive_function": null
+          },
           "partition_key": null,
+          "partition_key_extract_from_col": false,
           "partition_key_derive_function": "",
           "partition_key_derive_column": "",
+          "partition_value_changeable": false,
           "natural_key": [
             "PRSCRT_ID"
           ],
-          "sync_type": "cdc-timestamp-column",
           "timestamp_column_insert": "record_add_ts",
-          "timestamp_column_update": "record_update_ts"
+          "timestamp_column_update": "record_update_ts",
+          "query_insert": "",
+          "query_insert_column": "",
+          "query_update": "",
+          "query_update_column": "",
+          "number_of_mappers": null,
+          "number_of_reducers": null,
+          "number_of_secondary_partitions": null,
+          "number_of_merge_parallel_secondary_partitions": null,
+          "number_of_merge_parallel_inmemory_secondary_partitions": null,
+          "offset_cdc_start": 0,
+          "offset_cdc_end": 0,
+          "external_audit_schema": "",
+          "external_audit_table": "",
+          "external_audit_join_column": "",
+          "external_audit_timestamp_column": ""
+        }
+      },
+      {
+        "table": "MEMBERS",
+        "origTableName": "MEMBERS",
+        "configuration": {
+          "hive_table_name": "MEMBERS",
+          "sync_type": "full-load",
+          "split_by_key": null,
+          "split_by_key_extract_from_col": false,
+          "split_by_key_derive_function": "",
+          "split_by_key_derive_column": "",
+          "chunk_load": {
+            "status": "disabled",
+            "column": {},
+            "derive_function": null
+          },
+          "partition_key": null,
+          "partition_key_extract_from_col": false,
+          "partition_key_derive_function": "",
+          "partition_key_derive_column": "",
+          "partition_value_changeable": false,
+          "natural_key": [],
+          "query_insert": "",
+          "query_insert_column": "",
+          "query_update": "",
+          "query_update_column": "",
+          "number_of_mappers": null,
+          "number_of_reducers": null,
+          "number_of_secondary_partitions": null,
+          "number_of_merge_parallel_secondary_partitions": null,
+          "number_of_merge_parallel_inmemory_secondary_partitions": null,
+          "offset_cdc_start": 0,
+          "offset_cdc_end": 0
+        }
+      },
+      {
+        "table": "PRESCRIBER",
+        "origTableName": "PRESCRIBER",
+        "configuration": {
+          "hive_table_name": "PRESCRIBER",
+          "sync_type": "full-load",
+          "split_by_key": null,
+          "split_by_key_extract_from_col": false,
+          "split_by_key_derive_function": "",
+          "split_by_key_derive_column": "",
+          "chunk_load": {
+            "status": "disabled",
+            "column": {},
+            "derive_function": null
+          },
+          "partition_key": null,
+          "partition_key_extract_from_col": false,
+          "partition_key_derive_function": "",
+          "partition_key_derive_column": "",
+          "partition_value_changeable": false,
+          "natural_key": [],
+          "query_insert": "",
+          "query_insert_column": "",
+          "query_update": "",
+          "query_update_column": "",
+          "number_of_mappers": null,
+          "number_of_reducers": null,
+          "number_of_secondary_partitions": null,
+          "number_of_merge_parallel_secondary_partitions": null,
+          "number_of_merge_parallel_inmemory_secondary_partitions": null,
+          "offset_cdc_start": 0,
+          "offset_cdc_end": 0
+        }
+      },
+      {
+        "table": "STORE",
+        "origTableName": "STORE",
+        "configuration": {
+          "hive_table_name": "STORE",
+          "sync_type": "full-load",
+          "split_by_key": null,
+          "split_by_key_extract_from_col": false,
+          "split_by_key_derive_function": "",
+          "split_by_key_derive_column": "",
+          "chunk_load": {
+            "status": "disabled",
+            "column": {},
+            "derive_function": null
+          },
+          "partition_key": null,
+          "partition_key_extract_from_col": false,
+          "partition_key_derive_function": "",
+          "partition_key_derive_column": "",
+          "partition_value_changeable": false,
+          "natural_key": [],
+          "query_insert": "",
+          "query_insert_column": "",
+          "query_update": "",
+          "query_update_column": "",
+          "number_of_mappers": null,
+          "number_of_reducers": null,
+          "number_of_secondary_partitions": null,
+          "number_of_merge_parallel_secondary_partitions": null,
+          "number_of_merge_parallel_inmemory_secondary_partitions": null,
+          "offset_cdc_start": 0,
+          "offset_cdc_end": 0
+        }
+      },
+      {
+        "table": "RX_FILL",
+        "origTableName": "RX_FILL",
+        "configuration": {
+          "hive_table_name": "RX_FILL",
+          "sync_type": "cdc-query",
+          "split_by_key": null,
+          "split_by_key_extract_from_col": false,
+          "split_by_key_derive_function": "",
+          "split_by_key_derive_column": "",
+          "chunk_load": {
+            "status": "disabled",
+            "column": {},
+            "derive_function": null
+          },
+          "partition_key": null,
+          "partition_key_extract_from_col": false,
+          "partition_key_derive_function": "",
+          "partition_key_derive_column": "",
+          "partition_value_changeable": false,
+          "natural_key": [
+            "PRSCRT_FILL_ID"
+          ],
+          "scd_type": "scd-2",
+          "query_insert_enabled": true,
+          "query_insert": "SELECT A.*,B.rec_add_ts as ZIW_REC_ADD_TS\n                                   FROM   CAT_TWO_SCD1_BOTH A\n                                          JOIN t_rec_hist B\n                                            ON A.rec_hist_gid = B.rec_hist_gid\n                                   WHERE  prcs_gid IN ( 998877 )\n                                          AND B.rec_add_ts > Cast(\n                                              last_ingested_timestamp AS\n                                              TIMESTAMP) AND B.rec_add_ts <= Cast(\n                                              cdc_end_timestamp AS\n                                              TIMESTAMP)",
+          "query_insert_column": "PRSCRT_ID",
+          "query_update_enabled": true,
+          "query_update": "SELECT A.*,B.rec_add_ts as ZIW_REC_ADD_TS\n                                   FROM   CAT_TWO_SCD1_BOTH A\n                                          JOIN t_rec_hist B\n                                            ON A.rec_upd_hist_gid = B.rec_hist_gid\n                                   WHERE  prcs_gid IN ( 998877 )\n                                          AND rec_add_ts > Cast(\n                                              last_ingested_timestamp AS\n                                              TIMESTAMP) AND rec_add_ts <= Cast(\n                                              cdc_end_timestamp AS\n                                              TIMESTAMP)",
+          "number_of_mappers": null,
+          "number_of_reducers": null,
+          "number_of_secondary_partitions": null,
+          "number_of_merge_parallel_secondary_partitions": null,
+          "number_of_merge_parallel_inmemory_secondary_partitions": null,
+          "offset_cdc_start": 0,
+          "offset_cdc_end": 0,
+          "external_audit_schema": "",
+          "external_audit_table": "",
+          "external_audit_join_column": "",
+          "external_audit_timestamp_column": ""
         }
       }
     ],
+    "connection_string": "jdbc:teradata://172.30.0.69/TMODE=ANSI,CHARSET=UTF8,database=teradata_cdc_demo",
     "username": "DBC",
-    "private_key": "",
-    "database": "TERADATA",
-    "driver_name": "com.teradata.jdbc.TeraDriver",
-    "dns": "",
-    "connection_string": "jdbc:teradata://172.30.0.69/TMODE=ANSI,CHARSET=UTF8,database=TERADATA_CDC_DEMO",
     "password": "aW5mb3dvcmtz",
-    "schema": "TERADATA_CDC_DEMO"
+    "schema": "teradata_cdc_demo",
+    "database": "TERADATA",
+    "driver_name": "com.teradata.jdbc.TeraDriver"
   }
 }
