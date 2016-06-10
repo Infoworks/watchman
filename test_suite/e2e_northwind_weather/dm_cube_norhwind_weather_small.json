@@ -1,5 +1,10 @@
 {
   "entityType": "datamodel",
+  "dependsOn": [
+    "src_northwind.json",
+    "src_weather.json",
+    "domain_create.json"
+  ],
   "config": {
     "name": "New_Northwind_DM",
     "domain": "Testing_domain",
