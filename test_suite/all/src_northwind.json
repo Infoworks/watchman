@@ -1,10 +1,10 @@
 {
   "entityType": "source",
   "config": {
-    "name": "New_Northwind_source_0806",
+    "name": "New_Northwind_source",
     "sourceType": "rdbms",
-    "hdfs_path": "/source/New_Northwind_source_0806",
-    "hive_schema": "New_Northwind_source_0806",
+    "hdfs_path": "/source/New_Northwind_source",
+    "hive_schema": "New_Northwind_source",
     "tables": [
       {
         "table": "SHIPPERS",
