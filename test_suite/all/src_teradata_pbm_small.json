@@ -1,110 +1,89 @@
 {
   "entityType": "source",
   "config": {
-    "name": "teradata_pbm_small",
+    "name": "New_Teradata_source",
     "sourceType": "rdbms",
-    "hdfs_path": "/sqoop/iw/teradata_pbm_small",
-    "hive_schema": "teradata_pbm_small",
+    "hdfs_path": "/source/New_Teradata_source",
+    "hive_schema": "New_Teradata_source",
     "tables": [
       {
-        "table": "DRUG",
+        "table": "CUSTOMERS",
+        "origTableName": "CUSTOMERS",
         "configuration": {
-          "ingest": true,
-          "partition_key": null,
-          "partition_key_derive_function": "",
-          "partition_key_derive_column": "",
-          "natural_key": [
-            "DRUG_ID"
-          ],
-          "sync_type": ""
-        }
-      },
-      {
-        "table": "MEMBERS",
-        "configuration": {
-          "ingest": true,
-          "partition_key": null,
-          "partition_key_derive_function": "",
-          "partition_key_derive_column": "",
-          "natural_key": [
-            "MBR_NBR"
-          ],
-          "sync_type": ""
-        }
-      },
-      {
-        "table": "PRESCRIBER",
-        "configuration": {
-          "ingest": true,
-          "partition_key": null,
-          "partition_key_derive_function": "",
-          "partition_key_derive_column": "",
-          "natural_key": [
-            "PRSCBR_ID"
-          ],
-          "sync_type": ""
-        }
-      },
-      {
-        "table": "STORE",
-        "configuration": {
-          "ingest": true,
-          "partition_key": null,
-          "partition_key_derive_function": "",
-          "partition_key_derive_column": "",
-          "natural_key": [
-            "STORE_ID"
-          ],
-          "sync_type": ""
-        }
-      },
-      {
-        "table": "CAMPAIGN",
-        "configuration": {
-          "ingest": true,
-          "partition_key": null,
-          "partition_key_derive_function": "",
-          "partition_key_derive_column": "",
-          "natural_key": [
-            "PERSON_NBR"
-          ],
-          "sync_type": ""
+          "sync_type": "full-load",
+          "hive_table_name": "CUSTOMERS"
         }
       },
       {
         "table": "RX_FILL",
+        "origTableName": "RX_FILL",
         "configuration": {
-          "ingest": true,
-          "partition_key": null,
-          "partition_key_derive_function": "",
-          "partition_key_derive_column": "",
-          "natural_key": [
-            "PRSCRT_FILL_ID"
-          ],
-          "sync_type": ""
+          "sync_type": "full-load",
+          "hive_table_name": "RX_FILL"
+        }
+      },
+      {
+        "table": "T_REC_HIST",
+        "origTableName": "T_REC_HIST",
+        "configuration": {
+          "sync_type": "full-load",
+          "hive_table_name": "T_REC_HIST"
         }
       },
       {
         "table": "RX_PRESCRIPTION",
+        "origTableName": "RX_PRESCRIPTION",
         "configuration": {
-          "ingest": true,
-          "partition_key": null,
-          "partition_key_derive_function": "",
-          "partition_key_derive_column": "",
-          "natural_key": [
-            "PRSCRT_ID"
-          ],
-          "sync_type": ""
+          "sync_type": "full-load",
+          "hive_table_name": "RX_PRESCRIPTION"
+        }
+      },
+      {
+        "table": "DRUG",
+        "origTableName": "DRUG",
+        "configuration": {
+          "sync_type": "full-load",
+          "hive_table_name": "DRUG"
+        }
+      },
+      {
+        "table": "MEMBERS",
+        "origTableName": "MEMBERS",
+        "configuration": {
+          "sync_type": "full-load",
+          "hive_table_name": "MEMBERS"
+        }
+      },
+      {
+        "table": "PRESCRIBER",
+        "origTableName": "PRESCRIBER",
+        "configuration": {
+          "sync_type": "full-load",
+          "hive_table_name": "PRESCRIBER"
+        }
+      },
+      {
+        "table": "STORE",
+        "origTableName": "STORE",
+        "configuration": {
+          "sync_type": "full-load",
+          "hive_table_name": "STORE"
+        }
+      },
+      {
+        "table": "CAMPAIGN",
+        "origTableName": "CAMPAIGN",
+        "configuration": {
+          "sync_type": "full-load",
+          "hive_table_name": "CAMPAIGN"
         }
       }
     ],
-    "username": "DBC",
-    "private_key": "",
-    "database": "TERADATA",
-    "driver_name": "com.teradata.jdbc.TeraDriver",
-    "dns": "",
     "connection_string": "jdbc:teradata://ec2-54-144-76-210.compute-1.amazonaws.com/TMODE=ANSI,CHARSET=UTF8,database=PBM_SMALL",
+    "username": "DBC",
     "password": "aW5mb3dvcmtz",
-    "schema": "PBM_SMALL"
+    "schema": "PBM_SMALL",
+    "database": "TERADATA",
+    "driver_name": "com.teradata.jdbc.TeraDriver"
   }
 }
