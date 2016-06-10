@@ -1,0 +1,57 @@
+{
+  "entityType": "source",
+  "config": {
+    "name": "BB_PVS_testing_source",
+    "sourceType": "csv",
+    "hdfs_path": "/source/BB_PVStesting_source",
+    "hive_schema": "BB_PVStesting_source",
+    "tables": [
+      {
+        "table": "parties",
+        "origTableName": "parties",
+        "configuration": {
+          "sync_type": "full-load",
+          "hive_table_name": "parties"
+        }
+      },
+      {
+        "table": "plaintiffs",
+        "origTableName": "plaintiffs",
+        "configuration": {
+          "sync_type": "full-load",
+          "hive_table_name": "plaintiffs"
+        }
+      },
+      {
+        "table": "companies",
+        "origTableName": "companies",
+        "configuration": {
+          "sync_type": "full-load",
+          "hive_table_name": "companies"
+        }
+      },
+      {
+        "table": "defendants",
+        "origTableName": "defendants",
+        "configuration": {
+          "sync_type": "full-load",
+          "hive_table_name": "defendants"
+        }
+      },
+      {
+        "table": "dockets",
+        "origTableName": "dockets",
+        "configuration": {
+          "sync_type": "full-load",
+          "hive_table_name": "dockets"
+        }
+      }
+    ],
+    "fileType": "csv",
+    "path": "/uploads/bloomberg/full/bb_data_full/psv",
+    "schema": "BB_PVStesting_source",
+    "separator": "|",
+    "quotechar": "\"",
+    "escapechar": "\\"
+  }
+}

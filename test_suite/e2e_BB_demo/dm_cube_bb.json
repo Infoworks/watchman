@@ -1,0 +1,152 @@
+{
+  "entityType": "datamodel",
+"dependsOn": [
+    "src_csv_bb.json",
+    "src_psv_bb.json",
+    "src_tsv_bb.json",
+    "domain_create.json"
+  ],
+  "config": {
+    "name": "BB_Datamodel",
+    "domain": "Test_domain",
+    "sources": [
+      "BB_PVStesting_source",
+      "BB_TSV_testing_source",
+      "BB_CSV_testing_source"
+    ],
+    "transformations": {
+      "BB_PVStesting_source": {
+        "dockets": [
+          "derive iso_date as date(last_updated_date, \"MMM. dd, yyyy HH:mm:ss\")  ",
+          "derive court_prefix as format(\"%s-%s\", substr(court, 0, 2), substr(court, 2, 6))  ",
+          "derive c8 as format(\"%s : %s\", \"LITERAL\", formatdate(date(last_updated_date, \"MMM. dd, yyyy HH:mm:ss\"), \"yyyy-MM-dd\"))  "
+        ]
+      }
+    },
+    "hdfs_path": "/DM/BB_Domain_2705",
+    "hive_schema": "BB_Domain_2705",
+    "treemap": {
+      "nodeindex": 2,
+      "children": [
+        {
+          "nodeindex": 3,
+          "breadCrumb": "lawfirms",
+          "join": {
+            "op": "AND",
+            "predicates": [
+              {
+                "p_col": "bbid",
+                "c_col": "bbid",
+                "op": "equals"
+              }
+            ]
+          },
+          "discovered_cardinality": {
+            "parent": "many",
+            "parent_optional": true,
+            "self": "one",
+            "self_optional": true
+          },
+          "source": "BB_TSV_testing_source",
+          "table": "company"
+        },
+        {
+          "nodeindex": 4,
+          "breadCrumb": "lawfirms",
+          "join": {
+            "op": "AND",
+            "predicates": [
+              {
+                "p_col": "lawfirm_id",
+                "c_col": "lawfirm_id",
+                "op": "equals"
+              }
+            ]
+          },
+          "discovered_cardinality": {
+            "parent": "many",
+            "parent_optional": false,
+            "self": "one",
+            "self_optional": false
+          },
+          "source": "BB_TSV_testing_source",
+          "table": "lawfirm"
+        },
+        {
+          "nodeindex": 5,
+          "breadCrumb": "lawfirms",
+          "children": [
+            {
+              "nodeindex": 6,
+              "breadCrumb": "lawfirms > dockets",
+              "join": {
+                "op": "AND",
+                "predicates": [
+                  {
+                    "p_col": "nos_id",
+                    "c_col": "nos_id",
+                    "op": "equals"
+                  }
+                ]
+              },
+              "discovered_cardinality": {
+                "parent": "many",
+                "parent_optional": true,
+                "self": "many",
+                "self_optional": true
+              },
+              "source": "BB_TSV_testing_source",
+              "table": "nos"
+            },
+            {
+              "nodeindex": 7,
+              "breadCrumb": "lawfirms > dockets",
+              "join": {
+                "op": "AND",
+                "predicates": [
+                  {
+                    "p_col": "court_id",
+                    "c_col": "court_id",
+                    "op": "equals"
+                  }
+                ]
+              },
+              "discovered_cardinality": {
+                "parent": "many",
+                "parent_optional": true,
+                "self": "many",
+                "self_optional": true
+              },
+              "source": "BB_CSV_testing_source",
+              "table": "uscourts"
+            }
+          ],
+          "join": {
+            "op": "AND",
+            "predicates": [
+              {
+                "p_col": "doc_id",
+                "c_col": "doc_id",
+                "op": "equals"
+              }
+            ]
+          },
+          "discovered_cardinality": {
+            "parent": "many",
+            "parent_optional": true,
+            "self": "many",
+            "self_optional": true
+          },
+          "source": "BB_PVStesting_source",
+          "table": "dockets"
+        }
+      ],
+      "treemapId": {
+        "_str": "574868f0bdc7af0e7f8962b7"
+      },
+      "source": "BB_CSV_testing_source",
+      "table": "lawfirms"
+    },
+    "cubes": []
+  }
+}

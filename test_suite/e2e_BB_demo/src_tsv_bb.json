@@ -1,0 +1,41 @@
+{
+  "entityType": "source",
+  "config": {
+    "name": "BB_TSV_testing_source",
+    "sourceType": "csv",
+    "hdfs_path": "/source/BB_TSV_testing_source",
+    "hive_schema": "BB_TSV_testing_source",
+    "tables": [
+      {
+        "table": "company",
+        "origTableName": "company",
+        "configuration": {
+          "sync_type": "full-load",
+          "hive_table_name": "company"
+        }
+      },
+      {
+        "table": "lawfirm",
+        "origTableName": "lawfirm",
+        "configuration": {
+          "sync_type": "full-load",
+          "hive_table_name": "lawfirm"
+        }
+      },
+      {
+        "table": "nos",
+        "origTableName": "nos",
+        "configuration": {
+          "sync_type": "full-load",
+          "hive_table_name": "nos"
+        }
+      }
+    ],
+    "fileType": "csv",
+    "path": "/uploads/bloomberg/full/bb_data_full/tsv",
+    "schema": "BB_TSV_testing_source",
+    "separator": "\\t",
+    "quotechar": "\"",
+    "escapechar": "\\"
+  }
+}
