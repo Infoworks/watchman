@@ -1,5 +1,9 @@
 {
   "entityType": "source",
+  "dependsOn": [
+    "src_teradata_pbm_small.json",
+    "domain_create.json"
+  ],
   "config": {
     "name": "New_Teradata_source",
     "sourceType": "rdbms",
