@@ -1,0 +1,81 @@
+{
+  "entityType": "source",
+  "config": {
+    "name": "New_Northwind_source_0806",
+    "sourceType": "rdbms",
+    "hdfs_path": "/source/New_Northwind_source_0806",
+    "hive_schema": "New_Northwind_source_0806",
+    "tables": [
+      {
+        "table": "SHIPPERS",
+        "origTableName": "SHIPPERS",
+        "configuration": {
+          "sync_type": "full-load",
+          "hive_table_name": "SHIPPERS"
+        }
+      },
+      {
+        "table": "CATEGORIES",
+        "origTableName": "CATEGORIES",
+        "configuration": {
+          "sync_type": "full-load",
+          "hive_table_name": "CATEGORIES"
+        }
+      },
+      {
+        "table": "CUSTOMERS",
+        "origTableName": "CUSTOMERS",
+        "configuration": {
+          "sync_type": "full-load",
+          "hive_table_name": "CUSTOMERS"
+        }
+      },
+      {
+        "table": "EMPLOYEES",
+        "origTableName": "EMPLOYEES",
+        "configuration": {
+          "sync_type": "full-load",
+          "hive_table_name": "EMPLOYEES"
+        }
+      },
+      {
+        "table": "ORDERS",
+        "origTableName": "ORDERS",
+        "configuration": {
+          "sync_type": "full-load",
+          "hive_table_name": "ORDERS"
+        }
+      },
+      {
+        "table": "ORDER_DETAILS",
+        "origTableName": "ORDER_DETAILS",
+        "configuration": {
+          "sync_type": "full-load",
+          "hive_table_name": "ORDER_DETAILS"
+        }
+      },
+      {
+        "table": "PRODUCTS",
+        "origTableName": "PRODUCTS",
+        "configuration": {
+          "sync_type": "full-load",
+          "hive_table_name": "PRODUCTS"
+        }
+      },
+      {
+        "table": "SUPPLIERS",
+        "origTableName": "SUPPLIERS",
+        "configuration": {
+          "sync_type": "full-load",
+          "hive_table_name": "SUPPLIERS"
+        }
+      }
+    ],
+    "connection_string": "jdbc:oracle:thin:@52.5.131.69:1521:xe",
+    "username": "northwind",
+    "password": "SU4xMSoqcms=",
+    "schema": "NORTHWIND",
+    "database": "ORACLE",
+    "driver_name": "oracle.jdbc.driver.OracleDriver"
+  }
+}

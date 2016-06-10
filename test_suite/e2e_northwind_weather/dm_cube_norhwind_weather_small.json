@@ -1,0 +1,168 @@
+{
+  "entityType": "datamodel",
+  "config": {
+    "name": "New_Northwind_DM",
+    "domain": "Testing_domain",
+    "sources": [
+      "SalesDb",
+      "New_weather_source"
+    ],
+    "transformations": {
+      "SalesDb": {
+        "ORDERS": [
+          "derive newOrderDate using formatdate(ORDER_DATE, \"yyyy-MM-dd\")  "
+        ]
+      },
+      "New_weather_source": {
+        "weather": [
+          "derive new_date using formatdate(TIMESTAMPVARCHAR20, \"yyyy-MM-dd\")  "
+        ]
+      }
+    },
+    "hdfs_path": "/datamodel/New_Northwind_DM",
+    "hive_schema": "New_Northwind_DM",
+    "treemap": {
+      "nodeindex": 1,
+      "children": [
+        {
+          "nodeindex": 2,
+          "join": {
+            "op": "AND",
+            "predicates": [
+              {
+                "op": "equals",
+                "p_col": "CUSTOMER_ID",
+                "c_col": "CUSTOMER_ID"
+              }
+            ]
+          },
+          "breadCrumb": "ORDERS",
+          "source": "SalesDb",
+          "table": "CUSTOMERS"
+        },
+        {
+          "nodeindex": 3,
+          "join": {
+            "op": "AND",
+            "predicates": [
+              {
+                "op": "equals",
+                "p_col": "EMPLOYEE_ID",
+                "c_col": "EMPLOYEE_ID"
+              }
+            ]
+          },
+          "breadCrumb": "ORDERS",
+          "source": "SalesDb",
+          "table": "EMPLOYEES"
+        },
+        {
+          "nodeindex": 4,
+          "join": {
+            "op": "AND",
+            "predicates": [
+              {
+                "op": "equals",
+                "p_col": "SHIP_VIA",
+                "c_col": "SHIPPER_ID"
+              }
+            ]
+          },
+          "breadCrumb": "ORDERS",
+          "source": "SalesDb",
+          "table": "SHIPPERS"
+        },
+        {
+          "nodeindex": 5,
+          "join": {
+            "op": "AND",
+            "predicates": [
+              {
+                "op": "equals",
+                "p_col": "ORDER_ID",
+                "c_col": "ORDER_ID"
+              }
+            ]
+          },
+          "breadCrumb": "ORDERS",
+          "children": [
+            {
+              "nodeindex": 6,
+              "join": {
+                "op": "AND",
+                "predicates": [
+                  {
+                    "op": "equals",
+                    "p_col": "PRODUCT_ID",
+                    "c_col": "PRODUCT_ID"
+                  }
+                ]
+              },
+              "breadCrumb": "ORDERS > ORDER_DETAILS",
+              "children": [
+                {
+                  "nodeindex": 7,
+                  "join": {
+                    "op": "AND",
+                    "predicates": [
+                      {
+                        "op": "equals",
+                        "p_col": "CATEGORY_ID",
+                        "c_col": "CATEGORY_ID"
+                      }
+                    ]
+                  },
+                  "breadCrumb": "ORDERS > ORDER_DETAILS > PRODUCTS",
+                  "source": "SalesDb",
+                  "table": "CATEGORIES"
+                },
+                {
+                  "nodeindex": 8,
+                  "join": {
+                    "op": "AND",
+                    "predicates": [
+                      {
+                        "op": "equals",
+                        "p_col": "SUPPLIER_ID",
+                        "c_col": "SUPPLIER_ID"
+                      }
+                    ]
+                  },
+                  "breadCrumb": "ORDERS > ORDER_DETAILS > PRODUCTS",
+                  "source": "SalesDb",
+                  "table": "SUPPLIERS"
+                }
+              ],
+              "source": "SalesDb",
+              "table": "PRODUCTS"
+            }
+          ],
+          "source": "SalesDb",
+          "table": "ORDER_DETAILS"
+        },
+        {
+          "nodeindex": 9,
+          "breadCrumb": "ORDERS",
+          "join": {
+            "op": "AND",
+            "predicates": [
+              {
+                "p_col": "newOrderDate",
+                "c_col": "new_date",
+                "op": "equals"
+              }
+            ]
+          },
+          "source": "New_weather_source",
+          "table": "weather"
+        }
+      ],
+      "treemapId": {
+        "_str": "5759710a9359727d60356f46"
+      },
+      "source": "SalesDb",
+      "table": "ORDERS"
+    },
+    "cubes": []
+  }
+}
