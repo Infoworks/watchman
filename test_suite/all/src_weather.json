@@ -1,0 +1,25 @@
+{
+  "entityType": "source",
+  "config": {
+    "name": "New_weather_source",
+    "sourceType": "csv",
+    "hdfs_path": "/source/New_weather_source",
+    "hive_schema": "New_weather_source",
+    "tables": [
+      {
+        "table": "weather",
+        "origTableName": "weather",
+        "configuration": {
+          "sync_type": "full-load",
+          "hive_table_name": "weather"
+        }
+      }
+    ],
+    "fileType": "csv",
+    "path": "/weather",
+    "schema": "weather",
+    "separator": ",",
+    "quotechar": "\"",
+    "escapechar": "\\"
+  }
+}
