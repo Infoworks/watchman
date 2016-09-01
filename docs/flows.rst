@@ -3,5 +3,5 @@ Flows
 
 Test Flows
 ^^^^^^^^^^^^^
-.. automodule:: flows.flow1
+.. automodule:: flows.oracle_northwind_e2e
    :members:
