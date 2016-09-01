@@ -14,6 +14,11 @@ from connection.mongo_connection import mongodb
 
 
 def create_source(source_config=None, task_id=None, **kwargs):
+    """
+    Create a new source.
+    Params: source_config, task_id
+
+    """
     print 'Trying to create a new source.'
     print 'Source configuration is: ', source_config
     try:
@@ -40,6 +45,11 @@ def create_source(source_config=None, task_id=None, **kwargs):
 
 
 def submit_source_metadata_crawl_job(source_id=None, task_id=None, **kwargs):
+    """
+    Submit a source metadata crawl job.
+    Params: source_id, task_id
+
+    """
     try:
         response = None
         source_id = kwargs['ti'].xcom_pull(key='source_id', task_ids=task_id) if source_id is None else source_id
@@ -71,6 +81,11 @@ def submit_source_metadata_crawl_job(source_id=None, task_id=None, **kwargs):
 
 
 def create_table_group(table_group_config, source_id=None, task_id=None, **kwargs):
+    """
+    Configure tables and table groups for a source.
+    Params: table_group_config, source_id, task_id
+
+    """
     try:
         source_id = kwargs['ti'].xcom_pull(key='source_id', task_ids=task_id) if source_id is None else source_id
         if source_id is None:
@@ -99,6 +114,11 @@ def create_table_group(table_group_config, source_id=None, task_id=None, **kwarg
 
 
 def submit_all_table_groups_crawl_job(source_id=None, task_id=None, **kwargs):
+    """
+    Submit a crawl job for all table groups present inside a source.
+    Params: source_id, task_id
+    """
+
     try:
         source_id = kwargs['ti'].xcom_pull(key='source_id', task_ids=task_id) if source_id is None else source_id
         if source_id is None:
@@ -149,6 +169,11 @@ def submit_all_table_groups_crawl_job(source_id=None, task_id=None, **kwargs):
 
 
 def get_job_status(job_id):
+    """
+    Get infoworks job status
+    Params: job_id
+
+    """
     while True:
         try:
             job = mongodb.jobs.find_one({'_id': ObjectId(job_id)})
