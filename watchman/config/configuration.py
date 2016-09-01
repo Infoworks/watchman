@@ -1,0 +1,9 @@
+HOST = '54.174.145.91'
+PORT = 27017
+MONGO_USERNAME = 'infoworks'
+MONGO_PASSWORD = 'IN11**rk'
+MONGO_DB = 'infoworks-new'
+REST_HOST = HOST
+REST_PORT = '2999'
+IW_USERNAME = 'admin@infoworks.io'
+IW_PASSWORD = '123456'
