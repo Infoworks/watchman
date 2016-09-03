@@ -90,9 +90,17 @@ def list_command(entity, with_datasets=False):
 	for e in entries:
 		namebase = e.namebase
 		if (not namebase in ignored_files):
-			entry_names.add(namebase)
+			if (entity == 'flows' and with_datasets):
+				datasets_dir = path(base_dir + '/' + DATASETS_DIR + '/' + namebase)
+				if (datasets_dir.exists()):
+					for ds in datasets_dir.dirs():
+						entry_names.add(namebase + ' ' + ds.namebase)
+				else:
+					entry_names.add(namebase)
+			else:
+				entry_names.add(namebase)
 
-	for e in entry_names:
+	for e in sorted(entry_names):
 		print e
 
 if __name__ == '__main__':
