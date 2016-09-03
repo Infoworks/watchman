@@ -1,0 +1,397 @@
+{
+  "entity": {
+    "entity_type": "source",
+    "entity_id": {
+      "$type": "oid",
+      "$value": "733c2472c29eb20b7465ab31"
+    },
+    "entity_name": "Oracle_Northwind_Full_Load"
+  },
+  "source": {
+    "connection": {
+      "connection_string": "jdbc:oracle:thin:@52.5.131.69:1521:xe",
+      "username": "northwind",
+      "password": "SU4xMSoqcms=",
+      "schema": "NORTHWIND",
+      "database": "ORACLE",
+      "driver_name": "oracle.jdbc.driver.OracleDriver"
+    },
+    "cdc_mode": "full-load",
+    "hive_schema": "Oracle_Northwind_Full_Load",
+    "sourceType": "rdbms"
+  },
+  "tables": [
+    {
+      "entity_type": "table",
+      "entity_id": {
+        "$type": "oid",
+        "$value": "575e5d89e4b0aa9d40bf69c3"
+      },
+      "configuration": {
+        "configuration": {
+          "sync_type": "full-load",
+          "hive_table_name": "CATEGORIES",
+          "chunk_load": {
+            "status": "disabled",
+            "column": {
+              
+            }
+          },
+          "natural_key": [
+            "CATEGORY_ID"
+          ],
+          "partition_key_derive_function": "",
+          "offset_cdc_start": 0,
+          "partition_key_extract_from_col": false,
+          "offset_cdc_end": 0,
+          "schema_synchronization_enabled": false,
+          "split_by_key_derive_function": "",
+          "split_by_key": "CATEGORY_ID",
+          "partition_value_changeable": false,
+          "query_insert": "",
+          "query_update": "",
+          "split_by_key_extract_from_col": false,
+          "export_enabled": false
+        }
+      }
+    },
+    {
+      "entity_type": "table",
+      "entity_id": {
+        "$type": "oid",
+        "$value": "575e5d89e4b0aa9d40bf69c8"
+      },
+      "configuration": {
+        "configuration": {
+          "sync_type": "full-load",
+          "hive_table_name": "CUSTOMERS",
+          "chunk_load": {
+            "status": "enabled",
+            "column": {
+              "sqlType": 12,
+              "name": "CITY"
+            },
+            "extract_from_col": false
+          },
+          "natural_key": [
+            
+          ],
+          "partition_key_derive_function": "",
+          "offset_cdc_start": 0,
+          "partition_key_extract_from_col": false,
+          "offset_cdc_end": 0,
+          "schema_synchronization_enabled": false,
+          "split_by_key_derive_function": "",
+          "partition_value_changeable": false,
+          "query_insert": "",
+          "query_update": "",
+          "split_by_key_extract_from_col": false,
+          "export_enabled": false
+        }
+      }
+    },
+    {
+      "entity_type": "table",
+      "entity_id": {
+        "$type": "oid",
+        "$value": "575e5d89e4b0aa9d40bf69cd"
+      },
+      "configuration": {
+        "configuration": {
+          "sync_type": "full-load",
+          "hive_table_name": "EMPLOYEES",
+          "natural_key": [
+            "EMPLOYEE_ID"
+          ],
+          "partition_key_derive_function": "",
+          "offset_cdc_start": 0,
+          "partition_key_extract_from_col": false,
+          "offset_cdc_end": 0,
+          "schema_synchronization_enabled": false,
+          "split_by_key_derive_function": "",
+          "partition_value_changeable": false,
+          "query_insert": "",
+          "query_update": "",
+          "split_by_key_extract_from_col": false,
+          "export_enabled": false
+        }
+      }
+    },
+    {
+      "entity_type": "table",
+      "entity_id": {
+        "$type": "oid",
+        "$value": "575e5d89e4b0aa9d40bf69d2"
+      },
+      "configuration": {
+        "configuration": {
+          "sync_type": "full-load",
+          "hive_table_name": "ORDERS",
+          "chunk_load": {
+            "status": "disabled",
+            "column": {
+              
+            }
+          },
+          "natural_key": [
+            "ORDER_ID",
+            "CUSTOMER_ID",
+            "EMPLOYEE_ID"
+          ],
+          "partition_key_derive_function": "year-month",
+          "number_of_reducers": 2,
+          "offset_cdc_start": 0,
+          "partition_key_extract_from_col": true,
+          "offset_cdc_end": 0,
+          "schema_synchronization_enabled": false,
+          "partition_key_derive_column": "req_year_month",
+          "split_by_key_derive_column": "shipped_year",
+          "split_by_key_derive_function": "year",
+          "partition_key": [
+            "REQUIRED_DATE"
+          ],
+          "split_by_key": "SHIPPED_DATE",
+          "partition_value_changeable": false,
+          "number_of_secondary_partitions": 1,
+          "query_insert": "",
+          "query_update": "",
+          "split_by_key_extract_from_col": true,
+          "export_enabled": false
+        }
+      }
+    },
+    {
+      "entity_type": "table",
+      "entity_id": {
+        "$type": "oid",
+        "$value": "575e5d89e4b0aa9d40bf69d7"
+      },
+      "configuration": {
+        "configuration": {
+          "sync_type": "full-load",
+          "hive_table_name": "ORDER_DETAILS"
+        }
+      }
+    },
+    {
+      "entity_type": "table",
+      "entity_id": {
+        "$type": "oid",
+        "$value": "575e5d89e4b0aa9d40bf69dc"
+      },
+      "configuration": {
+        "configuration": {
+          "sync_type": "full-load",
+          "hive_table_name": "PRODUCTS"
+        }
+      }
+    },
+    {
+      "entity_type": "table",
+      "entity_id": {
+        "$type": "oid",
+        "$value": "575e5d89e4b0aa9d40bf69e1"
+      },
+      "configuration": {
+        "configuration": {
+          "sync_type": "full-load",
+          "hive_table_name": "SHIPPERS",
+          "chunk_load": {
+            "status": "disabled",
+            "column": {
+              
+            }
+          },
+          "natural_key": [
+            
+          ],
+          "partition_key_derive_function": "",
+          "offset_cdc_start": 0,
+          "partition_key_extract_from_col": false,
+          "offset_cdc_end": 0,
+          "schema_synchronization_enabled": false,
+          "split_by_key_derive_function": "",
+          "partition_key": [
+            "COMPANY_NAME"
+          ],
+          "partition_value_changeable": false,
+          "query_insert": "",
+          "query_update": "",
+          "split_by_key_extract_from_col": false,
+          "export_enabled": false
+        }
+      }
+    },
+    {
+      "entity_type": "table",
+      "entity_id": {
+        "$type": "oid",
+        "$value": "575e5d89e4b0aa9d40bf69e6"
+      },
+      "configuration": {
+        "configuration": {
+          "sync_type": "full-load",
+          "hive_table_name": "SUPPLIERS"
+        }
+      }
+    }
+  ],
+  "table_groups": [
+    {
+      "entity_type": "table_group",
+      "entity_id": {
+        "$type": "oid",
+        "$value": "cbff3158a7cc5eb22f73babb"
+      },
+      "configuration": {
+        "tables": [
+          {
+            "$type": "oid",
+            "$value": "575e5d89e4b0aa9d40bf69e1"
+          },
+          {
+            "$type": "oid",
+            "$value": "575e5d89e4b0aa9d40bf69c3"
+          },
+          {
+            "$type": "oid",
+            "$value": "575e5d89e4b0aa9d40bf69cd"
+          },
+          {
+            "$type": "oid",
+            "$value": "575e5d89e4b0aa9d40bf69d2"
+          }
+        ],
+        "name": "test_oracle_group",
+        "merge_schedule": {
+          
+        },
+        "source": {
+          "$type": "oid",
+          "$value": "733c2472c29eb20b7465ab31"
+        },
+        "cdc_schedule": {
+          
+        },
+        "combined_schedule": {
+          
+        },
+        "scheduling": "none",
+        "data_expiry_schedule": {
+          "schedule_status": "disabled"
+        },
+        "fullload_schedule": {
+          
+        }
+      }
+    }
+  ],
+  "iw_mappings": [
+    {
+      "entity_type": "source",
+      "entity_id": {
+        "$type": "oid",
+        "$value": "733c2472c29eb20b7465ab31"
+      },
+      "recommendation": {
+        "source_name": "Oracle_Northwind_Full_Load"
+      }
+    },
+    {
+      "entity_type": "table",
+      "entity_id": {
+        "$type": "oid",
+        "$value": "575e5d89e4b0aa9d40bf69c3"
+      },
+      "recommendation": {
+        "table_name": "CATEGORIES"
+      }
+    },
+    {
+      "entity_type": "table",
+      "entity_id": {
+        "$type": "oid",
+        "$value": "575e5d89e4b0aa9d40bf69c8"
+      },
+      "recommendation": {
+        "table_name": "CUSTOMERS"
+      }
+    },
+    {
+      "entity_type": "table",
+      "entity_id": {
+        "$type": "oid",
+        "$value": "575e5d89e4b0aa9d40bf69cd"
+      },
+      "recommendation": {
+        "table_name": "EMPLOYEES"
+      }
+    },
+    {
+      "entity_type": "table",
+      "entity_id": {
+        "$type": "oid",
+        "$value": "575e5d89e4b0aa9d40bf69d2"
+      },
+      "recommendation": {
+        "table_name": "ORDERS"
+      }
+    },
+    {
+      "entity_type": "table",
+      "entity_id": {
+        "$type": "oid",
+        "$value": "575e5d89e4b0aa9d40bf69d7"
+      },
+      "recommendation": {
+        "table_name": "ORDER_DETAILS"
+      }
+    },
+    {
+      "entity_type": "table",
+      "entity_id": {
+        "$type": "oid",
+        "$value": "575e5d89e4b0aa9d40bf69dc"
+      },
+      "recommendation": {
+        "table_name": "PRODUCTS"
+      }
+    },
+    {
+      "entity_type": "table",
+      "entity_id": {
+        "$type": "oid",
+        "$value": "575e5d89e4b0aa9d40bf69e1"
+      },
+      "recommendation": {
+        "table_name": "SHIPPERS"
+      }
+    },
+    {
+      "entity_type": "table",
+      "entity_id": {
+        "$type": "oid",
+        "$value": "575e5d89e4b0aa9d40bf69e6"
+      },
+      "recommendation": {
+        "table_name": "SUPPLIERS"
+      }
+    },
+    {
+      "entity_type": "table_group",
+      "entity_id": {
+        "$type": "oid",
+        "$value": "cbff3158a7cc5eb22f73babb"
+      },
+      "recommendation": {
+        "table_group_name": "test_oracle_group"
+      }
+    }
+  ],
+  "export": {
+    "exportedAt": {
+      "$date": 1472720296583
+    },
+    "exportedBy": "Infoworks Admin"
+  }
+}

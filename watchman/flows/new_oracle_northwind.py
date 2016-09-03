@@ -1,4 +1,4 @@
-from datetime import datetime
+'''from datetime import datetime
 from airflow import DAG
 from airflow.operators.python_operator import PythonOperator
 import os,sys,inspect,argparse,json
@@ -70,3 +70,4 @@ def create_dag():
 
 
 create_dag()
+'''

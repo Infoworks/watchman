@@ -1,0 +1,18 @@
+{
+  "configuration": {
+    "name": "Oracle_Northwind_Full_Load_2",
+    "hive_schema": "Oracle_Northwind_Full_Load_2",
+    "hdfs_path": "/iw/sources/Oracle_Northwind_Full_Load_2",
+    "sourceType": "rdbms",
+    "sourceSubtype": "oracle",
+    "connection": {
+      "connection_string": "jdbc:oracle:thin:@52.5.131.69:1521:xe",
+      "username": "northwind",
+      "password": "IN11**rk",
+      "schema": "NORTHWIND",
+      "database": "ORACLE",
+      "driver_name": "oracle.jdbc.driver.OracleDriver"
+    },
+    "cdc_mode": "full-load"
+  }
+}
