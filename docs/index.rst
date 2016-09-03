@@ -14,6 +14,7 @@ Infoworks Test Automation Frameworks build using Airflow!
 
    tasks
    flows
+   scripts
 
 
 Indices and tables
