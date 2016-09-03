@@ -76,12 +76,12 @@ def runsuite_command(suite_name):
         print ''
 
 
-def list_command(entity, with_datasets=False):
+def list_command(entity_type, with_datasets=False):
     """
     Lists flows and suites
 
-    :param entity: entity you would like to list (choices: 'suites', 'flows')
-    :param with_datasets: (only applicable for entity=flows)
+    :param entity_type: entity_type you would like to list (choices: 'suites', 'flows')
+    :param with_datasets: list flows with available datasets (only applicable for entity_type=flows)
     """
 
     ignored_files = ['.DS_Store', '__init__']
@@ -89,13 +89,13 @@ def list_command(entity, with_datasets=False):
     base_dir = path.cwd().parent
 
     entries = []
-    print "List of %s" % entity
+    print "List of %s" % entity_type
     print "--------------------"
-    if entity == 'flows':
+    if entity_type == 'flows':
         entity_path = path(base_dir + '/' + FLOWS_DIR)
         if entity_path.exists():
             entries = entity_path.files()
-    elif entity == 'suites':
+    elif entity_type == 'suites':
         entity_path = path(base_dir + '/' + SUITES_DIR)
         if entity_path.exists():
             entries = entity_path.files()
@@ -104,11 +104,18 @@ def list_command(entity, with_datasets=False):
     for e in entries:
         namebase = e.namebase
         if not namebase in ignored_files:
-            entry_names.add(namebase)
+            if entity_type == 'flows' and with_datasets:
+                datasets_dir = path(base_dir + '/' + DATASETS_DIR + '/' + namebase)
+                if datasets_dir.exists():
+                    for ds in datasets_dir.dirs():
+                        entry_names.add(namebase + ' ' + ds.namebase)
+                else:
+                    entry_names.add(namebase)
+            else:
+                entry_names.add(namebase)
 
-    for e in entry_names:
+    for e in sorted(entry_names):
         print e
-
 
 if __name__ == '__main__':
     scriptine.run()
