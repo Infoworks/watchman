@@ -5,6 +5,8 @@ import subprocess, os, stat
 PY_VERSION_MAJOR = 2
 PY_VERSION_MINOR = 7
 
+PIP_PACKAGES = ['airflow', 'airflow[hive]', 'scriptine', 'sphinx', 'sphinx_rtd_theme'];
+
 def main():
 	try:
 		if (not sys.version_info.major == PY_VERSION_MAJOR or not sys.version_info.minor == PY_VERSION_MINOR):
@@ -15,8 +17,7 @@ def main():
 		return 1
 
 	print "Installing required packages using pip:"
-	pip_packages = ['airflow', 'airflow[hive]', 'scriptine', 'sphinx', 'sphinx_rtd_theme'];
-	for p in pip_packages:
+	for p in PIP_PACKAGES:
 		print "Installing: '%s'" % p
 		pip.main(['install', p])
 		print ''
@@ -29,7 +30,6 @@ def main():
 	print "Configuring rosie..."
 	rosie_script_path_rel = '/watchman/scripts/rosie.py'
 	rosie_script_path = os.getcwd() + rosie_script_path_rel
-	# fd = os.open(rosie_script_path, os.O_RDONLY)
 	current_stat = os.stat(rosie_script_path)
 	os.chmod(rosie_script_path, current_stat.st_mode | stat.S_IEXEC)				# make rosie executable
 	print "Done"
