@@ -14,7 +14,7 @@ DATASETS_DIR = 'datasets'
 SUITES_DIR = 'suites'
 
 
-def runflow_command(flow_name, dataset_name):
+def runflow_command(flow_name, dataset_name, iw_host='localhost', iw_user_auth_token=''):
 	"""
 	Executes a flow with a dataset
 
@@ -22,6 +22,10 @@ def runflow_command(flow_name, dataset_name):
 	:type flow_name: string
 	:param dataset_name: name of the dataset to run the flow on
 	:type dataset_name: string
+	:param iw_host: hostname (or IP address) of the Infoworks REST API service
+	:type iw_host: string
+	:param iw_user_auth_token: User authentication token to submit requests to the Infoworks REST API
+	:type iw_user_auth_token: string
 	:returns: Execution status of the flow
 	:rtype: boolean
 	"""
@@ -43,6 +47,8 @@ def runflow_command(flow_name, dataset_name):
 
 	custom_env = os.environ.copy()
 	custom_env['ROSIE_FLOW_DATASET_BASE_PATH'] = dataset_path
+	custom_env['ROSIE_FLOW_IW_HOST'] = iw_host
+	custom_env['ROSIE_FLOW_IW_USER_AUTH_TOKEN'] = iw_user_auth_token
 
 	airflow_exec_cmd = 'airflow backfill {flow_name} -s {start_date}'.format(flow_name=flow_name,
 																			 start_date=time.strftime("%Y-%m-%d"))
@@ -58,12 +64,16 @@ def runflow_command(flow_name, dataset_name):
 	return execution_status
 
 
-def runsuite_command(suite_name):
+def runsuite_command(suite_name, iw_host='localhost', iw_user_auth_token=''):
 	"""
 	Executes a suite of flows. This command iterates over the flows in the suite file and sequentially calls :func:`runflow_command`.
 
 	:param suite_name: name of the suite to run
 	:type suite_name: string
+	:param iw_host: hostname (or IP address) of the Infoworks REST API service
+	:type iw_host: string
+	:param iw_user_auth_token: User authentication token to submit requests to the Infoworks REST API
+	:type iw_user_auth_token: string
 	:returns: Execution status of the suite (True of all flows succeeded, False otherwise)
 	:rtype: boolean
 
@@ -88,7 +98,7 @@ def runsuite_command(suite_name):
 
 	for line in suite_commands:
 		tokens = line.strip().split("\t")
-		runflow_command(tokens[0], tokens[1])
+		runflow_command(tokens[0], tokens[1], iw_host, iw_user_auth_token)
 		print ''
 
 
