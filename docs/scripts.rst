@@ -1,7 +1,7 @@
 Scripts
 =======
 
-Rosie Scripts
+Rosie
 ^^^^^^^^^^^^^
 .. automodule:: scripts.rosie
    :members:
