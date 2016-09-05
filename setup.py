@@ -1,6 +1,7 @@
 import sys
 import pip
 import subprocess, os, stat
+import ConfigParser
 
 PY_VERSION_MAJOR = 2
 PY_VERSION_MINOR = 7
@@ -17,6 +18,7 @@ def main():
 		return 1
 
 	print "Installing required packages using pip:"
+	print "---------------------------------------"
 	for p in PIP_PACKAGES:
 		print "Installing: '%s'" % p
 		pip.main(['install', p])
@@ -27,7 +29,9 @@ def main():
 
 	#setup rosie
 	print "\n"
-	print "Configuring rosie..."
+	print "Configuring Rosie:"
+	print "-----------------"
+	print "making scripts executable..."
 	rosie_script_path_rel = '/watchman/scripts/rosie.py'
 	rosie_script_path = os.getcwd() + rosie_script_path_rel
 	current_stat = os.stat(rosie_script_path)
@@ -36,23 +40,58 @@ def main():
 
 	# generate documentation locally
 	print "\n"
-	print "Generating documentation..."
+	print "Generating documentation:"
+	print "-------------------------"
+	print "running docuemntation make commands..."
 	doc_path = os.getcwd() + '/docs/'
 	doc_path_index = doc_path+'_build/html/index.html'
 	p = subprocess.Popen(['make', 'html'], cwd=doc_path)
 	p.wait()
 	print "Done."
+	
+
+	AIRFLOW_CORE_CFG_OVERWRITE = {
+		'dags_folder': os.getcwd() + '/watchman/flows',
+		'load_examples': 'False',
+		'dags_are_paused_at_creation': 'False',
+	}
 
 	print "\n"
-	print "Setup completed successfully."
+	print "Configuring Airflow:"
+	print "--------------------"
+	airflow_cfg_path_default = os.path.expanduser('~/airflow/airflow.cfg')
+	airflow_cfg_path = raw_input('Path to airflow.cfg ['+airflow_cfg_path_default+']: ')
+	if (not airflow_cfg_path):
+		airflow_cfg_path = airflow_cfg_path_default
 
+	print ""
+	print "Overwriting some configs:"
+	parser = ConfigParser.SafeConfigParser()
+	try:
+		parser.read(airflow_cfg_path)
+		
+		for k in AIRFLOW_CORE_CFG_OVERWRITE:
+			print 'Setting [core][%s] to %s (previously: %s)' % (k, AIRFLOW_CORE_CFG_OVERWRITE[k], parser.get('core', k))
+			parser.set('core', k, AIRFLOW_CORE_CFG_OVERWRITE[k])
+
+		with open(airflow_cfg_path, 'w') as f:
+			parser.write(f)
+		print 'Done updating airflow configuration.'
+	except Exception as e:
+		print "Unable to read or write airflow config file"
+		print e
+
+	print "\n"
+	print "SETUP COMPLETED SUCCESSFULLY!"
+	
+	
 	# point to documentation
 	# point to Rosie
 	print "\n"
 	print "Automation Documentation"
 	print "========================"
 	print "Visit: '%s' in your browser. " % doc_path_index
-	print "\n"
+	print ""
 	print "Rosie - the robot at your service."
 	print "=================================="
 	print "Rosie is a robot that will run flows and suits for you."
@@ -60,6 +99,5 @@ def main():
 	print "$ .%s -h" % rosie_script_path_rel
 	print "\n"
 	print "Have fun!"
-
 
 main()

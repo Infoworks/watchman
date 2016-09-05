@@ -50,9 +50,12 @@ def runflow_command(flow_name, dataset_name, iw_host='localhost', iw_user_auth_t
 	custom_env['ROSIE_FLOW_IW_HOST'] = iw_host
 	custom_env['ROSIE_FLOW_IW_USER_AUTH_TOKEN'] = iw_user_auth_token
 
-	airflow_exec_cmd = 'airflow backfill {flow_name} -s {start_date}'.format(flow_name=flow_name,
-																			 start_date=time.strftime("%Y-%m-%d"))
+	# airflow_exec_cmd = 'airflow backfill {flow_name} -s {start_date}'.format(flow_name=flow_name,
+	# 																		 start_date=time.strftime("%Y-%m-%d"))
 
+	airflow_exec_cmd = 'airflow trigger_dag {flow_name}'.format(flow_name=flow_name)
+
+	print airflow_exec_cmd
 	process = subprocess.Popen(airflow_exec_cmd, shell=True, env=custom_env)
 	process.communicate()
 	if process.returncode == 0:
