@@ -11,14 +11,16 @@ from tasks.infoworks import create_source, crawl_metadata, \
 try:
     ROSIE_FLOW_DATASET_BASE_PATH = os.environ['ROSIE_FLOW_DATASET_BASE_PATH']
 except KeyError as e:
-    print 'ROSIE_FLOW_DATASET_BASE_PATH is not set as an env variable.'
-    sys.exit(1)
+    print 'ROSIE_FLOW_DATASET_BASE_PATH is not set as an env variable. Defaulting...'
+    ROSIE_FLOW_DATASET_BASE_PATH = '/Users/arpan/Developer/infoworks/watchman/watchman/datasets/oracle_ingestion_full_load_4/northwind'
+    # sys.exit(1)
 
 args = {
     'owner': 'iw_admin',
-    'start_date': datetime(2016, 9, 1),
+    'start_date': datetime.now(),
     'provide_context': True,
-    'depends_on_past': False
+    'depends_on_past': False,
+    'schedule_interval': None
 }
 
 dag = DAG('oracle_ingestion_full_load_4', default_args=args)
