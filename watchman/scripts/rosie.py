@@ -45,6 +45,10 @@ def runflow_command(flow_name, dataset_name, iw_host='localhost', iw_user_auth_t
 		print "Dataset directory does not exist. Looking for directory: %s" % dataset_path
 		return
 
+	check_airflow_services_command(True)
+
+	run_id = '{flow_name}_{date_formatted}'.format(flow_name=flow_name, date_formatted=time.strftime("%Y-%m-%d-%H-%M-%S"))
+
 	custom_env = os.environ.copy()
 	custom_env['ROSIE_FLOW_DATASET_BASE_PATH'] = dataset_path
 	custom_env['ROSIE_FLOW_IW_HOST'] = iw_host
@@ -53,14 +57,16 @@ def runflow_command(flow_name, dataset_name, iw_host='localhost', iw_user_auth_t
 	# airflow_exec_cmd = 'airflow backfill {flow_name} -s {start_date}'.format(flow_name=flow_name,
 	# 																		 start_date=time.strftime("%Y-%m-%d"))
 
-	airflow_exec_cmd = 'airflow trigger_dag {flow_name}'.format(flow_name=flow_name)
+	airflow_exec_cmd = 'airflow trigger_dag {flow_name} -r {run_id}'.format(flow_name=flow_name, run_id=run_id)
 
-	print airflow_exec_cmd
+	print ""
+	print "Command: %s" % airflow_exec_cmd
 	process = subprocess.Popen(airflow_exec_cmd, shell=True, env=custom_env)
 	process.communicate()
 	if process.returncode == 0:
 		execution_status = True
 	print '**********************************'
+	print 'Flow Run ID: ', run_id
 	print 'Flow execution status: {status}'.format(status=execution_status)
 	print '**********************************'
 
@@ -147,6 +153,64 @@ def list_command(entity_type, with_datasets=False):
 
 	for e in sorted(entry_names):
 		print e
+
+def check_airflow_services_command(start_if_down=True):
+	"""
+	Checks if the required Airflow services are running (currently checks for scheduler and webserver).
+
+	:param start_if_down: set to True if the services should be started up if they are down
+	:type start_if_down: boolean
+	"""
+	proc_scheduler = 'airflow scheduler'
+	proc_webserver = 'airflow-webserver'
+
+	# check scheduler
+	if (not _ps_aux_grep(proc_scheduler)):
+		print "Airflow scheduler is not running."
+		if (start_if_down):
+			print "Starting airflow scheduler..."
+			_start_process('scheduler')
+
+	# check webserver
+	if (not _ps_aux_grep(proc_webserver)):
+		print "Airflow webserver is not running."
+		if (start_if_down):
+			print "Starting airflow webserver..."
+			_start_process('webserver')
+
+	return
+
+def _ps_aux_grep(proc_string):
+	"""
+	Executes a `ps aux | grep $proc_string` command to see if the service is running
+
+	:param proc_string: process string to grep for (in `ps aux` output)
+	:type proc_string: string
+	:returns: True if the process is running, False otherwise
+	:rtype: boolean
+	"""
+	p1 = subprocess.Popen(['ps', 'aux'], stdout=subprocess.PIPE)
+	p2 = subprocess.Popen(['grep', proc_string], stdin=p1.stdout, stdout=subprocess.PIPE)
+	p1.stdout.close()  # Allow p1 to receive a SIGPIPE if p2 exits.
+	output_list = p2.communicate()[0].strip().split('\n')
+	return (len(output_list) > 1)
+
+def _start_process(proc_name):
+	"""
+	Starts the airflow process
+
+	:param proc_name: name of the airflow process to start
+	:type proc_name: string
+	"""
+	cmd = ''
+	if (proc_name == 'scheduler'):
+		cmd = 'airflow scheduler -D'
+	elif (proc_name == 'webserver'):
+		cmd = 'airflow webserver -D'
+
+	cmd_list = cmd.split(' ')
+	process = subprocess.Popen(cmd_list)
+	process.communicate()
 
 if __name__ == '__main__':
 	scriptine.run()
