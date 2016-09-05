@@ -59,27 +59,34 @@ def main():
 	print "\n"
 	print "Configuring Airflow:"
 	print "--------------------"
-	airflow_cfg_path_default = os.path.expanduser('~/airflow/airflow.cfg')
-	airflow_cfg_path = raw_input('Path to airflow.cfg ['+airflow_cfg_path_default+']: ')
-	if (not airflow_cfg_path):
-		airflow_cfg_path = airflow_cfg_path_default
+	configure_airflow_default = 'yes'
+	configure_airflow = raw_input('Configure Airflow? (This will modify Airflow configurations) Answer: yes or no. ['+configure_airflow_default+']: ')
 
-	print ""
-	print "Overwriting some configs:"
-	parser = ConfigParser.SafeConfigParser()
-	try:
-		parser.read(airflow_cfg_path)
-		
-		for k in AIRFLOW_CORE_CFG_OVERWRITE:
-			print 'Setting [core][%s] to %s (previously: %s)' % (k, AIRFLOW_CORE_CFG_OVERWRITE[k], parser.get('core', k))
-			parser.set('core', k, AIRFLOW_CORE_CFG_OVERWRITE[k])
+	if (not configure_airflow):
+		configure_airflow = configure_airflow_default
 
-		with open(airflow_cfg_path, 'w') as f:
-			parser.write(f)
-		print 'Done updating airflow configuration.'
-	except Exception as e:
-		print "Unable to read or write airflow config file"
-		print e
+	if (configure_airflow == 'yes'):
+		airflow_cfg_path_default = os.path.expanduser('~/airflow/airflow.cfg')
+		airflow_cfg_path = raw_input('Path to airflow.cfg ['+airflow_cfg_path_default+']: ')
+		if (not airflow_cfg_path):
+			airflow_cfg_path = airflow_cfg_path_default
+
+		print ""
+		print "Overwriting some configs:"
+		parser = ConfigParser.SafeConfigParser()
+		try:
+			parser.read(airflow_cfg_path)
+			
+			for k in AIRFLOW_CORE_CFG_OVERWRITE:
+				print 'Setting [core][%s] to %s (previously: %s)' % (k, AIRFLOW_CORE_CFG_OVERWRITE[k], parser.get('core', k))
+				parser.set('core', k, AIRFLOW_CORE_CFG_OVERWRITE[k])
+
+			with open(airflow_cfg_path, 'w') as f:
+				parser.write(f)
+			print 'Done updating airflow configuration.'
+		except Exception as e:
+			print "Unable to read or write airflow config file"
+			print e
 
 	print "\n"
 	print "SETUP COMPLETED SUCCESSFULLY!"
