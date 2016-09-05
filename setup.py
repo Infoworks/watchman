@@ -49,10 +49,10 @@ def main():
 	p.wait()
 	print "Done."
 	
-
 	AIRFLOW_CORE_CFG_OVERWRITE = {
 		'dags_folder': os.getcwd() + '/watchman/flows',
 		'load_examples': 'False',
+		'dags_are_paused_at_creation': 'False',
 		'dags_are_paused_at_creation': 'False',
 	}
 
@@ -71,6 +71,11 @@ def main():
 		if (not airflow_cfg_path):
 			airflow_cfg_path = airflow_cfg_path_default
 
+		airflow_webserver_port_default = '8080'
+		airflow_webserver_port = raw_input('Airflow webserver port ['+airflow_webserver_port_default+']: ')
+		if (not airflow_webserver_port):
+			airflow_webserver_port = airflow_webserver_port_default
+
 		print ""
 		print "Overwriting some configs:"
 		parser = ConfigParser.SafeConfigParser()
@@ -80,6 +85,9 @@ def main():
 			for k in AIRFLOW_CORE_CFG_OVERWRITE:
 				print 'Setting [core][%s] to %s (previously: %s)' % (k, AIRFLOW_CORE_CFG_OVERWRITE[k], parser.get('core', k))
 				parser.set('core', k, AIRFLOW_CORE_CFG_OVERWRITE[k])
+
+			# overwrite [webserver] web_server_port
+			parser.set('webserver', 'web_server_port', airflow_webserver_port)
 
 			with open(airflow_cfg_path, 'w') as f:
 				parser.write(f)
