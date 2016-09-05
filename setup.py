@@ -30,7 +30,7 @@ def main():
 	#setup rosie
 	print "\n"
 	print "Configuring Rosie:"
-	print "-----------------"
+	print "------------------"
 	print "making scripts executable..."
 	rosie_script_path_rel = '/watchman/scripts/rosie.py'
 	rosie_script_path = os.getcwd() + rosie_script_path_rel

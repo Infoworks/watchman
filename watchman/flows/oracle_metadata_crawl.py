@@ -16,9 +16,9 @@ except KeyError as e:
 
 args = {
     'owner': 'iw_admin',
-    'start_date': datetime.now(),
     'provide_context': True,
     'depends_on_past': False,
+    'start_date': datetime.now(),
     'schedule_interval': None
 }
 
@@ -27,9 +27,7 @@ dag = DAG('oracle_metadata_crawl', default_args=args)
 
 def create_dag():
     """
-
     Flow for Oracle Northwind end to end
-
     """
     crawl_metadata_task = PythonOperator(
         task_id='crawl_metadata', dag=dag,
