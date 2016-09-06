@@ -1,19 +1,22 @@
 from datetime import datetime
 from airflow import DAG
 from airflow.operators.python_operator import PythonOperator
-import os,sys,inspect
-current_dir = os.path.dirname(os.path.abspath(inspect.getfile(inspect.currentframe())))
+import os, sys, inspect
+from os.path import basename
+script_name = inspect.getfile(inspect.currentframe())
+current_dir = os.path.dirname(os.path.abspath(script_name))
 parent_dir = os.path.dirname(current_dir)
 sys.path.insert(0, parent_dir)
-from tasks.infoworks import create_source, crawl_metadata, \
-    configure_tables_and_table_groups, crawl_table_groups
+from tasks.infoworks import create_source, crawl_metadata, configure_tables_and_table_groups, crawl_table_groups
 
 try:
     ROSIE_FLOW_DATASET_BASE_PATH = os.environ['ROSIE_FLOW_DATASET_BASE_PATH']
 except KeyError as e:
-    print 'ROSIE_FLOW_DATASET_BASE_PATH is not set as an env variable. Defaulting...'
-    ROSIE_FLOW_DATASET_BASE_PATH = '/Users/arpan/Developer/infoworks/watchman/watchman/datasets/oracle_ingestion_full_load_4/northwind'
-    # sys.exit(1)
+    file_name = basename(script_name).split('.')[0]
+    print 'ROSIE_FLOW_DATASET_BASE_PATH is not set as an env variable.'
+    ROSIE_FLOW_DATASET_BASE_PATH = parent_dir + '/datasets/' + file_name + '/northwind'
+    print 'Defaulting to: ' + ROSIE_FLOW_DATASET_BASE_PATH
+
 
 args = {
     'owner': 'iw_admin',
