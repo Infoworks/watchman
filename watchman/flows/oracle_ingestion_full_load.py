@@ -7,7 +7,8 @@ script_name = inspect.getfile(inspect.currentframe())
 current_dir = os.path.dirname(os.path.abspath(script_name))
 parent_dir = os.path.dirname(current_dir)
 sys.path.insert(0, parent_dir)
-from tasks.infoworks import create_source, crawl_metadata, configure_tables_and_table_groups, crawl_table_groups_from_config, delete_source
+from tasks.infoworks import create_source, crawl_metadata, \
+    configure_tables_and_table_groups, crawl_table_groups_from_config, delete_source
 
 try:
     ROSIE_FLOW_DATASET_BASE_PATH = os.environ['ROSIE_FLOW_DATASET_BASE_PATH']
@@ -25,7 +26,7 @@ args = {
     'depends_on_past': False,
 }
 
-dag = DAG('oracle_ingestion_full_load_10', default_args=args, schedule_interval=None)
+dag = DAG('oracle_ingestion_full_load', default_args=args, schedule_interval=None)
 
 
 def create_dag():
@@ -55,7 +56,6 @@ def create_dag():
     delete_source_task = PythonOperator(
         task_id='delete_source', dag=dag,
         python_callable=delete_source, op_args=[ROSIE_FLOW_DATASET_BASE_PATH + '/delete_source.json'])
-
 
     crawl_metadata_task.set_upstream(create_source_task)
     configure_tables_and_table_groups_task.set_upstream(crawl_metadata_task)
