@@ -1,5 +1,6 @@
 from datetime import datetime
 from airflow import DAG
+from airflow.operators.jdbc_operator import JdbcOperator
 from airflow.operators.python_operator import PythonOperator
 import os,sys,inspect
 from os.path import basename
@@ -21,8 +22,9 @@ args = {
     'owner': 'iw_admin',
     'provide_context': True,
     'depends_on_past': False,
-    'start_date': datetime.now(),
+    'start_date': datetime.now()
 }
+
 
 dag = DAG('oracle_metadata_crawl', default_args=args, schedule_interval=None)
 
@@ -39,6 +41,12 @@ def create_dag():
         task_id='crawl_table_groups', dag=dag,
         python_callable=crawl_table_groups, op_args=['be87a5bdb6c687d8b0980f01', None, None])
 
-    crawl_table_groups_task.set_upstream(crawl_metadata_task)
+    test_jdbc_task = JdbcOperator(task_id='select_stuff',
+                             dag=dag,
+                             conn_id='testTeraCon',
+                             sql='select * from dwt_edw.cat_one_demo')
+
+    test_jdbc_task.set_upstream(crawl_metadata_task)
+    crawl_table_groups_task.set_upstream(test_jdbc_task)
 
 create_dag()

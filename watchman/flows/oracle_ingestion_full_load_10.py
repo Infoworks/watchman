@@ -56,6 +56,7 @@ def create_dag():
         task_id='delete_source', dag=dag,
         python_callable=delete_source, op_args=[ROSIE_FLOW_DATASET_BASE_PATH + '/delete_source.json'])
 
+
     crawl_metadata_task.set_upstream(create_source_task)
     configure_tables_and_table_groups_task.set_upstream(crawl_metadata_task)
     crawl_table_groups_task.set_upstream(configure_tables_and_table_groups_task)
