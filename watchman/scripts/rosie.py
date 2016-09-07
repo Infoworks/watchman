@@ -14,7 +14,7 @@ DATASETS_DIR = 'datasets'
 SUITES_DIR = 'suites'
 
 
-def runflow_command(flow_name, dataset_name, iw_host='localhost', iw_user_auth_token=''):
+def runflow_command(flow_name, dataset_name, iw_host=None, iw_user_at=None):
     """
     Executes a flow with a dataset
 
@@ -22,10 +22,10 @@ def runflow_command(flow_name, dataset_name, iw_host='localhost', iw_user_auth_t
     :type flow_name: string
     :param dataset_name: name of the dataset to run the flow on
     :type dataset_name: string
-    :param iw_host: hostname (or IP address) of the Infoworks REST API service
+    :param iw_host: hostname (or IP address) of the Infoworks REST API service. (eg: 127.0.0.1)
     :type iw_host: string
-    :param iw_user_auth_token: User authentication token to submit requests to the Infoworks REST API
-    :type iw_user_auth_token: string
+    :param iw_user_at: User authentication token to submit requests to the Infoworks REST API
+    :type iw_user_at: string
     :returns: Execution status of the flow
     :rtype: boolean
     """
@@ -49,11 +49,12 @@ def runflow_command(flow_name, dataset_name, iw_host='localhost', iw_user_auth_t
 
     run_id = '{flow_name}_{date_formatted}'.format(flow_name=flow_name,
                                                    date_formatted=time.strftime("%Y-%m-%d-%H-%M-%S"))
-
     custom_env = os.environ.copy()
     custom_env['ROSIE_FLOW_DATASET_BASE_PATH'] = dataset_path
-    custom_env['ROSIE_FLOW_IW_HOST'] = iw_host
-    custom_env['ROSIE_FLOW_IW_USER_AUTH_TOKEN'] = iw_user_auth_token
+    if iw_host is not None:
+        custom_env['ROSIE_FLOW_IW_HOST'] = iw_host
+    if iw_user_at is not None:
+        custom_env['ROSIE_FLOW_IW_USER_AUTH_TOKEN'] = iw_user_at
 
     # airflow_exec_cmd = 'airflow backfill {flow_name} -s {start_date}'.format(flow_name=flow_name,
     # 																		 start_date=time.strftime("%Y-%m-%d"))

@@ -1,8 +1,8 @@
 {
   "configuration": {
-    "name": "Oracle_Northwind_Full_Load_2",
-    "hive_schema": "Oracle_Northwind_Full_Load_2",
-    "hdfs_path": "/iw/sources/Oracle_Northwind_Full_Load_2",
+    "name": "Oracle_Northwind_Full_Load",
+    "hive_schema": "Oracle_Northwind_Full_Load",
+    "hdfs_path": "/iw/sources/Oracle_Northwind_Full_Load",
     "sourceType": "rdbms",
     "sourceSubtype": "oracle",
     "connection": {

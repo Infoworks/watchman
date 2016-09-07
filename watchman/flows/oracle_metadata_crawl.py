@@ -22,10 +22,9 @@ args = {
     'provide_context': True,
     'depends_on_past': False,
     'start_date': datetime.now(),
-    'schedule_interval': None
 }
 
-dag = DAG('oracle_metadata_crawl', default_args=args)
+dag = DAG('oracle_metadata_crawl', default_args=args, schedule_interval=None)
 
 
 def create_dag():
