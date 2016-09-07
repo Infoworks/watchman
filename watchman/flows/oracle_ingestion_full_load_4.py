@@ -53,6 +53,7 @@ def create_dag():
         task_id='crawl_table_groups', dag=dag,
         python_callable=crawl_table_groups, op_args=[None, 'create_source', 'source_id'])
 
+
     crawl_metadata_task.set_upstream(create_source_task)
     configure_tables_and_table_groups_task.set_upstream(crawl_metadata_task)
     crawl_table_groups_task.set_upstream(configure_tables_and_table_groups_task)
