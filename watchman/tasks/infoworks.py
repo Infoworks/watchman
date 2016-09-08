@@ -179,7 +179,7 @@ def crawl_table_groups(task_id_for_table_group_id, table_group_key,
         sys.exit(1)
 
 
-def crawl_table_groups_from_config(crawl_config_path):
+def crawl_table_groups_from_config(crawl_config_path, task_id=None, key=None, **kwargs):
 
     """
     Submit a crawl job for all table groups present inside a source.
