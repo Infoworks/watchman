@@ -3,6 +3,7 @@ import time
 import requests
 import logging
 import os,sys,inspect
+import subprocess
 
 current_dir = os.path.dirname(os.path.abspath(inspect.getfile(inspect.currentframe())))
 parent_dir = os.path.dirname(current_dir)
@@ -16,7 +17,7 @@ def create_source(source_config_path, key=None, **kwargs):
     """
 
     Create a new source.
-    Params: source_config, task_id
+    :param : source_config
 
     """
     try:
@@ -41,7 +42,9 @@ def create_source(source_config_path, key=None, **kwargs):
 
         logging.info('Source {id} has been created.'.format(id=source_id))
 
-        kwargs['ti'].xcom_push(key=key, value=source_id)
+        if key is not None:
+            kwargs['ti'].xcom_push(key=key, value=source_id)
+
     except Exception as e:
         logging.error('Exception: ' + str(e))
         logging.error('Response from server: ' + str(response))
@@ -56,6 +59,8 @@ def crawl_metadata(source_config_path=None, task_id=None, key=None, **kwargs):
 
     """
     try:
+        source_id = None
+
         response = None
 
         if source_config_path:
@@ -125,7 +130,8 @@ def configure_tables_and_table_groups(table_group_config_path, source_id=None, t
         table_group_config = load_json_config(table_group_config_path)
 
         if table_group_config is None:
-            logging.error('Unable to retrieve table group configuration. Cannot create/configure tables or table groups.')
+            logging.error('Unable to retrieve table group configuration. '
+                          'Cannot create/configure tables or table groups.')
             sys.exit(1)
 
         request = 'http://{ip}:{port}/v1.1/source/table_groups/configure.json?source_id={source_id}&' \
@@ -173,7 +179,7 @@ def crawl_table_groups(task_id_for_table_group_id, table_group_key,
         sys.exit(1)
 
 
-def crawl_table_groups_from_config(crawl_config_path):
+def crawl_table_groups_from_config(crawl_config_path, task_id=None, key=None, **kwargs):
 
     """
     Submit a crawl job for all table groups present inside a source.
@@ -249,7 +255,30 @@ def _submit_ingestion_job(table_group_id, ingestion_type):
         sys.exit(1)
 
 
+def source_setup(db_conf_path, script_path, task_id=None, key=None, **kwargs):
+    try:
+        if db_conf_path and script_path:
+            jar_command = 'java -cp ../utils/AutomationUtils.jar:../utils/jars/*:. source.setup.SourceSetup -dbConf ' \
+                          + db_conf_path + ' -sqlScript ' + script_path
+            logging.info('Jar command: ' + jar_command)
+            process = subprocess.Popen(jar_command, shell=True)
+            process.communicate()
+    except Exception as e:
+        logging.error('Exception: ' + str(e))
+        logging.error('Error occurred while trying to setup source.')
+        sys.exit(1)
+
+
 def delete_source(delete_config_path=None, task_id=None, key=None, **kwargs):
+    """
+        Retrieves the source id from the json file passed as a param or from one the previous task instances.
+        :param: delete_config_path: path to json from where the source id can be retrieved
+        :type: delete_config_path: string
+        :param: task_id: identifier of the task from where the source id can be retrieved
+        :type: task_id: string
+        :param: key: dictionary key to retrieve the source id
+        :type: key: string
+    """
     try:
         if delete_config_path:
 
@@ -283,6 +312,13 @@ def delete_source(delete_config_path=None, task_id=None, key=None, **kwargs):
 
 
 def _submit_delete_entity_job(entity_id, entity_type):
+    """
+        Submit a delete job
+        :param: entity_id: identifier for the entity
+        :type: entity_id: string
+        :param: entity_type: type of the entity
+        :type: entity_type: string
+    """
     try:
 
         request = 'http://{ip}:{port}/v1.1/entity/delete.json?' \
@@ -312,9 +348,11 @@ def _submit_delete_entity_job(entity_id, entity_type):
 
 def get_job_status(job_id):
     """
-    Get infoworks job status
-    Params: job_id
-
+        Get IW job status
+        :param: job_id: job id to poll the status
+        :type: job_id: string
+        :returns: job status
+        :rtype: bool
     """
     while True:
         try:
