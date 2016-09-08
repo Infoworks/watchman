@@ -15,9 +15,12 @@ from utils.utils import load_json_config
 
 def create_source(source_config_path, key=None, **kwargs):
     """
+        Create a new source.
 
-    Create a new source.
-    :param : source_config
+        :param source_config_path: path to JSON file with source configuration
+        :param key: identifier where the newly created source id has to be inserted to be used in subsequent tasks
+        :type source_config_path: string
+        :type key: string
 
     """
     try:
@@ -54,8 +57,14 @@ def create_source(source_config_path, key=None, **kwargs):
 
 def crawl_metadata(source_config_path=None, task_id=None, key=None, **kwargs):
     """
-    Submit a source metadata crawl job.
-    Params: source_name, task_id, key
+        Submit a source metadata crawl job.
+
+        :param source_config_path: path to JSON file where source name is specified
+        :param task_id: identifier of a task instance using which the source id can be retrieved
+        :param key: identifier that is dependent on task_id which can be used to retrieve source id
+        :type source_config_path: string
+        :type task_id: string
+        :type key: string
 
     """
     try:
@@ -117,9 +126,16 @@ def crawl_metadata(source_config_path=None, task_id=None, key=None, **kwargs):
 
 def configure_tables_and_table_groups(table_group_config_path, source_id=None, task_id=None, key=None, **kwargs):
     """
-    Configure tables and table groups for a source.
-    Params: table_group_config, source_id, task_id
+        Configure tables and table groups for a source.
 
+        :param table_group_config_path: path to JSON file where tables and table groups configuration is specified
+        :param source_id: identifier for a source under which the table and table groups will be configured
+        :param task_id: identifier of a task instance using which the source id can be retrieved
+        :param key: identifier that is dependent on task_id which can be used to retrieve source id
+        :type table_group_config_path: string
+        :type source_id: string
+        :type task_id: string
+        :type key: string
     """
     try:
         source_id = kwargs['ti'].xcom_pull(key=key, task_ids=task_id) if source_id is None else source_id
@@ -154,8 +170,16 @@ def configure_tables_and_table_groups(table_group_config_path, source_id=None, t
 def crawl_table_groups(task_id_for_table_group_id, table_group_key,
                        task_id_for_ingestion_type, ingestion_type_key, **kwargs):
     """
-    Submit a crawl job for all table groups present inside a source.
-    Params: source_id, task_id
+        Submit a crawl job for a table group present inside a source.
+
+        :param task_id_for_table_group_id: identifier of a task instance using which the table group id can be retrieved
+        :param table_group_key: identifier that is dependent on task_id which can be used to retrieve table group id
+        :param task_id_for_ingestion_type: identifier of a task instance using which the ingestion type can be retrieved
+        :param ingestion_type_key: identifier that is dependent on task_id which can be used to retrieve ingestion type
+        :type task_id_for_table_group_id: string
+        :type table_group_key: string
+        :type task_id_for_ingestion_type: string
+        :type ingestion_type_key: string
 
     """
 
@@ -179,11 +203,13 @@ def crawl_table_groups(task_id_for_table_group_id, table_group_key,
         sys.exit(1)
 
 
-def crawl_table_groups_from_config(crawl_config_path, task_id=None, key=None, **kwargs):
+def crawl_table_groups_from_config(crawl_config_path, **kwargs):
 
     """
-    Submit a crawl job for all table groups present inside a source.
-    Params: Path to JSON config
+        Submit a crawl job for a table group defined in the JSON
+
+        :param crawl_config_path: Path to JSON config specifying source name, table group name and ingestion type
+        :type crawl_config_path: string
 
     """
     try:
@@ -255,12 +281,12 @@ def _submit_ingestion_job(table_group_id, ingestion_type):
         sys.exit(1)
 
 
-def source_setup(db_conf_path, script_path, task_id=None, key=None, **kwargs):
+def source_setup(db_conf_path, script_path, **kwargs):
     try:
         if db_conf_path and script_path:
             jar_command = 'java -cp ../utils/AutomationUtils.jar:../utils/jars/*:. source.setup.SourceSetup -dbConf ' \
                           + db_conf_path + ' -sqlScript ' + script_path
-            logging.info('Jar command: ' + jar_command)
+            logging.info('Jar command to be executed for DB setup: ' + jar_command)
             process = subprocess.Popen(jar_command, shell=True)
             process.communicate()
     except Exception as e:
@@ -272,12 +298,13 @@ def source_setup(db_conf_path, script_path, task_id=None, key=None, **kwargs):
 def delete_source(delete_config_path=None, task_id=None, key=None, **kwargs):
     """
         Retrieves the source id from the json file passed as a param or from one the previous task instances.
-        :param: delete_config_path: path to json from where the source id can be retrieved
-        :type: delete_config_path: string
-        :param: task_id: identifier of the task from where the source id can be retrieved
-        :type: task_id: string
-        :param: key: dictionary key to retrieve the source id
-        :type: key: string
+
+        :param delete_config_path: path to json from where the source id can be retrieved
+        :param task_id: identifier of the task from where the source id can be retrieved
+        :param key: dictionary key to retrieve the source id
+        :type delete_config_path: string
+        :type task_id: string
+        :type key: string
     """
     try:
         if delete_config_path:
