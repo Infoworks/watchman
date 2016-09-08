@@ -16,7 +16,7 @@ def create_source(source_config_path, key=None, **kwargs):
     """
 
     Create a new source.
-    Params: source_config, task_id
+    :param : source_config
 
     """
     try:
@@ -125,7 +125,8 @@ def configure_tables_and_table_groups(table_group_config_path, source_id=None, t
         table_group_config = load_json_config(table_group_config_path)
 
         if table_group_config is None:
-            logging.error('Unable to retrieve table group configuration. Cannot create/configure tables or table groups.')
+            logging.error('Unable to retrieve table group configuration. '
+                          'Cannot create/configure tables or table groups.')
             sys.exit(1)
 
         request = 'http://{ip}:{port}/v1.1/source/table_groups/configure.json?source_id={source_id}&' \
@@ -250,6 +251,15 @@ def _submit_ingestion_job(table_group_id, ingestion_type):
 
 
 def delete_source(delete_config_path=None, task_id=None, key=None, **kwargs):
+    """
+        Retrieves the source id from the json file passed as a param or from one the previous task instances.
+        :param: delete_config_path: path to json from where the source id can be retrieved
+        :type: delete_config_path: string
+        :param: task_id: identifier of the task from where the source id can be retrieved
+        :type: task_id: string
+        :param: key: dictionary key to retrieve the source id
+        :type: key: string
+    """
     try:
         if delete_config_path:
 
@@ -283,6 +293,13 @@ def delete_source(delete_config_path=None, task_id=None, key=None, **kwargs):
 
 
 def _submit_delete_entity_job(entity_id, entity_type):
+    """
+        Submit a delete job
+        :param: entity_id: identifier for the entity
+        :type: entity_id: string
+        :param: entity_type: type of the entity
+        :type: entity_type: string
+    """
     try:
 
         request = 'http://{ip}:{port}/v1.1/entity/delete.json?' \
@@ -312,9 +329,11 @@ def _submit_delete_entity_job(entity_id, entity_type):
 
 def get_job_status(job_id):
     """
-    Get infoworks job status
-    Params: job_id
-
+        Get IW job status
+        :param: job_id: job id to poll the status
+        :type: job_id: string
+        :returns: job status
+        :rtype: bool
     """
     while True:
         try:
