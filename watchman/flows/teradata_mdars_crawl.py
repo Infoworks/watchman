@@ -26,7 +26,7 @@ args = {
     'depends_on_past': False,
 }
 
-dag = DAG('oracle_ingestion_full_load', default_args=args, schedule_interval=None)
+dag = DAG('teradata_mdars_crawl', default_args=args, schedule_interval=None)
 
 
 def create_dag():
@@ -41,11 +41,11 @@ def create_dag():
 
     create_source_task = PythonOperator(
         task_id='create_source', dag=dag, python_callable=create_source,
-        op_args=[ROSIE_FLOW_DATASET_BASE_PATH + '/create_source.json'])
+        op_args=[ROSIE_FLOW_DATASET_BASE_PATH + '/create_source.json','sourceID'])
 
     crawl_metadata_task = PythonOperator(
         task_id='crawl_metadata', dag=dag,
-        python_callable=crawl_metadata, op_args=[ROSIE_FLOW_DATASET_BASE_PATH + '/crawl_metadata.json'])
+        python_callable=crawl_metadata, op_args=[None,'create_source','sourceID'])
 
     configure_tables_and_table_groups_task = PythonOperator(
         task_id='configure_tables_and_table_groups', dag=dag,
