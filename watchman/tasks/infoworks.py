@@ -42,7 +42,9 @@ def create_source(source_config_path, key=None, **kwargs):
 
         logging.info('Source {id} has been created.'.format(id=source_id))
 
-        kwargs['ti'].xcom_push(key=key, value=source_id)
+        if key is not None:
+            kwargs['ti'].xcom_push(key=key, value=source_id)
+    
     except Exception as e:
         logging.error('Exception: ' + str(e))
         logging.error('Response from server: ' + str(response))
