@@ -59,6 +59,7 @@ def crawl_metadata(source_config_path=None, task_id=None, key=None, **kwargs):
 
     """
     try:
+        source_id = None
         response = None
 
         if source_config_path:
@@ -83,7 +84,7 @@ def crawl_metadata(source_config_path=None, task_id=None, key=None, **kwargs):
                 logging.error('Unable to retrieve response for configuring tables and table groups from REST.')
                 sys.exit(1)
             source_id = response['result']['entity_id']
-
+        
         source_id = kwargs['ti'].xcom_pull(key=key, task_ids=task_id) if source_id is None else source_id
 
         if source_id is None:
