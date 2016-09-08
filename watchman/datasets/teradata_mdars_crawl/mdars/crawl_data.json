@@ -1,5 +1,5 @@
 {
   "source_name": "mdars_test_source",
   "table_group_name": "all",
-  "ingestion_type": "source_all"
+  "ingestion_type": "full_load"
 }
