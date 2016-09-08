@@ -3,6 +3,7 @@ import time
 import requests
 import logging
 import os,sys,inspect
+import subprocess
 
 current_dir = os.path.dirname(os.path.abspath(inspect.getfile(inspect.currentframe())))
 parent_dir = os.path.dirname(current_dir)
@@ -249,6 +250,17 @@ def _submit_ingestion_job(table_group_id, ingestion_type):
         logging.error('Error occurred while trying to submit a source crawl job')
         sys.exit(1)
 
+
+def source_setup(db_conf_path,script_path, task_id=None, key=None, **kwargs):
+    try:
+        if (db_conf_path and script_path):
+            jar_command = 'java -cp ../utils/AutomationUtils.jar:../utils/jars/*:. source.setup.SourceSetup -dbConf ' + db_conf_path + ' -sqlScript ' + script_path
+            subprocess.popen(jar_command)
+
+    except Exception as e:
+        logging.error('Exception: ' + str(e))
+        logging.error('Error occurred while trying to delete a source.')
+        sys.exit(1)
 
 def delete_source(delete_config_path=None, task_id=None, key=None, **kwargs):
     """
