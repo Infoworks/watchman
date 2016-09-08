@@ -7,7 +7,8 @@ import scriptine
 import os
 import subprocess
 import time
-import py_compile
+import sys
+import importlib
 from scriptine import path
 
 FLOWS_DIR = 'flows'
@@ -38,7 +39,7 @@ def runflow_command(flow_name, dataset_name, iw_host=None, iw_user_at=None):
 	flow_path = path(base_dir + '/' + FLOWS_DIR + '/' + flow_name + '.py')
 	dataset_path = path(base_dir + '/' + DATASETS_DIR + '/' + flow_name + '/' + dataset_name)
 
-	if (not validate_flow_and_dataset(flow_path, dataset_path)):
+	if (not validate_flow_and_dataset(flow_name=flow_name, flow_path=flow_path, dataset_path=dataset_path)):
 		return 1
 	else:
 		print "Flow file validated successfully."
@@ -72,22 +73,21 @@ def runflow_command(flow_name, dataset_name, iw_host=None, iw_user_at=None):
 
 	return execution_status
 
-def validate_flow_and_dataset(flow_path, dataset_path):
+def validate_flow_and_dataset(flow_name, flow_path, dataset_path):
 	# check that the flow file exists
 	if not flow_path.exists():
 		print "Flow file does not exist. Looking for file: %s" % flow_path
 		return False
-	"""
+	
 	# check that the dag file compiles
 	try:
-		comp = py_compile.compile(flow_path, doraise=True)
-		print 'comp'
-		print comp
+		sys.path.insert(0, flow_path.parent)
+		importlib.import_module(flow_name)
 	except Exception as e:
 		print "Flow file contains errors:"
-		print e
+		print str(e)
 		return False
-	"""
+	
 	
 	# check that the flow name and the dag name match
 	
