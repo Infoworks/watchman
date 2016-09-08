@@ -39,7 +39,7 @@ def runflow_command(flow_name, dataset_name, iw_host=None, iw_user_at=None):
 	flow_path = path(base_dir + '/' + FLOWS_DIR + '/' + flow_name + '.py')
 	dataset_path = path(base_dir + '/' + DATASETS_DIR + '/' + flow_name + '/' + dataset_name)
 
-	if (not validate_flow_and_dataset(flow_name=flow_name, flow_path=flow_path, dataset_path=dataset_path)):
+	if (not _validate_flow_and_dataset(flow_name=flow_name, flow_path=flow_path, dataset_path=dataset_path)):
 		return 1
 	else:
 		print "Flow file validated successfully."
@@ -70,31 +70,6 @@ def runflow_command(flow_name, dataset_name, iw_host=None, iw_user_at=None):
 
 	return execution_status
 
-def validate_flow_and_dataset(flow_name, flow_path, dataset_path):
-	# check that the flow file exists
-	if not flow_path.exists():
-		print "Flow file does not exist. Looking for file: %s" % flow_path
-		return False
-	
-	# check that the dag file compiles
-	try:
-		sys.path.insert(0, flow_path.parent)
-		importlib.import_module(flow_name)
-	except Exception as e:
-		print "Flow file contains errors. Please fix them and try again."
-		print "---------------------------------------------------------"
-		print str(e)
-		return False
-	
-	
-	# check that the flow name and the dag name match
-	
-
-	if not dataset_path.exists() or not dataset_path.isdir():
-		print "Dataset directory does not exist. Looking for directory: %s" % dataset_path
-		return False
-
-	return True
 
 def runsuite_command(suite_name, iw_host='localhost', iw_user_auth_token=''):
     """
@@ -203,6 +178,32 @@ def check_airflow_services_command(start_if_down=True):
             _start_process('webserver')
 
     return
+
+
+def _validate_flow_and_dataset(flow_name, flow_path, dataset_path):
+    # check that the flow file exists
+    if not flow_path.exists():
+        print "Flow file does not exist. Looking for file: %s" % flow_path
+        return False
+
+    # check that the dag file compiles
+    try:
+        sys.path.insert(0, flow_path.parent)
+        importlib.import_module(flow_name)
+    except Exception as e:
+        print "Flow file contains errors. Please fix them and try again."
+        print "---------------------------------------------------------"
+        print str(e)
+        return False
+
+    # check that the flow name and the dag name match
+
+
+    if not dataset_path.exists() or not dataset_path.isdir():
+        print "Dataset directory does not exist. Looking for directory: %s" % dataset_path
+        return False
+
+    return True
 
 
 def _ps_aux_grep(proc_string):
