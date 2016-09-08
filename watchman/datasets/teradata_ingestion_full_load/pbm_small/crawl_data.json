@@ -1,5 +1,5 @@
 {
   "source_name": "teradata_pbm_small_full_load_automation",
-  "table_group_name": "est_grp_all",
-  "ingestion_type": "source_all"
+  "table_group_name": "Test_grp_all",
+  "ingestion_type": "truncate-reload"
 }
