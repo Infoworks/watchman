@@ -1,0 +1,19 @@
+{
+   "configuration": {
+	"name" : "teradata_pbm_small_full_load_automation" ,
+	"connection": {
+      		"database": "TERADATA",
+      		"driver_name": "com.teradata.jdbc.TeraDriver",
+      		"connection_method": "jdbc",
+      		"connection_string": "jdbc:teradata://ec2-54-144-76-210.compute-1.amazonaws.com/TMODE=ANSI,CHARSET=UTF8,database=PBM_SMALL",
+      		"username": "dbc",
+  		"password" : "infoworks",
+      		"schema": "PBM_SMALL"
+    	},
+    	"cdc_mode": "full-load",
+    	"hive_schema": "Teradata_PBM_SMALL_0908",
+    	"sourceType": "rdbms",
+	"hdfs_path" : "/sources/automation/" ,
+    	"sourceSubtype": "teradata"
+  }
+}

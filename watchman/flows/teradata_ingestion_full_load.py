@@ -14,7 +14,9 @@ try:
     ROSIE_FLOW_DATASET_BASE_PATH = os.environ['ROSIE_FLOW_DATASET_BASE_PATH']
 except KeyError as e:
     file_name = basename(script_name).split('.')[0]
+    print 'ROSIE_FLOW_DATASET_BASE_PATH is not set as an env variable.'
     ROSIE_FLOW_DATASET_BASE_PATH = parent_dir + '/datasets/' + file_name + '/northwind'
+    print 'Defaulting to: ' + ROSIE_FLOW_DATASET_BASE_PATH
 
 
 args = {
@@ -30,7 +32,7 @@ dag = DAG('oracle_ingestion_full_load', default_args=args, schedule_interval=Non
 def create_dag():
     """
 
-    Flow for Oracle Northwind end to end
+    Flow for Teradata Full load  end to end
 
     """
     create_source_task = PythonOperator(
