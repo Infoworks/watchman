@@ -9,6 +9,7 @@ import subprocess
 import time
 import sys
 import importlib
+import re
 from scriptine import path
 
 FLOWS_DIR = 'flows'
@@ -17,58 +18,96 @@ SUITES_DIR = 'suites'
 
 
 def runflow_command(flow_name, dataset_name, iw_host=None, iw_user_at=None):
-	"""
-	Executes a flow with a dataset
+    """
+    Executes a flow with a dataset
 
-	:param flow_name: name of the flow to run
-	:type flow_name: string
-	:param dataset_name: name of the dataset to run the flow on
-	:type dataset_name: string
-	:param iw_host: hostname (or IP address) of the Infoworks REST API service. (eg: 127.0.0.1)
-	:type iw_host: string
-	:param iw_user_at: User authentication token to submit requests to the Infoworks REST API
-	:type iw_user_at: string
-	:returns: Execution status of the flow
-	:rtype: boolean
-	"""
-	execution_status = False
-	print 'Executing flow: "%s" with dataset: "%s"' % (flow_name, dataset_name)
+    :param flow_name: name of the flow to run
+    :type flow_name: string
+    :param dataset_name: name of the dataset to run the flow on
+    :type dataset_name: string
+    :param iw_host: hostname (or IP address) of the Infoworks REST API service. (eg: 127.0.0.1)
+    :type iw_host: string
+    :param iw_user_at: User authentication token to submit requests to the Infoworks REST API
+    :type iw_user_at: string
+    :returns: Execution status of the flow
+    :rtype: boolean
+    """
+    execution_status = False
+    print 'Executing flow: "%s" with dataset: "%s"' % (flow_name, dataset_name)
 
-	base_dir = path.cwd().parent
+    base_dir = path.cwd().parent
 
-	flow_path = path(base_dir + '/' + FLOWS_DIR + '/' + flow_name + '.py')
-	dataset_path = path(base_dir + '/' + DATASETS_DIR + '/' + flow_name + '/' + dataset_name)
+    flow_path = path(base_dir + '/' + FLOWS_DIR + '/' + flow_name + '.py')
+    dataset_path = path(base_dir + '/' + DATASETS_DIR + '/' + flow_name + '/' + dataset_name)
 
-	if (not _validate_flow_and_dataset(flow_name=flow_name, flow_path=flow_path, dataset_path=dataset_path)):
-		return 1
-	else:
-		print "Flow file validated successfully."
+    if not _validate_flow_and_dataset(flow_name=flow_name, flow_path=flow_path, dataset_path=dataset_path):
+        return 1
+    else:
+        print "Flow file validated successfully."
 
-	check_airflow_services_command(True)
+    check_airflow_services_command(True)
 
-	run_id = '{flow_name}_{date_formatted}'.format(flow_name=flow_name,
-												   date_formatted=time.strftime("%Y-%m-%d-%H-%M-%S"))
-	custom_env = os.environ.copy()
-	custom_env['ROSIE_FLOW_DATASET_BASE_PATH'] = dataset_path
-	if iw_host is not None:
-		custom_env['ROSIE_FLOW_IW_HOST'] = iw_host
-	if iw_user_at is not None:
-		custom_env['ROSIE_FLOW_IW_USER_AUTH_TOKEN'] = iw_user_at
+    run_id = '{flow_name}_{date_formatted}'.format(flow_name=flow_name,
+                                                   date_formatted=time.strftime("%Y-%m-%d-%H-%M-%S"))
+    custom_env = os.environ.copy()
+    custom_env['ROSIE_FLOW_DATASET_BASE_PATH'] = dataset_path
+    if iw_host is not None:
+        custom_env['ROSIE_FLOW_IW_HOST'] = iw_host
+    if iw_user_at is not None:
+        custom_env['ROSIE_FLOW_IW_USER_AUTH_TOKEN'] = iw_user_at
 
-	airflow_exec_cmd = 'airflow trigger_dag {flow_name} -r {run_id}'.format(flow_name=flow_name, run_id=run_id)
+    airflow_exec_cmd = 'airflow trigger_dag {flow_name} -r {run_id}'.format(flow_name=flow_name, run_id=run_id)
 
-	print ""
-	print "Command: %s" % airflow_exec_cmd
-	process = subprocess.Popen(airflow_exec_cmd, shell=True, env=custom_env)
-	process.communicate()
-	if process.returncode == 0:
-		execution_status = True
-	print '**********************************'
-	print 'Flow Run ID: ', run_id
-	print 'Flow execution status: {status}'.format(status=execution_status)
-	print '**********************************'
+    print ""
+    print "Command: %s" % airflow_exec_cmd
+    process = subprocess.Popen(airflow_exec_cmd, shell=True, env=custom_env)
+    process.communicate()
+    if process.returncode == 0:
+        execution_status = True
+    print '**********************************'
+    print 'Flow Run ID: ', run_id
+    print 'Flow execution status: {status}'.format(status=execution_status)
+    print '**********************************'
 
-	return execution_status
+    return execution_status
+
+
+def validate_flow_and_dataset(flow_name, flow_path, dataset_path):
+    # check that the flow file exists
+    if not flow_path.exists():
+        print "Flow file does not exist. Looking for file: %s" % flow_path
+        return False
+
+    # check that the dag file compiles
+    try:
+        sys.path.insert(0, flow_path.parent)
+        importlib.import_module(flow_name)
+    except Exception as e:
+        print "\nError found:"
+        print "------------"
+        print "Flow file contains errors. Please fix them and try again."
+        print str(e)
+        return False
+
+    # check that the flow name and the dag name match
+    pattern = re.compile("DAG\s*\(\s*[\"|']" + flow_name + "[\"|']")
+    file_text = flow_path.text()
+
+    found = pattern.search(file_text)
+    if not found:
+        print "\nError found:"
+        print "------------"
+        print "The DAG name has to be the same as the file name. Please fix it and try again."
+        print "Suggestion: set the dag name to: ", flow_name
+        return False
+
+    if not dataset_path.exists() or not dataset_path.isdir():
+        print "\nError found:"
+        print "------------"
+        print "Dataset directory does not exist. Looking for directory: %s" % dataset_path
+        return False
+
+    return True
 
 
 def runsuite_command(suite_name, iw_host='localhost', iw_user_auth_token=''):
