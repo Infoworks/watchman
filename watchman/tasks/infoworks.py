@@ -44,7 +44,7 @@ def create_source(source_config_path, key=None, **kwargs):
 
         if key is not None:
             kwargs['ti'].xcom_push(key=key, value=source_id)
-    
+
     except Exception as e:
         logging.error('Exception: ' + str(e))
         logging.error('Response from server: ' + str(response))
@@ -258,7 +258,8 @@ def source_setup(db_conf_path, script_path, task_id=None, key=None, **kwargs):
         if db_conf_path and script_path:
             jar_command = 'java -cp ../utils/AutomationUtils.jar:../utils/jars/*:. source.setup.SourceSetup -dbConf ' \
                           + db_conf_path + ' -sqlScript ' + script_path
-            process = subprocess.Popen(jar_command)
+            logging.info('Jar command: ' + jar_command)
+            process = subprocess.Popen(jar_command, shell=True)
             process.communicate()
     except Exception as e:
         logging.error('Exception: ' + str(e))
