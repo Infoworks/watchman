@@ -251,16 +251,18 @@ def _submit_ingestion_job(table_group_id, ingestion_type):
         sys.exit(1)
 
 
-def source_setup(db_conf_path,script_path, task_id=None, key=None, **kwargs):
+def source_setup(db_conf_path, script_path, task_id=None, key=None, **kwargs):
     try:
-        if (db_conf_path and script_path):
-            jar_command = 'java -cp ../utils/AutomationUtils.jar:../utils/jars/*:. source.setup.SourceSetup -dbConf ' + db_conf_path + ' -sqlScript ' + script_path
-            subprocess.popen(jar_command)
-
+        if db_conf_path and script_path:
+            jar_command = 'java -cp ../utils/AutomationUtils.jar:../utils/jars/*:. source.setup.SourceSetup -dbConf ' \
+                          + db_conf_path + ' -sqlScript ' + script_path
+            process = subprocess.Popen(jar_command)
+            process.communicate()
     except Exception as e:
         logging.error('Exception: ' + str(e))
-        logging.error('Error occurred while trying to delete a source.')
+        logging.error('Error occurred while trying to setup source.')
         sys.exit(1)
+
 
 def delete_source(delete_config_path=None, task_id=None, key=None, **kwargs):
     """
