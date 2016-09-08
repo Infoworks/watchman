@@ -14,9 +14,7 @@ try:
     ROSIE_FLOW_DATASET_BASE_PATH = os.environ['ROSIE_FLOW_DATASET_BASE_PATH']
 except KeyError as e:
     file_name = basename(script_name).split('.')[0]
-    print 'ROSIE_FLOW_DATASET_BASE_PATH is not set as an env variable.'
     ROSIE_FLOW_DATASET_BASE_PATH = parent_dir + '/datasets/' + file_name + '/northwind'
-    print 'Defaulting to: ' + ROSIE_FLOW_DATASET_BASE_PATH
 
 
 args = {
