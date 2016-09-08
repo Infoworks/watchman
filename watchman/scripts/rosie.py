@@ -9,6 +9,7 @@ import subprocess
 import time
 import sys
 import importlib
+import re
 from scriptine import path
 
 FLOWS_DIR = 'flows'
@@ -81,16 +82,28 @@ def validate_flow_and_dataset(flow_name, flow_path, dataset_path):
 		sys.path.insert(0, flow_path.parent)
 		importlib.import_module(flow_name)
 	except Exception as e:
+		print "\nError found:"
+		print "------------"
 		print "Flow file contains errors. Please fix them and try again."
-		print "---------------------------------------------------------"
 		print str(e)
 		return False
 	
 	
 	# check that the flow name and the dag name match
-	
+	pattern = re.compile("DAG\s*\(\s*[\"|']" + flow_name + "[\"|']")
+	file_text = flow_path.text()
+
+	found = pattern.search(file_text)
+	if (not found):
+		print "\nError found:"
+		print "------------"
+		print "The DAG name has to be the same as the file name. Please fix it and try again."
+		print "Suggestion: set the dag name to: ", flow_name
+		return False
 
 	if not dataset_path.exists() or not dataset_path.isdir():
+		print "\nError found:"
+		print "------------"
 		print "Dataset directory does not exist. Looking for directory: %s" % dataset_path
 		return False
 
