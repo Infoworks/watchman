@@ -30,7 +30,7 @@ dag = DAG('oracle_ingestion_full_load', default_args=args, schedule_interval=Non
 def create_dag():
     """
 
-    Flow for Oracle Northwind end to end
+    Flow for Oracle Ingestion end to end
 
     """
     create_source_task = PythonOperator(

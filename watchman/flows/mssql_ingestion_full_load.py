@@ -7,7 +7,7 @@ script_name = inspect.getfile(inspect.currentframe())
 current_dir = os.path.dirname(os.path.abspath(script_name))
 parent_dir = os.path.dirname(current_dir)
 sys.path.insert(0, parent_dir)
-from tasks.infoworks import create_source,source_setup, crawl_metadata, \
+from tasks.infoworks import create_source, source_setup, crawl_metadata, \
     configure_tables_and_table_groups, crawl_table_groups_from_config, delete_source
 
 try:
@@ -30,10 +30,9 @@ dag = DAG('mssql_ingestion_full_load', default_args=args, schedule_interval=None
 def create_dag():
     """
 
-    Flow for Oracle Northwind end to end
+    Flow for MSSQL Ingestion end to end
 
     """
-
 
     create_source_task = PythonOperator(
         task_id='create_source', dag=dag, python_callable=create_source,
