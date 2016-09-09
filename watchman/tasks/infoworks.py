@@ -283,12 +283,24 @@ def _submit_ingestion_job(table_group_id, ingestion_type):
 
 def source_setup(db_conf_path, script_path, **kwargs):
     try:
-        if db_conf_path and script_path:
-            jar_command = 'java -cp ../utils/AutomationUtils.jar:../utils/jars/*:. source.setup.SourceSetup -dbConf ' \
-                          + db_conf_path + ' -sqlScript ' + script_path
-            logging.info('Jar command to be executed for DB setup: ' + jar_command)
-            process = subprocess.Popen(jar_command, shell=True)
-            process.communicate()
+        if (not db_conf_path) or (not script_path):
+            logging.error('DB configuration path or script path has not been specified. ')
+            sys.exit(1)
+        if not os.path.isfile(db_conf_path):
+            logging.error('Path to DB config file is incorrect. '
+                          'Please check the existence of {path}'.format(path=db_conf_path))
+            sys.exit(1)
+        if not os.path.isfile(script_path):
+            logging.error('Path to script file is incorrect. '
+                          'Please check the existence of {path}'.format(path=script_path))
+            sys.exit(1)
+
+        jar_command = 'java -cp ../utils/AutomationUtils.jar:../utils/jars/*:. source.setup.SourceSetup -dbConf ' \
+                      + db_conf_path + ' -sqlScript ' + script_path
+        logging.info('Jar command to be executed for DB setup: ' + jar_command)
+        process = subprocess.Popen(jar_command, shell=True)
+        process.communicate()
+
     except Exception as e:
         logging.error('Exception: ' + str(e))
         logging.error('Error occurred while trying to setup source.')
