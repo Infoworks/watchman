@@ -10,15 +10,6 @@ sys.path.insert(0, parent_dir)
 from tasks.infoworks import create_source,source_setup, crawl_metadata, \
     configure_tables_and_table_groups, crawl_table_groups_from_config, delete_source
 
-try:
-    ROSIE_FLOW_DATASET_BASE_PATH = os.environ['ROSIE_FLOW_DATASET_BASE_PATH']
-except KeyError as e:
-    file_name = basename(script_name).split('.')[0]
-    print 'ROSIE_FLOW_DATASET_BASE_PATH is not set as an env variable.'
-    ROSIE_FLOW_DATASET_BASE_PATH = parent_dir + '/datasets/' + file_name + '/mdars'
-    print 'Defaulting to: ' + ROSIE_FLOW_DATASET_BASE_PATH
-
-
 args = {
     'owner': 'iw_admin',
     'start_date': datetime.now(),
@@ -37,15 +28,15 @@ def create_dag():
     """
     delete_source_task = PythonOperator(
         task_id='delete_source', dag=dag,
-        python_callable=delete_source, op_args=[ROSIE_FLOW_DATASET_BASE_PATH + '/delete_source.json'])
+        python_callable=delete_source, op_args=['/delete_source.json'])
 
     source_setup_task = PythonOperator(
         task_id='setup_source', dag=dag, python_callable=source_setup,
-        op_args=[ROSIE_FLOW_DATASET_BASE_PATH + '/dbconf.properties',ROSIE_FLOW_DATASET_BASE_PATH + '/fullload.sql'])
+        op_args=['/dbconf.properties', '/fullload.sql'])
 
     create_source_task = PythonOperator(
         task_id='create_source', dag=dag, python_callable=create_source,
-        op_args=[ROSIE_FLOW_DATASET_BASE_PATH + '/create_source.json','sourceID'])
+        op_args=['/create_source.json','sourceID'])
 
     crawl_metadata_task = PythonOperator(
         task_id='crawl_metadata', dag=dag,
@@ -54,20 +45,19 @@ def create_dag():
     configure_tables_and_table_groups_task = PythonOperator(
         task_id='configure_tables_and_table_groups', dag=dag,
         python_callable=configure_tables_and_table_groups,
-        op_args=[ROSIE_FLOW_DATASET_BASE_PATH + '/configure_tables_and_table_groups.json', None,
-                 'create_source', 'sourceID'])
+        op_args=['/configure_tables_and_table_groups.json', None, 'create_source', 'sourceID'])
 
     full_load_task = PythonOperator(
         task_id='crawl_table_groups', dag=dag,
-        python_callable=crawl_table_groups_from_config, op_args=[ROSIE_FLOW_DATASET_BASE_PATH + '/full_load.json'])
+        python_callable=crawl_table_groups_from_config, op_args=['/full_load.json'])
 
     cdc_setup_task = PythonOperator(
         task_id='setup_cdc', dag=dag, python_callable=source_setup,
-        op_args=[ROSIE_FLOW_DATASET_BASE_PATH + '/dbconf.properties', ROSIE_FLOW_DATASET_BASE_PATH + '/cdc.sql'])
+        op_args=['/dbconf.properties', '/cdc.sql'])
 
     cdc_merge_task = PythonOperator(
         task_id='cdc_merge', dag=dag,
-        python_callable=crawl_table_groups_from_config, op_args=[ROSIE_FLOW_DATASET_BASE_PATH + '/cdc.json'])
+        python_callable=crawl_table_groups_from_config, op_args=['/cdc.json'])
 
     source_setup_task.set_upstream(delete_source_task)
     create_source_task.set_upstream(source_setup_task)
