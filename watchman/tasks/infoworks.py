@@ -9,7 +9,7 @@ current_dir = os.path.dirname(os.path.abspath(inspect.getfile(inspect.currentfra
 parent_dir = os.path.dirname(current_dir)
 sys.path.insert(0, parent_dir)
 
-from config.configuration import REST_HOST, REST_PORT, AUTH_TOKEN
+from config.configuration import REST_HOST, REST_PORT, AUTH_TOKEN, POLLING_FREQUENCY_IN_SEC
 from utils.utils import load_json_config
 
 
@@ -401,17 +401,16 @@ def get_job_status(job_id):
 
             if job_status in ['pending']:
                 logging.info('Job status currently is: {job_status}'.format(job_status=job_status))
-                time.sleep(7)
+                time.sleep(POLLING_FREQUENCY_IN_SEC)
                 continue
 
             if job_status in ['running']:
                 logging.info('Job status: ', str(response['result']))
-                time.sleep(7)
+                time.sleep(POLLING_FREQUENCY_IN_SEC)
                 continue
 
             if job_status in ['blocked', 'failed', 'canceled']:
                 return False, job_id
-
 
         except Exception as e:
             logging.error('Exception: ' + str(e))
