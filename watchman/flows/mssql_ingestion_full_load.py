@@ -14,7 +14,7 @@ try:
     ROSIE_FLOW_DATASET_BASE_PATH = os.environ['ROSIE_FLOW_DATASET_BASE_PATH']
 except KeyError as e:
     file_name = basename(script_name).split('.')[0]
-    ROSIE_FLOW_DATASET_BASE_PATH = parent_dir + '/datasets/' + file_name + '/mdars'
+    ROSIE_FLOW_DATASET_BASE_PATH = parent_dir + '/datasets/' + file_name + '/AdventureWorks'
 
 
 args = {

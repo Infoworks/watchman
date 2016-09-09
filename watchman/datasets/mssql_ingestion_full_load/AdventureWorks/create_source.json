@@ -1,6 +1,6 @@
 {
   "configuration": { 
-    "hdfsPath": "\/iw\/sources\/Mssql_fullload_automation1", 
+    "hdfsPath": "/iw/sources/Mssql_fullload_automation1", 
     "hiveSchema": "Mssql_fullload_automation1",  
     "sourceType": "rdbms",
     "sourceSubtype": "SQL Server",
@@ -14,6 +14,6 @@
       "schema": "Sales", 
       "username": "hadoop"
     },
-  "cdcMode": "cdc-query"
+  "cdcMode": "full-load"
 }
 }
