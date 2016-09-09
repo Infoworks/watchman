@@ -15,7 +15,7 @@ try:
 except KeyError as e:
     file_name = basename(script_name).split('.')[0]
     print 'ROSIE_FLOW_DATASET_BASE_PATH is not set as an env variable.'
-    ROSIE_FLOW_DATASET_BASE_PATH = parent_dir + '/datasets/' + file_name + '/northwind'
+    ROSIE_FLOW_DATASET_BASE_PATH = parent_dir + '/datasets/' + file_name + '/pbm_small'
     print 'Defaulting to: ' + ROSIE_FLOW_DATASET_BASE_PATH
 
 
@@ -26,7 +26,7 @@ args = {
     'depends_on_past': False,
 }
 
-dag = DAG('oracle_ingestion_full_load', default_args=args, schedule_interval=None)
+dag = DAG('teradata_ingestion_full_load', default_args=args, schedule_interval=None)
 
 
 def create_dag():
@@ -37,7 +37,7 @@ def create_dag():
     """
     create_source_task = PythonOperator(
         task_id='create_source', dag=dag, python_callable=create_source,
-        op_args=[ROSIE_FLOW_DATASET_BASE_PATH + '/create_source.json'])
+        op_args=[ROSIE_FLOW_DATASET_BASE_PATH + '/create_source.json', 'source_id'])
 
     crawl_metadata_task = PythonOperator(
         task_id='crawl_metadata', dag=dag,
