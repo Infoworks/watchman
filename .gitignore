@@ -64,3 +64,8 @@ target/
 
 # .swp files 
 *.swp
+
+# eclipse
+*/.settings/
+*.class
+*/.class

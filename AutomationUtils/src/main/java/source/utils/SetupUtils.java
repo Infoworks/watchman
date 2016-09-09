@@ -44,5 +44,14 @@ public class SetupUtils {
     return val;
   }
 
+  public static DBConnection getDBConnection(String dbConfFilePath) {
+	  Properties properties = SetupUtils.getProperties(dbConfFilePath);
+	  DBConnection db = new DBConnection(SetupUtils.getNonNull(properties, Constants.JDBC_DRIVER),
+				SetupUtils.getNonNull(properties, Constants.JDBC_URL),
+				SetupUtils.getNonNull(properties, Constants.USERNAME),
+				SetupUtils.getNonNull(properties, Constants.PASSWORD),
+				SetupUtils.getNonNull(properties, Constants.DB_SCHMEA));
+		return db ;
+  }
 
 }

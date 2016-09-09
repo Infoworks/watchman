@@ -9,5 +9,6 @@ public class Constants {
   public static final String DB_SCHMEA = "schema";
   public static final String CONF_FILE = "dbConf";
   public static final String SCRIPT_FILE = "sqlScript";
+  public static final String SQL_COMMAND = "sql";
 
 }
