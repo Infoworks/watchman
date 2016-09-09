@@ -52,7 +52,7 @@ def runflow_command(flow_name, dataset_name, iw_host=None, iw_user_at=None):
 
     run_id = 'rosie_{date_formatted}'.format(date_formatted=time.strftime("%Y-%m-%d-%H-%M-%S"))
     custom_env = os.environ.copy()
-    custom_env['ROSIE_FLOW_DATASET_BASE_PATH'] = dataset_path
+    custom_env['ROSIE_FLOW_DATASET_BASE_PATH'] = dataset_path.abspath()
     if iw_host is not None:
         custom_env['ROSIE_FLOW_IW_HOST'] = iw_host
     if iw_user_at is not None:

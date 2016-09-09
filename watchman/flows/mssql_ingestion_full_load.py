@@ -2,6 +2,7 @@ from datetime import datetime
 from airflow import DAG
 from airflow.operators.python_operator import PythonOperator
 import os, sys, inspect
+import logging
 from os.path import basename
 script_name = inspect.getfile(inspect.currentframe())
 current_dir = os.path.dirname(os.path.abspath(script_name))
@@ -15,7 +16,11 @@ try:
 except KeyError as e:
     file_name = basename(script_name).split('.')[0]
     ROSIE_FLOW_DATASET_BASE_PATH = parent_dir + '/datasets/' + file_name + '/mdars'
+    logging.warn('Unable to retrieve dataset base path.')
+    logging.warn('Defaulting to dataset: ' + ROSIE_FLOW_DATASET_BASE_PATH)
+    sys.exit(1)
 
+logging.info('Starting the flow with dataset: ' + ROSIE_FLOW_DATASET_BASE_PATH)
 
 args = {
     'owner': 'iw_admin',
