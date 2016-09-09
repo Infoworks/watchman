@@ -222,8 +222,10 @@ def webserver_command(start=False, stop=False, restart=False):
     :type start: boolean
     :type stop: boolean
     :type restart: boolean
+    :returns: True if webserver is running, False otherwise
+    :rtype: boolean
     """
-    _service_command('webserver', start, stop, restart)
+    return _service_command('webserver', start, stop, restart)
 
 
 def scheduler_command(start=False, stop=False, restart=False):
@@ -236,8 +238,10 @@ def scheduler_command(start=False, stop=False, restart=False):
     :type start: boolean
     :type stop: boolean
     :type restart: boolean
+    :returns: True if scheduler is running, False otherwise
+    :rtype: boolean
     """
-    _service_command('scheduler', start, stop, restart)
+    return _service_command('scheduler', start, stop, restart)
 
 
 def _service_command(service, start=False, stop=False, restart=False):
@@ -253,6 +257,7 @@ def _service_command(service, start=False, stop=False, restart=False):
             return True
         else:
             print "{service} is not running".format(service=service)
+            return False
 
     if start:
         option_passed = True
@@ -262,6 +267,7 @@ def _service_command(service, start=False, stop=False, restart=False):
         else:
             _start_process(service)
             print "{service} started.".format(service=service)
+            return True
 
     if restart:
         option_passed = True
@@ -275,6 +281,7 @@ def _service_command(service, start=False, stop=False, restart=False):
             return True
         else:
             print "{service} is not running".format(service=service)
+            return False
 
 
 def _service_is_running(service):
