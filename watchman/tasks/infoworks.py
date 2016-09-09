@@ -9,7 +9,7 @@ current_dir = os.path.dirname(os.path.abspath(inspect.getfile(inspect.currentfra
 parent_dir = os.path.dirname(current_dir)
 sys.path.insert(0, parent_dir)
 
-from config.configuration import REST_HOST, REST_PORT, AUTH_TOKEN
+from config.configuration import REST_HOST, REST_PORT, AUTH_TOKEN, POLLING_FREQUENCY_IN_SEC, NUM_POLLING_RETRIES
 from utils.utils import load_json_config
 
 
@@ -114,8 +114,9 @@ def crawl_metadata(source_config_path=None, task_id=None, key=None, **kwargs):
         job_id = response['result']
         logging.info('Metadata crawl job has been submitted. Job ID is: {id}'.format(id=job_id))
 
-        status = get_job_status(job_id)
-        if not status:
+        job_status, job_id = get_job_status(job_id)
+        if not job_status or job_status is False:
+            logging.error('Job {j_id} failed to complete. '.format(j_id=job_id))
             sys.exit(1)
     except Exception as e:
         logging.error('Exception: ' + str(e))
@@ -270,8 +271,8 @@ def _submit_ingestion_job(table_group_id, ingestion_type):
         logging.info('Crawl job(s) have been submitted for '
                      'table group {t_id}. Job ID is: {id}'.format(id=str(job_id), t_id=str(table_group_id)))
 
-        job_status = get_job_status(job_id)
-        if not job_status:
+        job_status, job_id = get_job_status(job_id)
+        if not job_status or job_status is False:
             logging.error('Job {j_id} failed to complete. '.format(j_id=job_id))
             sys.exit(1)
     except Exception as e:
@@ -283,12 +284,28 @@ def _submit_ingestion_job(table_group_id, ingestion_type):
 
 def source_setup(db_conf_path, script_path, **kwargs):
     try:
-        if db_conf_path and script_path:
-            jar_command = 'java -cp ../utils/AutomationUtils.jar:../utils/jars/*:. source.setup.SourceSetup -dbConf ' \
-                          + db_conf_path + ' -sqlScript ' + script_path
-            logging.info('Jar command to be executed for DB setup: ' + jar_command)
-            process = subprocess.Popen(jar_command, shell=True)
-            process.communicate()
+        if (not db_conf_path) or (not script_path):
+            logging.error('DB configuration path or script path has not been specified. ')
+            sys.exit(1)
+        if not os.path.isfile(db_conf_path):
+            logging.error('Path to DB config file is incorrect. '
+                          'Please check the existence of {path}'.format(path=db_conf_path))
+            sys.exit(1)
+        if not os.path.isfile(script_path):
+            logging.error('Path to script file is incorrect. '
+                          'Please check the existence of {path}'.format(path=script_path))
+            sys.exit(1)
+
+        jar_command = 'java -cp {parent_dir}/utils/AutomationUtils.jar:{parent_dir}/utils/jars/* ' \
+                      'source.setup.SourceSetup -dbConf {db_conf_path} -sqlScript ' \
+                      '{sql_script_path}'.format(parent_dir=parent_dir,
+                                                 db_conf_path=db_conf_path,
+                                                 sql_script_path=script_path)
+
+        logging.info('Jar command to be executed for DB setup: ' + jar_command)
+        process = subprocess.Popen(jar_command, shell=True)
+        process.communicate()
+
     except Exception as e:
         logging.error('Exception: ' + str(e))
         logging.error('Error occurred while trying to setup source.')
@@ -362,8 +379,8 @@ def _submit_delete_entity_job(entity_id, entity_type):
         logging.info('Delete entity job has been submitted for the entity. '
                      'Job ID is: {id}'.format(id=str(job_id)))
 
-        job_status = get_job_status(job_id)
-        if not job_status:
+        job_status, job_id = get_job_status(job_id)
+        if not job_status or job_status is False:
             logging.error('Job {j_id} failed to complete. '.format(j_id=job_id))
             sys.exit(1)
     except Exception as e:
@@ -375,12 +392,19 @@ def _submit_delete_entity_job(entity_id, entity_type):
 
 def get_job_status(job_id):
     """
+
         Get IW job status
         :param: job_id: job id to poll the status
         :type: job_id: string
         :returns: job status
         :rtype: bool
+
     """
+
+    logging.info('Polling frequency has been set to: {sec}'.format(sec=POLLING_FREQUENCY_IN_SEC))
+
+    num_poll_retries = 0
+
     while True:
         try:
 
@@ -397,23 +421,42 @@ def get_job_status(job_id):
             job_status = response['result'].get('status')
 
             if job_status == 'completed':
+                logging.info('Job finished successfully.')
                 return True, job_id
 
             if job_status in ['pending']:
                 logging.info('Job status currently is: {job_status}'.format(job_status=job_status))
+                time.sleep(POLLING_FREQUENCY_IN_SEC)
                 continue
 
             if job_status in ['running']:
-                logging.info('Job status: ', str(response['result']))
+                logging.info('Job status: ' + str(round(response['result']['percentCompleted'], 1)))
+                time.sleep(POLLING_FREQUENCY_IN_SEC)
                 continue
 
-            if job_status in ['blocked', 'failed', 'canceled']:
+            if job_status in ['blocked']:
+                logging.warn('Job is currently blocked.')
                 return False, job_id
 
-            time.sleep(7)
+            if job_status in ['failed']:
+                logging.error('Job failed to execute.')
+                return False, job_id
+
+            if job_status in ['canceled']:
+                logging.warn('Job has been manually cancelled.')
+                return False, job_id
+
         except Exception as e:
             logging.error('Exception: ' + str(e))
             logging.error('Error occurred while trying to poll job status.')
+            if num_poll_retries < NUM_POLLING_RETRIES:
+                num_poll_retries += 1
+                logging.info('Retry after: {poll_freq_in_sec} second(s).'
+                             .format(poll_freq_in_sec=POLLING_FREQUENCY_IN_SEC))
+                time.sleep(POLLING_FREQUENCY_IN_SEC)
+                logging.info('Retry attempt: ' + str(num_poll_retries + 1))
+                continue
+            logging.info('Maximum retries exceeded. Exiting.')
             sys.exit(1)
 
 
