@@ -1,6 +1,5 @@
 from datetime import datetime
 from airflow import DAG
-from airflow.operators.jdbc_operator import JdbcOperator
 from airflow.operators.python_operator import PythonOperator
 import os,sys,inspect
 from os.path import basename
