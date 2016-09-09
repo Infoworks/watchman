@@ -1,0 +1,5 @@
+{
+  "source_name": "mdars_test_source",
+  "table_group_name": "full_load_group",
+  "ingestion_type": "truncate-reload-all"
+}

@@ -2,25 +2,22 @@ from datetime import datetime
 from airflow import DAG
 from airflow.operators.python_operator import PythonOperator
 import os, sys, inspect
-import logging
 from os.path import basename
 script_name = inspect.getfile(inspect.currentframe())
 current_dir = os.path.dirname(os.path.abspath(script_name))
 parent_dir = os.path.dirname(current_dir)
 sys.path.insert(0, parent_dir)
-from tasks.infoworks import create_source, source_setup, crawl_metadata, \
+from tasks.infoworks import create_source,source_setup, crawl_metadata, \
     configure_tables_and_table_groups, crawl_table_groups_from_config, delete_source
 
 try:
     ROSIE_FLOW_DATASET_BASE_PATH = os.environ['ROSIE_FLOW_DATASET_BASE_PATH']
 except KeyError as e:
     file_name = basename(script_name).split('.')[0]
+    print 'ROSIE_FLOW_DATASET_BASE_PATH is not set as an env variable.'
     ROSIE_FLOW_DATASET_BASE_PATH = parent_dir + '/datasets/' + file_name + '/mdars'
-    logging.warn('Unable to retrieve dataset base path.')
-    logging.warn('Defaulting to dataset: ' + ROSIE_FLOW_DATASET_BASE_PATH)
-    sys.exit(1)
+    print 'Defaulting to: ' + ROSIE_FLOW_DATASET_BASE_PATH
 
-logging.info('Starting the flow with dataset: ' + ROSIE_FLOW_DATASET_BASE_PATH)
 
 args = {
     'owner': 'iw_admin',
@@ -29,15 +26,22 @@ args = {
     'depends_on_past': False,
 }
 
-dag = DAG('mssql_ingestion_full_load', default_args=args, schedule_interval=None)
+dag = DAG('rdbms_end_to_end_query_based_cdc', default_args=args, schedule_interval=None)
 
 
 def create_dag():
     """
 
-    Flow for MSSQL Ingestion end to end
+    Flow for Oracle Northwind end to end
 
     """
+    delete_source_task = PythonOperator(
+        task_id='delete_source', dag=dag,
+        python_callable=delete_source, op_args=[ROSIE_FLOW_DATASET_BASE_PATH + '/delete_source.json'])
+
+    source_setup_task = PythonOperator(
+        task_id='setup_source', dag=dag, python_callable=source_setup,
+        op_args=[ROSIE_FLOW_DATASET_BASE_PATH + '/dbconf.properties',ROSIE_FLOW_DATASET_BASE_PATH + '/fullload.sql'])
 
     create_source_task = PythonOperator(
         task_id='create_source', dag=dag, python_callable=create_source,
@@ -53,13 +57,25 @@ def create_dag():
         op_args=[ROSIE_FLOW_DATASET_BASE_PATH + '/configure_tables_and_table_groups.json', None,
                  'create_source', 'sourceID'])
 
-    crawl_table_groups_task = PythonOperator(
+    full_load_task = PythonOperator(
         task_id='crawl_table_groups', dag=dag,
-        python_callable=crawl_table_groups_from_config, op_args=[ROSIE_FLOW_DATASET_BASE_PATH + '/crawl_data.json'])
+        python_callable=crawl_table_groups_from_config, op_args=[ROSIE_FLOW_DATASET_BASE_PATH + '/full_load.json'])
 
+    cdc_setup_task = PythonOperator(
+        task_id='setup_cdc', dag=dag, python_callable=source_setup,
+        op_args=[ROSIE_FLOW_DATASET_BASE_PATH + '/dbconf.properties', ROSIE_FLOW_DATASET_BASE_PATH + '/cdc.sql'])
+
+    cdc_merge_task = PythonOperator(
+        task_id='cdc_merge', dag=dag,
+        python_callable=crawl_table_groups_from_config, op_args=[ROSIE_FLOW_DATASET_BASE_PATH + '/cdc.json'])
+
+    source_setup_task.set_upstream(delete_source_task)
+    create_source_task.set_upstream(source_setup_task)
     crawl_metadata_task.set_upstream(create_source_task)
     configure_tables_and_table_groups_task.set_upstream(crawl_metadata_task)
-    crawl_table_groups_task.set_upstream(configure_tables_and_table_groups_task)
+    full_load_task.set_upstream(configure_tables_and_table_groups_task)
+    cdc_setup_task.set_upstream(full_load_task)
+    cdc_merge_task.set_upstream(cdc_setup_task)
 
 
 create_dag()
