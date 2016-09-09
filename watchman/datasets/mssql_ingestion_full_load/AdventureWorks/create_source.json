@@ -1,0 +1,19 @@
+{
+  "configuration": { 
+    "hdfsPath": "\/iw\/sources\/Mssql_fullload_automation1", 
+    "hiveSchema": "Mssql_fullload_automation1",  
+    "sourceType": "rdbms",
+    "sourceSubtype": "SQL Server",
+    "name": "Mssql_fullload_automation1", 
+    "connection": {
+      "connection_method": "jdbc", 
+      "connection_string": "jdbc:jtds:sqlserver://54.211.168.124:1433/AdventureWorks", 
+      "database": "SQL Server", 
+      "driver_name": "net.sourceforge.jtds.jdbc.Driver", 
+      "password": "aW5mb3dvcmtz", 
+      "schema": "Sales", 
+      "username": "hadoop"
+    },
+  "cdcMode": "cdc-query"
+}
+}
