@@ -1,0 +1,18 @@
+{
+ "configuration": {
+   "name": "mdars_test_source",
+   "hive_schema": "mdars_test_source",
+   "hdfs_path": "\/iw\/sources\/mdars_test_source",
+   "sourceType": "rdbms",
+   "sourceSubtype": "teradata",
+   "connection": {
+     "connection_string": "jdbc:teradata:\/\/ec2-54-144-76-210.compute-1.amazonaws.com\/TMODE=ANSI,database=dwt_edw",
+     "username": "dbc",
+     "password": "infoworks",
+     "schema": "dwt_edw",
+     "database": "TERADATA",
+     "driver_name": "com.teradata.jdbc.TeraDriver"
+   },
+   "cdc_mode": "cdc-query"
+ }
+}
