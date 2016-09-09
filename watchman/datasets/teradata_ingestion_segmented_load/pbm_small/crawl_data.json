@@ -1,0 +1,5 @@
+{
+  "source_name": "Teradata_PBM_SMALL_segmented_automation",
+  "table_group_name": "Test_grp_all",
+  "ingestion_type": "truncate-reload"
+}

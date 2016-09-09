@@ -3,21 +3,21 @@
     "entity_type": "source",
     "entity_id": {
       "$type": "oid",
-      "$value": "a04de9a872c10a2d8219db45"
+      "$value": "e92d74ad845d408b523fcac8"
     },
-    "entity_name": "teradata_pbm_small_full_load_automation"
+    "entity_name": "Teradata_PBM_SMALL_segmented_automation"
   },
   "source": {
     "connection": {
       "database": "TERADATA",
       "driver_name": "com.teradata.jdbc.TeraDriver",
-      "connection_method": "tpt",
+      "connection_method": "jdbc",
       "connection_string": "jdbc:teradata://ec2-54-144-76-210.compute-1.amazonaws.com/TMODE=ANSI,CHARSET=UTF8,database=PBM_SMALL",
-      "username": "dbc",
+      "username": "DBC",
       "schema": "PBM_SMALL"
     },
     "cdc_mode": "full-load",
-    "hive_schema": "teradata_pbm_small_full_load_automation",
+    "hive_schema": "Teradata_PBM_SMALL_segmented_automation",
     "sourceType": "rdbms",
     "sourceSubtype": "teradata"
   },
@@ -26,12 +26,65 @@
       "entity_type": "table",
       "entity_id": {
         "$type": "oid",
-        "$value": "57d0df9fe4b0d9ce837714ec"
+        "$value": "57c94979e4b032f60be6e71c"
       },
       "configuration": {
         "configuration": {
+          "hive_table_name": "CAMPAIGN",
           "sync_type": "full-load",
-          "hive_table_name": "CAMPAIGN"
+          "export": {
+            "export_type": "full_load",
+            "target_specific_params": {
+              "method": "internal.fastload",
+              "table_type": "MULTISET",
+              "partition_type": "RANGE_N",
+              "interval_start_date": "09/01/2014",
+              "interval_end_date": "09/09/2016",
+              "interval_length": "year"
+            },
+            "connection": {
+              "connection_string": "jdbc:teradata://54.174.116.161/TMODE=ANSI,CHARSET=UTF8,database=DWT_EXPR",
+              "username": "DBC",
+              "schema": "DWT_EXPR",
+              "table": "CAMPAIGN",
+              "database": "TERADATA",
+              "driver_name": "com.teradata.jdbc.TeraDriver"
+            },
+            "partition_key": [
+              "LAST_FILL_DATE"
+            ],
+            "primary_index": [
+              "PERSON_NBR"
+            ],
+            "columns": [
+              "PERSON_NBR",
+              "GPI",
+              "LAST_FILL_DATE",
+              "MAIL_BENEFIT",
+              "PRSCRT_FILL_ID",
+              "MAIL_OR_RETAIL",
+              "ZIW_ROW_ID",
+              "ZIW_SOURCE_START_DATE",
+              "ZIW_SOURCE_START_TIMESTAMP",
+              "ZIW_TARGET_START_TIMESTAMP",
+              "ZIW_TARGET_START_DATE",
+              "ZIW_SOURCE_END_DATE",
+              "ZIW_SOURCE_END_TIMESTAMP",
+              "ZIW_TARGET_END_DATE",
+              "ZIW_TARGET_END_TIMESTAMP",
+              "ZIW_ACTIVE",
+              "ZIW_IS_DELETED",
+              "ZIW_STATUS_FLAG"
+            ]
+          },
+          "chunk_load": {
+            "status": "enabled",
+            "column": {
+              "name": "MAIL_BENEFIT",
+              "sqlType": 1
+            },
+            "extract_from_col": false
+          }
         }
       }
     },
@@ -39,21 +92,23 @@
       "entity_type": "table",
       "entity_id": {
         "$type": "oid",
-        "$value": "57d0df9fe4b0d9ce837714dc"
+        "$value": "57c94979e4b032f60be6e70c"
       },
       "configuration": {
         "configuration": {
-          "sync_type": "full-load",
           "hive_table_name": "CUSTOMERS",
+          "sync_type": "full-load",
           "export": {
             "export_type": "disabled"
           },
           "chunk_load": {
-            "status": "disabled"
-          },
-          "partition_key": [
-            "CITY"
-          ]
+            "status": "enabled",
+            "column": {
+              "name": "CITY",
+              "sqlType": 12
+            },
+            "extract_from_col": false
+          }
         }
       }
     },
@@ -61,24 +116,23 @@
       "entity_type": "table",
       "entity_id": {
         "$type": "oid",
-        "$value": "57d0df9fe4b0d9ce837714de"
+        "$value": "57c94979e4b032f60be6e70e"
       },
       "configuration": {
         "configuration": {
-          "sync_type": "full-load",
           "hive_table_name": "DRUG",
+          "sync_type": "full-load",
           "export": {
             "export_type": "disabled"
           },
           "chunk_load": {
-            "status": "disabled"
-          },
-          "partition_key": [
-            "REC_EFF_DT"
-          ],
-          "partition_key_extract_from_col": true,
-          "partition_key_derive_function": "month",
-          "partition_key_derive_column": "month"
+            "status": "enabled",
+            "column": {
+              "name": "PROD_NDC",
+              "sqlType": 12
+            },
+            "extract_from_col": false
+          }
         }
       }
     },
@@ -86,19 +140,23 @@
       "entity_type": "table",
       "entity_id": {
         "$type": "oid",
-        "$value": "57d0df9fe4b0d9ce837714e0"
+        "$value": "57c94979e4b032f60be6e710"
       },
       "configuration": {
         "configuration": {
-          "sync_type": "full-load",
           "hive_table_name": "MEMBERS",
+          "sync_type": "full-load",
           "export": {
             "export_type": "disabled"
           },
           "chunk_load": {
-            "status": "disabled"
-          },
-          "number_of_reducers": 2
+            "status": "enabled",
+            "column": {
+              "name": "MAIL_BENEFIT",
+              "sqlType": 1
+            },
+            "extract_from_col": false
+          }
         }
       }
     },
@@ -106,23 +164,12 @@
       "entity_type": "table",
       "entity_id": {
         "$type": "oid",
-        "$value": "57d0df9fe4b0d9ce837714e2"
+        "$value": "57c94979e4b032f60be6e712"
       },
       "configuration": {
         "configuration": {
-          "sync_type": "full-load",
           "hive_table_name": "PRESCRIBER",
-          "export": {
-            "export_type": "disabled"
-          },
-          "chunk_load": {
-            "status": "disabled"
-          },
-          "partition_key": [
-            "LAST_NM"
-          ],
-          "number_of_secondary_partitions": 2,
-          "number_of_reducers": 2
+          "sync_type": "full-load"
         }
       }
     },
@@ -130,26 +177,12 @@
       "entity_type": "table",
       "entity_id": {
         "$type": "oid",
-        "$value": "57d0df9fe4b0d9ce837714e4"
+        "$value": "57c94979e4b032f60be6e714"
       },
       "configuration": {
         "configuration": {
-          "sync_type": "full-load",
           "hive_table_name": "RX_FILL",
-          "export": {
-            "export_type": "disabled"
-          },
-          "chunk_load": {
-            "status": "disabled"
-          },
-          "partition_key": [
-            "REC_EFF_DT"
-          ],
-          "partition_key_extract_from_col": true,
-          "partition_key_derive_function": "year",
-          "partition_key_derive_column": "derived_year",
-          "number_of_secondary_partitions": 2,
-          "number_of_reducers": 2
+          "sync_type": "full-load"
         }
       }
     },
@@ -157,21 +190,12 @@
       "entity_type": "table",
       "entity_id": {
         "$type": "oid",
-        "$value": "57d0df9fe4b0d9ce837714e6"
+        "$value": "57c94979e4b032f60be6e716"
       },
       "configuration": {
         "configuration": {
-          "sync_type": "full-load",
           "hive_table_name": "RX_PRESCRIPTION",
-          "export": {
-            "export_type": "disabled"
-          },
-          "chunk_load": {
-            "status": "disabled"
-          },
-          "natural_key": [
-            "PRSCRT_ID"
-          ]
+          "sync_type": "full-load"
         }
       }
     },
@@ -179,12 +203,12 @@
       "entity_type": "table",
       "entity_id": {
         "$type": "oid",
-        "$value": "57d0df9fe4b0d9ce837714e8"
+        "$value": "57c94979e4b032f60be6e718"
       },
       "configuration": {
         "configuration": {
-          "sync_type": "full-load",
-          "hive_table_name": "STORE"
+          "hive_table_name": "STORE",
+          "sync_type": "full-load"
         }
       }
     },
@@ -192,19 +216,12 @@
       "entity_type": "table",
       "entity_id": {
         "$type": "oid",
-        "$value": "57d0df9fe4b0d9ce837714ea"
+        "$value": "57c94979e4b032f60be6e71a"
       },
       "configuration": {
         "configuration": {
-          "sync_type": "full-load",
           "hive_table_name": "T_REC_HIST",
-          "export": {
-            "export_type": "disabled"
-          },
-          "chunk_load": {
-            "status": "disabled"
-          },
-          "split_by_key": "PRCS_GID"
+          "sync_type": "full-load"
         }
       }
     }
@@ -214,7 +231,7 @@
       "entity_type": "table_group",
       "entity_id": {
         "$type": "oid",
-        "$value": "3563fdc83b0e0926c6d8c196"
+        "$value": "90f7d1978873964e536b8dd5"
       },
       "configuration": {
         "name": "Test_grp_all",
@@ -222,39 +239,39 @@
         "tables": [
           {
             "$type": "oid",
-            "$value": "57d0df9fe4b0d9ce837714ec"
+            "$value": "57c94979e4b032f60be6e71c"
           },
           {
             "$type": "oid",
-            "$value": "57d0df9fe4b0d9ce837714dc"
+            "$value": "57c94979e4b032f60be6e70c"
           },
           {
             "$type": "oid",
-            "$value": "57d0df9fe4b0d9ce837714de"
+            "$value": "57c94979e4b032f60be6e70e"
           },
           {
             "$type": "oid",
-            "$value": "57d0df9fe4b0d9ce837714e0"
+            "$value": "57c94979e4b032f60be6e710"
           },
           {
             "$type": "oid",
-            "$value": "57d0df9fe4b0d9ce837714e2"
+            "$value": "57c94979e4b032f60be6e712"
           },
           {
             "$type": "oid",
-            "$value": "57d0df9fe4b0d9ce837714e4"
+            "$value": "57c94979e4b032f60be6e714"
           },
           {
             "$type": "oid",
-            "$value": "57d0df9fe4b0d9ce837714e6"
+            "$value": "57c94979e4b032f60be6e716"
           },
           {
             "$type": "oid",
-            "$value": "57d0df9fe4b0d9ce837714e8"
+            "$value": "57c94979e4b032f60be6e718"
           },
           {
             "$type": "oid",
-            "$value": "57d0df9fe4b0d9ce837714ea"
+            "$value": "57c94979e4b032f60be6e71a"
           }
         ],
         "scheduling": "none",
@@ -275,7 +292,44 @@
         },
         "source": {
           "$type": "oid",
-          "$value": "a04de9a872c10a2d8219db45"
+          "$value": "e92d74ad845d408b523fcac8"
+        }
+      }
+    },
+    {
+      "entity_type": "table_group",
+      "entity_id": {
+        "$type": "oid",
+        "$value": "52d59561333d611053f593e8"
+      },
+      "configuration": {
+        "name": "campaign_grp",
+        "yarn_queue": "",
+        "tables": [
+          {
+            "$type": "oid",
+            "$value": "57c94979e4b032f60be6e71c"
+          }
+        ],
+        "scheduling": "none",
+        "combined_schedule": {
+          
+        },
+        "cdc_schedule": {
+          
+        },
+        "merge_schedule": {
+          
+        },
+        "fullload_schedule": {
+          
+        },
+        "data_expiry_schedule": {
+          "schedule_status": "disabled"
+        },
+        "source": {
+          "$type": "oid",
+          "$value": "e92d74ad845d408b523fcac8"
         }
       }
     }
@@ -285,17 +339,17 @@
       "entity_type": "source",
       "entity_id": {
         "$type": "oid",
-        "$value": "a04de9a872c10a2d8219db45"
+        "$value": "e92d74ad845d408b523fcac8"
       },
       "recommendation": {
-        "source_name": "teradata_pbm_small_full_load_automation"
+        "source_name": "Teradata_PBM_SMALL_segmented_automation"
       }
     },
     {
       "entity_type": "table",
       "entity_id": {
         "$type": "oid",
-        "$value": "57d0df9fe4b0d9ce837714ec"
+        "$value": "57c94979e4b032f60be6e71c"
       },
       "recommendation": {
         "table_name": "CAMPAIGN"
@@ -305,7 +359,7 @@
       "entity_type": "table",
       "entity_id": {
         "$type": "oid",
-        "$value": "57d0df9fe4b0d9ce837714dc"
+        "$value": "57c94979e4b032f60be6e70c"
       },
       "recommendation": {
         "table_name": "CUSTOMERS"
@@ -315,7 +369,7 @@
       "entity_type": "table",
       "entity_id": {
         "$type": "oid",
-        "$value": "57d0df9fe4b0d9ce837714de"
+        "$value": "57c94979e4b032f60be6e70e"
       },
       "recommendation": {
         "table_name": "DRUG"
@@ -325,7 +379,7 @@
       "entity_type": "table",
       "entity_id": {
         "$type": "oid",
-        "$value": "57d0df9fe4b0d9ce837714e0"
+        "$value": "57c94979e4b032f60be6e710"
       },
       "recommendation": {
         "table_name": "MEMBERS"
@@ -335,7 +389,7 @@
       "entity_type": "table",
       "entity_id": {
         "$type": "oid",
-        "$value": "57d0df9fe4b0d9ce837714e2"
+        "$value": "57c94979e4b032f60be6e712"
       },
       "recommendation": {
         "table_name": "PRESCRIBER"
@@ -345,7 +399,7 @@
       "entity_type": "table",
       "entity_id": {
         "$type": "oid",
-        "$value": "57d0df9fe4b0d9ce837714e4"
+        "$value": "57c94979e4b032f60be6e714"
       },
       "recommendation": {
         "table_name": "RX_FILL"
@@ -355,7 +409,7 @@
       "entity_type": "table",
       "entity_id": {
         "$type": "oid",
-        "$value": "57d0df9fe4b0d9ce837714e6"
+        "$value": "57c94979e4b032f60be6e716"
       },
       "recommendation": {
         "table_name": "RX_PRESCRIPTION"
@@ -365,7 +419,7 @@
       "entity_type": "table",
       "entity_id": {
         "$type": "oid",
-        "$value": "57d0df9fe4b0d9ce837714e8"
+        "$value": "57c94979e4b032f60be6e718"
       },
       "recommendation": {
         "table_name": "STORE"
@@ -375,7 +429,7 @@
       "entity_type": "table",
       "entity_id": {
         "$type": "oid",
-        "$value": "57d0df9fe4b0d9ce837714ea"
+        "$value": "57c94979e4b032f60be6e71a"
       },
       "recommendation": {
         "table_name": "T_REC_HIST"
@@ -385,16 +439,26 @@
       "entity_type": "table_group",
       "entity_id": {
         "$type": "oid",
-        "$value": "3563fdc83b0e0926c6d8c196"
+        "$value": "90f7d1978873964e536b8dd5"
       },
       "recommendation": {
         "table_group_name": "Test_grp_all"
+      }
+    },
+    {
+      "entity_type": "table_group",
+      "entity_id": {
+        "$type": "oid",
+        "$value": "52d59561333d611053f593e8"
+      },
+      "recommendation": {
+        "table_group_name": "campaign_grp"
       }
     }
   ],
   "export": {
     "exportedAt": {
-      "$date": 1473316739279
+      "$date": 1473407839274
     },
     "exportedBy": "Infoworks Admin"
   }
