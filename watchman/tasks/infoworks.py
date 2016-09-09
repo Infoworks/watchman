@@ -401,19 +401,22 @@ def get_job_status(job_id):
 
             if job_status in ['pending']:
                 logging.info('Job status currently is: {job_status}'.format(job_status=job_status))
+                time.sleep(7)
                 continue
 
             if job_status in ['running']:
                 logging.info('Job status: ', str(response['result']))
+                time.sleep(7)
                 continue
 
             if job_status in ['blocked', 'failed', 'canceled']:
                 return False, job_id
 
-            time.sleep(7)
+
         except Exception as e:
             logging.error('Exception: ' + str(e))
             logging.error('Error occurred while trying to poll job status.')
+
             sys.exit(1)
 
 

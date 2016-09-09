@@ -15,14 +15,10 @@ try:
     ROSIE_FLOW_DATASET_BASE_PATH = os.environ['ROSIE_FLOW_DATASET_BASE_PATH']
 except KeyError as e:
     file_name = basename(script_name).split('.')[0]
-<<<<<<< HEAD
     ROSIE_FLOW_DATASET_BASE_PATH = parent_dir + '/datasets/' + file_name + '/AdventureWorks'
-=======
-    ROSIE_FLOW_DATASET_BASE_PATH = parent_dir + '/datasets/' + file_name + '/mdars'
     logging.warn('Unable to retrieve dataset base path.')
     logging.warn('Defaulting to dataset: ' + ROSIE_FLOW_DATASET_BASE_PATH)
-    sys.exit(1)
->>>>>>> a4b0087ef5c280072b3b4eea4758268caaacb85a
+
 
 logging.info('Starting the flow with dataset: ' + ROSIE_FLOW_DATASET_BASE_PATH)
 
