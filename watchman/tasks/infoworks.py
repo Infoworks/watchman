@@ -114,7 +114,7 @@ def crawl_metadata(source_config_path=None, task_id=None, key=None, **kwargs):
         job_id = response['result']
         logging.info('Metadata crawl job has been submitted. Job ID is: {id}'.format(id=job_id))
 
-        job_status = get_job_status(job_id)
+        job_status, job_id = get_job_status(job_id)
         if not job_status or job_status is False:
             logging.error('Job {j_id} failed to complete. '.format(j_id=job_id))
             sys.exit(1)
@@ -271,7 +271,7 @@ def _submit_ingestion_job(table_group_id, ingestion_type):
         logging.info('Crawl job(s) have been submitted for '
                      'table group {t_id}. Job ID is: {id}'.format(id=str(job_id), t_id=str(table_group_id)))
 
-        job_status = get_job_status(job_id)
+        job_status, job_id = get_job_status(job_id)
         if not job_status or job_status is False:
             logging.error('Job {j_id} failed to complete. '.format(j_id=job_id))
             sys.exit(1)
@@ -379,7 +379,7 @@ def _submit_delete_entity_job(entity_id, entity_type):
         logging.info('Delete entity job has been submitted for the entity. '
                      'Job ID is: {id}'.format(id=str(job_id)))
 
-        job_status = get_job_status(job_id)
+        job_status, job_id = get_job_status(job_id)
         if not job_status or job_status is False:
             logging.error('Job {j_id} failed to complete. '.format(j_id=job_id))
             sys.exit(1)
@@ -434,7 +434,16 @@ def get_job_status(job_id):
                 time.sleep(POLLING_FREQUENCY_IN_SEC)
                 continue
 
-            if job_status in ['blocked', 'failed', 'canceled']:
+            if job_status in ['blocked']:
+                logging.warn('Job is currently blocked.')
+                return False, job_id
+
+            if job_status in ['failed']:
+                logging.error('Job failed to execute.')
+                return False, job_id
+
+            if job_status in ['canceled']:
+                logging.warn('Job has been manually cancelled.')
                 return False, job_id
 
         except Exception as e:
