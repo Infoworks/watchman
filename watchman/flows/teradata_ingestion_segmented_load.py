@@ -26,7 +26,7 @@ args = {
     'depends_on_past': False,
 }
 
-dag = DAG('teradata_ingestion_full_load', default_args=args, schedule_interval=None)
+dag = DAG('teradata_ingestion_segmented_load', default_args=args, schedule_interval=None)
 
 
 def create_dag():
