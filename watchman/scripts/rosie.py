@@ -213,10 +213,30 @@ def suites_command():
 
 
 def webserver_command(start=False, stop=False, restart=False):
+    """
+    Webserver (from Airflow) service. Pass start, stop or restart to perform an action.
+
+    :param start: start webserver
+    :param stop: stop webserver
+    :param restart: restart webserver
+    :type start: boolean
+    :type stop: boolean
+    :type restart: boolean
+    """
     _service_command('webserver', start, stop, restart)
 
 
 def scheduler_command(start=False, stop=False, restart=False):
+    """
+    Scheduler (from Airflow) service. Pass start, stop or restart to perform an action.
+
+    :param start: start scheduler
+    :param stop: stop scheduler
+    :param restart: restart scheduler
+    :type start: boolean
+    :type stop: boolean
+    :type restart: boolean
+    """
     _service_command('scheduler', start, stop, restart)
 
 
