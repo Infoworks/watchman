@@ -295,8 +295,12 @@ def source_setup(db_conf_path, script_path, **kwargs):
                           'Please check the existence of {path}'.format(path=script_path))
             sys.exit(1)
 
-        jar_command = 'java -cp ../utils/AutomationUtils.jar:../utils/jars/*:. source.setup.SourceSetup -dbConf ' \
-                      + db_conf_path + ' -sqlScript ' + script_path
+        jar_command = 'java -cp {parent_dir}/utils/AutomationUtils.jar:{parent_dir}/utils/jars/* ' \
+                      'source.setup.SourceSetup -dbConf {db_conf_path} -sqlScript ' \
+                      '{sql_script_path}'.format(parent_dir=parent_dir,
+                                                 db_conf_path=db_conf_path,
+                                                 sql_script_path=script_path)
+
         logging.info('Jar command to be executed for DB setup: ' + jar_command)
         process = subprocess.Popen(jar_command, shell=True)
         process.communicate()
@@ -424,7 +428,7 @@ def get_job_status(job_id):
                 continue
 
             if job_status in ['running']:
-                logging.info('Job status: ', str(response['result']))
+                logging.info('Job status: ' + str(response['result']))
                 time.sleep(POLLING_FREQUENCY_IN_SEC)
                 continue
 
@@ -439,7 +443,7 @@ def get_job_status(job_id):
                 logging.info('Retry after: {poll_freq_in_sec} second(s).'
                              .format(poll_freq_in_sec=POLLING_FREQUENCY_IN_SEC))
                 time.sleep(POLLING_FREQUENCY_IN_SEC)
-                logging.info('Retry attempt: ' + num_poll_retries + 1)
+                logging.info('Retry attempt: ' + str(num_poll_retries + 1))
                 continue
             logging.info('Maximum retries exceeded. Exiting.')
             sys.exit(1)
