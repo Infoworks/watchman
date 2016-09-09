@@ -1,5 +1,0 @@
-{
-  "source_name": "Mssql_fullload_automation1",
-  "table_group_name": "all",
-  "ingestion_type": "truncate-reload"
-}
