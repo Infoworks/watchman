@@ -1,5 +1,5 @@
 {
   "source_name": "mdars_test_source",
-  "table_group_name": "cdc_grop",
+  "table_group_name": "cdc_group",
   "ingestion_type": "all"
 }
