@@ -9,7 +9,7 @@ current_dir = os.path.dirname(os.path.abspath(inspect.getfile(inspect.currentfra
 parent_dir = os.path.dirname(current_dir)
 sys.path.insert(0, parent_dir)
 
-from config.configuration import REST_HOST, REST_PORT, AUTH_TOKEN
+from config.configuration import REST_HOST, REST_PORT, AUTH_TOKEN, POLLING_FREQUENCY_IN_SEC, NUM_POLLING_RETRIES
 from utils.utils import load_json_config
 
 
@@ -375,12 +375,19 @@ def _submit_delete_entity_job(entity_id, entity_type):
 
 def get_job_status(job_id):
     """
+
         Get IW job status
         :param: job_id: job id to poll the status
         :type: job_id: string
         :returns: job status
         :rtype: bool
+
     """
+
+    logging.info('Polling frequency has been set to: {sec}'.format(sec=POLLING_FREQUENCY_IN_SEC))
+
+    num_poll_retries = 0
+
     while True:
         try:
 
@@ -401,22 +408,28 @@ def get_job_status(job_id):
 
             if job_status in ['pending']:
                 logging.info('Job status currently is: {job_status}'.format(job_status=job_status))
-                time.sleep(7)
+                time.sleep(POLLING_FREQUENCY_IN_SEC)
                 continue
 
             if job_status in ['running']:
                 logging.info('Job status: ', str(response['result']))
-                time.sleep(7)
+                time.sleep(POLLING_FREQUENCY_IN_SEC)
                 continue
 
             if job_status in ['blocked', 'failed', 'canceled']:
                 return False, job_id
 
-
         except Exception as e:
             logging.error('Exception: ' + str(e))
             logging.error('Error occurred while trying to poll job status.')
-
+            if num_poll_retries < NUM_POLLING_RETRIES:
+                num_poll_retries += 1
+                logging.info('Retry after: {poll_freq_in_sec} second(s).'
+                             .format(poll_freq_in_sec=POLLING_FREQUENCY_IN_SEC))
+                time.sleep(POLLING_FREQUENCY_IN_SEC)
+                logging.info('Retry attempt: ' + num_poll_retries + 1)
+                continue
+            logging.info('Maximum retries exceeded. Exiting.')
             sys.exit(1)
 
 
