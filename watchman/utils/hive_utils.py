@@ -16,11 +16,12 @@ HiveUtil to execute a query on Hive Database
 """
 
 
-def executeHiveQry (hive_conn_id, qry) : 
-	#hook = HiveServer2Hook(hiveserver2_conn_id="hiveserver2_ndev3")
-	hook = HiveServer2Hook(hive_conn_id)
-	recs = hook.get_records(qry)
-	print(recs)
-	return recs
+def execute_hive_query(hive_conn_id, qry):
+    # hook = HiveServer2Hook(hiveserver2_conn_id="hiveserver2_ndev3")
+    hook = HiveServer2Hook(hive_conn_id)
+    recs = hook.get_records(qry)
+    print(recs)
+    return recs
 
-print(executeHiveQry("hiveserver2_ndev3" , "select count(1) from oracle_northwind_full_load.orders"))
+
+print(execute_hive_query("hiveserver2_ndev3", "select count(1) from oracle_northwind_full_load.orders"))

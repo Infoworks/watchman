@@ -55,7 +55,8 @@ def get_job_status(job_id, kwargs):
                 continue
 
             if job_status in ['running']:
-                logging.info('Job status: ' + str(round(response['result']['percentCompleted'], 1)))
+                logging.info('Job status: running, Percent complete: ' +
+                             str(round(response['result']['percentCompleted'], 1)) + '%')
                 time.sleep(POLLING_FREQUENCY_IN_SEC)
                 continue
 

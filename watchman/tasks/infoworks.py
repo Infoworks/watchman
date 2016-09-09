@@ -321,8 +321,8 @@ def source_setup(db_conf_path, script_path, **kwargs):
                           'Please check the existence of {path}'.format(path=script_path))
             sys.exit(1)
 
-        jar_command = 'java -cp {parent_dir}/utils/AutomationUtils.jar:{parent_dir}/utils/jars/* ' \
-                      'source.setup.SourceSetup -dbConf {db_conf_path} -sqlScript ' \
+        jar_command = 'java -cp {parent_dir}/resources/jars/* source.setup.SourceSetup ' \
+                      '-dbConf {db_conf_path} -sqlScript ' \
                       '{sql_script_path}'.format(parent_dir=parent_dir,
                                                  db_conf_path=db_conf_path,
                                                  sql_script_path=script_path)
@@ -421,7 +421,3 @@ def _submit_delete_entity_job(entity_id, entity_type, kwargs):
         logging.error('Response from server: ' + str(response))
         logging.error('Error occurred while trying to submit a delete entity job')
         sys.exit(1)
-
-
-
-
