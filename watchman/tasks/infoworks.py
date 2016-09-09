@@ -114,8 +114,9 @@ def crawl_metadata(source_config_path=None, task_id=None, key=None, **kwargs):
         job_id = response['result']
         logging.info('Metadata crawl job has been submitted. Job ID is: {id}'.format(id=job_id))
 
-        status = get_job_status(job_id)
-        if not status:
+        job_status = get_job_status(job_id)
+        if not job_status or job_status is False:
+            logging.error('Job {j_id} failed to complete. '.format(j_id=job_id))
             sys.exit(1)
     except Exception as e:
         logging.error('Exception: ' + str(e))
@@ -271,7 +272,7 @@ def _submit_ingestion_job(table_group_id, ingestion_type):
                      'table group {t_id}. Job ID is: {id}'.format(id=str(job_id), t_id=str(table_group_id)))
 
         job_status = get_job_status(job_id)
-        if not job_status:
+        if not job_status or job_status is False:
             logging.error('Job {j_id} failed to complete. '.format(j_id=job_id))
             sys.exit(1)
     except Exception as e:
@@ -379,7 +380,7 @@ def _submit_delete_entity_job(entity_id, entity_type):
                      'Job ID is: {id}'.format(id=str(job_id)))
 
         job_status = get_job_status(job_id)
-        if not job_status:
+        if not job_status or job_status is False:
             logging.error('Job {j_id} failed to complete. '.format(j_id=job_id))
             sys.exit(1)
     except Exception as e:
@@ -420,6 +421,7 @@ def get_job_status(job_id):
             job_status = response['result'].get('status')
 
             if job_status == 'completed':
+                logging.info('Job finished successfully.')
                 return True, job_id
 
             if job_status in ['pending']:
@@ -428,7 +430,7 @@ def get_job_status(job_id):
                 continue
 
             if job_status in ['running']:
-                logging.info('Job status: ' + str(response['result']))
+                logging.info('Job status: ' + str(round(response['result']['percentCompleted'], 1)))
                 time.sleep(POLLING_FREQUENCY_IN_SEC)
                 continue
 
