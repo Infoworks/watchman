@@ -1,15 +1,14 @@
-import ast
-import time
-import requests
-import logging
 import os,sys,inspect
 import subprocess
+import traceback
 
 current_dir = os.path.dirname(os.path.abspath(inspect.getfile(inspect.currentframe())))
 parent_dir = os.path.dirname(current_dir)
 sys.path.insert(0, parent_dir)
 
-from config.configuration import REST_HOST, REST_PORT, AUTH_TOKEN, POLLING_FREQUENCY_IN_SEC, NUM_POLLING_RETRIES
+from config.configuration import *
+from job import *
+from iw_utils import *
 from utils.utils import load_json_config
 
 
@@ -26,8 +25,10 @@ def create_source(source_config_path, key=None, **kwargs):
     try:
 
         logging.info('Trying to create a new source.')
+        
+        path_to_json = get_config_value('ROSIE_FLOW_DATASET_BASE_PATH', kwargs) + source_config_path
 
-        source_config = load_json_config(source_config_path)
+        source_config = load_json_config(path_to_json)
 
         if source_config is None:
             logging.error('Unable to retrieve source configuration. Cannot create a new source.')
@@ -36,9 +37,10 @@ def create_source(source_config_path, key=None, **kwargs):
         logging.info('Source configuration is: ' + source_config)
 
         request = 'http://{ip}:{port}/v1.1/source/create.json?' \
-                  'auth_token={auth_token}'.format(ip=REST_HOST, port=REST_PORT, auth_token=AUTH_TOKEN)
+                  'auth_token={auth_token}'.format(ip=get_rest_ip(IW_REST_HOST, kwargs), port=IW_REST_DEFAULT_PORT,
+                                                   auth_token=get_rest_auth_token(IW_REST_AUTH_TOKEN, kwargs))
 
-        response = _process_response(requests.post(request, data=source_config))
+        response = process_response(requests.post(request, data=source_config))
 
         result = response.get('result', {})
         source_id = result.get('entity_id', None)
@@ -47,9 +49,13 @@ def create_source(source_config_path, key=None, **kwargs):
 
         if key is not None:
             kwargs['ti'].xcom_push(key=key, value=source_id)
+        else:
+            logging.warn('Unable to push source ID value into key store')
+            logging.warn('Subsequent task will not have access to the source ID from this task.')
 
     except Exception as e:
         logging.error('Exception: ' + str(e))
+        logging.error(traceback.print_exc())
         logging.error('Response from server: ' + str(response))
         logging.error('Error occurred while trying to create a new source.')
         sys.exit(1)
@@ -74,7 +80,9 @@ def crawl_metadata(source_config_path=None, task_id=None, key=None, **kwargs):
 
         if source_config_path:
 
-            source_config = load_json_config(source_config_path, False)
+            path_to_json = get_config_value('ROSIE_FLOW_DATASET_BASE_PATH', kwargs) + source_config_path
+            
+            source_config = load_json_config(path_to_json, False)
             if not source_config:
                 logging.error('No source configuration specified. ')
                 sys.exit(1)
@@ -85,10 +93,11 @@ def crawl_metadata(source_config_path=None, task_id=None, key=None, **kwargs):
                 sys.exit(1)
 
             request = 'http://{ip}:{port}/v1.1/entity/id.json?entity_name={entity_name}&entity_type={entity_type}&' \
-                      'auth_token={auth_token}'.format(ip=REST_HOST, port=REST_PORT, auth_token=AUTH_TOKEN,
+                      'auth_token={auth_token}'.format(ip=get_rest_ip(IW_REST_HOST, kwargs), port=IW_REST_DEFAULT_PORT,
+                                                       auth_token=get_rest_auth_token(IW_REST_AUTH_TOKEN, kwargs),
                                                        entity_name=source_name, entity_type='source')
 
-            response = _process_response(requests.get(request))
+            response = process_response(requests.get(request))
 
             if response is None or response['result'] is None:
                 logging.error('Unable to retrieve response for configuring tables and table groups from REST.')
@@ -102,10 +111,11 @@ def crawl_metadata(source_config_path=None, task_id=None, key=None, **kwargs):
             sys.exit(1)
 
         request = 'http://{ip}:{port}/v1.1/source/crawl_metadata.json?source_id={source_id}&' \
-                  'auth_token={auth_token}'.format(ip=REST_HOST, port=REST_PORT, auth_token=AUTH_TOKEN,
+                  'auth_token={auth_token}'.format(ip=get_rest_ip(IW_REST_HOST, kwargs), port=IW_REST_DEFAULT_PORT,
+                                                   auth_token=get_rest_auth_token(IW_REST_AUTH_TOKEN, kwargs),
                                                    source_id=source_id)
 
-        response = _process_response(requests.post(request))
+        response = process_response(requests.post(request))
 
         if response is None or response['result'] is None:
             logging.error('Error while submitting job. Response is: ' + response)
@@ -114,12 +124,13 @@ def crawl_metadata(source_config_path=None, task_id=None, key=None, **kwargs):
         job_id = response['result']
         logging.info('Metadata crawl job has been submitted. Job ID is: {id}'.format(id=job_id))
 
-        job_status, job_id = get_job_status(job_id)
+        job_status, job_id = get_job_status(job_id, kwargs)
         if not job_status or job_status is False:
             logging.error('Job {j_id} failed to complete. '.format(j_id=job_id))
             sys.exit(1)
     except Exception as e:
         logging.error('Exception: ' + str(e))
+        logging.error(traceback.print_exc())
         logging.error('Response from server: ' + str(response))
         logging.error('Error occurred while trying to submit a source metadata crawl job')
         sys.exit(1)
@@ -144,7 +155,9 @@ def configure_tables_and_table_groups(table_group_config_path, source_id=None, t
         if source_id is None:
             logging.error('Unable to retrieve source ID. Cannot create/configure tables or table groups.')
             sys.exit(1)
-        table_group_config = load_json_config(table_group_config_path)
+
+        path_to_json = get_config_value('ROSIE_FLOW_DATASET_BASE_PATH', kwargs) + table_group_config_path
+        table_group_config = load_json_config(path_to_json)
 
         if table_group_config is None:
             logging.error('Unable to retrieve table group configuration. '
@@ -152,10 +165,11 @@ def configure_tables_and_table_groups(table_group_config_path, source_id=None, t
             sys.exit(1)
 
         request = 'http://{ip}:{port}/v1.1/source/table_groups/configure.json?source_id={source_id}&' \
-                  'auth_token={auth_token}'.format(ip=REST_HOST, port=REST_PORT, auth_token=AUTH_TOKEN,
+                  'auth_token={auth_token}'.format(ip=get_rest_ip(IW_REST_HOST, kwargs), port=IW_REST_DEFAULT_PORT,
+                                                   auth_token=get_rest_auth_token(IW_REST_AUTH_TOKEN, kwargs),
                                                    source_id=source_id)
 
-        response = _process_response(requests.post(request, data=table_group_config))
+        response = process_response(requests.post(request, data=table_group_config))
 
         if response is None or response['result'] is None:
             logging.error('Unable to retrieve response for configuring tables and table groups from REST.')
@@ -163,6 +177,7 @@ def configure_tables_and_table_groups(table_group_config_path, source_id=None, t
         return True
     except Exception as e:
         logging.error('Exception: ' + str(e))
+        logging.error(traceback.print_exc())
         logging.error('Response from server: ', str(response))
         logging.error('Error occurred while trying to configure tables and table groups.')
         sys.exit(1)
@@ -200,6 +215,7 @@ def crawl_table_groups(task_id_for_table_group_id, table_group_key,
 
     except Exception as e:
         logging.error('Exception: ', str(e))
+        logging.error(traceback.print_exc())
         logging.error('Error occurred while preparing to submit a source crawl job')
         sys.exit(1)
 
@@ -216,7 +232,10 @@ def crawl_table_groups_from_config(crawl_config_path, **kwargs):
     try:
 
         if crawl_config_path:
-            crawl_config = load_json_config(crawl_config_path, False)
+
+            path_to_json = get_config_value('ROSIE_FLOW_DATASET_BASE_PATH', kwargs) + crawl_config_path
+            crawl_config = load_json_config(path_to_json, False)
+            
             if not crawl_config:
                 logging.error('No crawl configuration specified. ')
                 sys.exit(1)
@@ -231,36 +250,39 @@ def crawl_table_groups_from_config(crawl_config_path, **kwargs):
 
             request = 'http://{ip}:{port}/v1.1/entity/id.json?auth_token={auth_token}&entity_type={entity_type}' \
                       '&entity_name={entity_name}&parent_entity_name={parent_entity_name}' \
-                      '&parent_entity_type={parent_entity_type}'.format(ip=REST_HOST, port=REST_PORT,
-                                                                        auth_token=AUTH_TOKEN,
+                      '&parent_entity_type={parent_entity_type}'.format(ip=get_rest_ip(IW_REST_HOST, kwargs),
+                                                                        port=IW_REST_DEFAULT_PORT,
+                                                                        auth_token=get_rest_auth_token(IW_REST_AUTH_TOKEN, kwargs),
                                                                         entity_name=table_group_name,
                                                                         entity_type='table_group',
                                                                         parent_entity_name=source_name,
                                                                         parent_entity_type='source')
-            response = _process_response(requests.get(request))
+            response = process_response(requests.get(request))
             if response is None or response['result'] is None:
                 logging.error('Error while trying to retrieve table group id. Response is: ' + str(response))
                 sys.exit(1)
 
             table_group_id = response['result']['entity_id']
-            _submit_ingestion_job(table_group_id, ingestion_type)
+            _submit_ingestion_job(table_group_id, ingestion_type, kwargs)
 
     except Exception as e:
         logging.error('Exception: ', str(e))
+        logging.error(traceback.print_exc())
+        logging.error('Response from server is: ' + str(response))
         logging.error('Error occurred while preparing to submit a source crawl job')
         sys.exit(1)
 
 
-def _submit_ingestion_job(table_group_id, ingestion_type):
+def _submit_ingestion_job(table_group_id, ingestion_type, kwargs):
     try:
         request = 'http://{ip}:{port}/v1.1/source/table_group/ingest.json?auth_token={auth_token}&' \
-                  'ingestion_type={ingestion_type}&table_group_id={table_group_id}'.format(ip=REST_HOST,
-                                                                                           port=REST_PORT,
-                                                                                           auth_token=AUTH_TOKEN,
+                  'ingestion_type={ingestion_type}&table_group_id={table_group_id}'.format(ip=get_rest_ip(IW_REST_HOST, kwargs),
+                                                                                           port=IW_REST_DEFAULT_PORT,
+                                                                                           auth_token=get_rest_auth_token(IW_REST_AUTH_TOKEN, kwargs),
                                                                                            ingestion_type=ingestion_type,
                                                                                            table_group_id=table_group_id)
 
-        response = _process_response(requests.post(request))
+        response = process_response(requests.post(request))
         if response is None or response['result'] is None:
             logging.error('Error while submitting job. Response is: ' + str(response))
             sys.exit(1)
@@ -271,12 +293,13 @@ def _submit_ingestion_job(table_group_id, ingestion_type):
         logging.info('Crawl job(s) have been submitted for '
                      'table group {t_id}. Job ID is: {id}'.format(id=str(job_id), t_id=str(table_group_id)))
 
-        job_status, job_id = get_job_status(job_id)
+        job_status, job_id = get_job_status(job_id, kwargs)
         if not job_status or job_status is False:
             logging.error('Job {j_id} failed to complete. '.format(j_id=job_id))
             sys.exit(1)
     except Exception as e:
         logging.error('Exception: ' + str(e))
+        logging.error(traceback.print_exc())
         logging.error('Response from server: ' + str(response))
         logging.error('Error occurred while trying to submit a source crawl job')
         sys.exit(1)
@@ -284,6 +307,8 @@ def _submit_ingestion_job(table_group_id, ingestion_type):
 
 def source_setup(db_conf_path, script_path, **kwargs):
     try:
+        db_conf_path = get_config_value('ROSIE_FLOW_DATASET_BASE_PATH', kwargs) + db_conf_path
+        script_path = get_config_value('ROSIE_FLOW_DATASET_BASE_PATH', kwargs) + script_path
         if (not db_conf_path) or (not script_path):
             logging.error('DB configuration path or script path has not been specified. ')
             sys.exit(1)
@@ -296,8 +321,8 @@ def source_setup(db_conf_path, script_path, **kwargs):
                           'Please check the existence of {path}'.format(path=script_path))
             sys.exit(1)
 
-        jar_command = 'java -cp {parent_dir}/utils/AutomationUtils.jar:{parent_dir}/utils/jars/* ' \
-                      'source.setup.SourceSetup -dbConf {db_conf_path} -sqlScript ' \
+        jar_command = 'java -cp {parent_dir}/resources/jars/* source.setup.SourceSetup ' \
+                      '-dbConf {db_conf_path} -sqlScript ' \
                       '{sql_script_path}'.format(parent_dir=parent_dir,
                                                  db_conf_path=db_conf_path,
                                                  sql_script_path=script_path)
@@ -308,6 +333,7 @@ def source_setup(db_conf_path, script_path, **kwargs):
 
     except Exception as e:
         logging.error('Exception: ' + str(e))
+        logging.error(traceback.print_exc())
         logging.error('Error occurred while trying to setup source.')
         sys.exit(1)
 
@@ -325,8 +351,8 @@ def delete_source(delete_config_path=None, task_id=None, key=None, **kwargs):
     """
     try:
         if delete_config_path:
-
-            delete_config = load_json_config(delete_config_path, False)
+            path_to_json = get_config_value('ROSIE_FLOW_DATASET_BASE_PATH', kwargs) + delete_config_path
+            delete_config = load_json_config(path_to_json, False)
             if not delete_config:
                 logging.error('No delete configuration specified. ')
                 sys.exit(1)
@@ -337,10 +363,12 @@ def delete_source(delete_config_path=None, task_id=None, key=None, **kwargs):
                 sys.exit(1)
 
             request = 'http://{ip}:{port}/v1.1/entity/id.json?entity_name={entity_name}&entity_type={entity_type}&' \
-                      'auth_token={auth_token}'.format(ip=REST_HOST, port=REST_PORT, auth_token=AUTH_TOKEN,
+                      'auth_token={auth_token}'.format(ip=get_rest_ip(IW_REST_HOST, kwargs),
+                                                       port=IW_REST_DEFAULT_PORT,
+                                                       auth_token=get_rest_auth_token(IW_REST_AUTH_TOKEN, kwargs),
                                                        entity_name=source_name, entity_type='source')
-            response = _process_response(requests.get(request))
-
+            response = process_response(requests.get(request))
+            logging.info(response)
             if response is None or response['result'] is None:
                 logging.error('Unable to retrieve source id from the source name. ')
                 sys.exit(1)
@@ -348,14 +376,16 @@ def delete_source(delete_config_path=None, task_id=None, key=None, **kwargs):
 
         source_id = kwargs['ti'].xcom_pull(key=key, task_ids=task_id) if source_id is None else source_id
 
-        _submit_delete_entity_job(source_id, 'source')
+        _submit_delete_entity_job(source_id, 'source', kwargs)
     except Exception as e:
         logging.error('Exception: ' + str(e))
+        logging.error(traceback.print_exc())
+        logging.error('Response from the server is: ' + str(response))
         logging.error('Error occurred while trying to delete a source.')
         sys.exit(1)
 
 
-def _submit_delete_entity_job(entity_id, entity_type):
+def _submit_delete_entity_job(entity_id, entity_type, kwargs):
     """
         Submit a delete job
         :param: entity_id: identifier for the entity
@@ -367,9 +397,11 @@ def _submit_delete_entity_job(entity_id, entity_type):
 
         request = 'http://{ip}:{port}/v1.1/entity/delete.json?' \
                   'auth_token={auth_token}&entity_id={entity_id}&' \
-                  'entity_type={entity_type}'.format(ip=REST_HOST, port=REST_PORT, auth_token=AUTH_TOKEN,
+                  'entity_type={entity_type}'.format(ip=get_rest_ip(IW_REST_HOST, kwargs),
+                                                     port=IW_REST_DEFAULT_PORT,
+                                                     auth_token=get_rest_auth_token(IW_REST_AUTH_TOKEN, kwargs),
                                                      entity_id=entity_id, entity_type=entity_type)
-        response = _process_response(requests.post(request))
+        response = process_response(requests.post(request))
 
         if response is None or response['result'] is None:
             logging.error('Error while submitting job. Response is: ' + str(response))
@@ -379,93 +411,13 @@ def _submit_delete_entity_job(entity_id, entity_type):
         logging.info('Delete entity job has been submitted for the entity. '
                      'Job ID is: {id}'.format(id=str(job_id)))
 
-        job_status, job_id = get_job_status(job_id)
+        job_status, job_id = get_job_status(job_id, kwargs)
         if not job_status or job_status is False:
             logging.error('Job {j_id} failed to complete. '.format(j_id=job_id))
             sys.exit(1)
     except Exception as e:
         logging.error('Exception: ' + str(e))
+        logging.error(traceback.print_exc())
         logging.error('Response from server: ' + str(response))
         logging.error('Error occurred while trying to submit a delete entity job')
         sys.exit(1)
-
-
-def get_job_status(job_id):
-    """
-
-        Get IW job status
-        :param: job_id: job id to poll the status
-        :type: job_id: string
-        :returns: job status
-        :rtype: bool
-
-    """
-
-    logging.info('Polling frequency has been set to: {sec}'.format(sec=POLLING_FREQUENCY_IN_SEC))
-
-    num_poll_retries = 0
-
-    while True:
-        try:
-
-            request = 'http://{ip}:{port}/v1.1/job/status.json?auth_token={auth_token}&' \
-                      'job_id={job_id}'.format(ip=REST_HOST, port=REST_PORT,
-                                               auth_token=AUTH_TOKEN, job_id=str(job_id))
-
-            response = _process_response(requests.get(request))
-
-            if response is None or response['result'] is None:
-                logging.error('Unable to retrieve job status.')
-                sys.exit(1)
-
-            job_status = response['result'].get('status')
-
-            if job_status == 'completed':
-                logging.info('Job finished successfully.')
-                return True, job_id
-
-            if job_status in ['pending']:
-                logging.info('Job status currently is: {job_status}'.format(job_status=job_status))
-                time.sleep(POLLING_FREQUENCY_IN_SEC)
-                continue
-
-            if job_status in ['running']:
-                logging.info('Job status: ' + str(round(response['result']['percentCompleted'], 1)))
-                time.sleep(POLLING_FREQUENCY_IN_SEC)
-                continue
-
-            if job_status in ['blocked']:
-                logging.warn('Job is currently blocked.')
-                return False, job_id
-
-            if job_status in ['failed']:
-                logging.error('Job failed to execute.')
-                return False, job_id
-
-            if job_status in ['canceled']:
-                logging.warn('Job has been manually cancelled.')
-                return False, job_id
-
-        except Exception as e:
-            logging.error('Exception: ' + str(e))
-            logging.error('Error occurred while trying to poll job status.')
-            if num_poll_retries < NUM_POLLING_RETRIES:
-                num_poll_retries += 1
-                logging.info('Retry after: {poll_freq_in_sec} second(s).'
-                             .format(poll_freq_in_sec=POLLING_FREQUENCY_IN_SEC))
-                time.sleep(POLLING_FREQUENCY_IN_SEC)
-                logging.info('Retry attempt: ' + str(num_poll_retries + 1))
-                continue
-            logging.info('Maximum retries exceeded. Exiting.')
-            sys.exit(1)
-
-
-def _process_response(response):
-    try:
-        response = response.content
-        response = response.replace('null', '"null"')
-        response = ast.literal_eval(response)
-
-        return response
-    except Exception as e:
-        return None

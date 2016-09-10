@@ -2,16 +2,22 @@
 
 """Rosie is a robot that can execute a flow or a suite of flows based on your command.
 """
+import os
+import sys
+import inspect
+
+current_dir = os.path.dirname(os.path.abspath(inspect.getfile(inspect.currentframe())))
+parent_dir = os.path.dirname(current_dir)
+sys.path.insert(0, parent_dir)
 
 import scriptine
-import os
 import signal
 import subprocess
 import time
-import sys
 import importlib
 import re
 from scriptine import path
+from config.configuration import IW_REST_HOST, IW_REST_AUTH_TOKEN, ROSIE_FLOW_DATASET_BASE_PATH
 
 FLOWS_DIR = 'flows'
 DATASETS_DIR = 'datasets'
@@ -51,18 +57,24 @@ def runflow_command(flow_name, dataset_name, iw_host=None, iw_user_at=None):
     scheduler_command(start=True)
 
     run_id = 'rosie_{date_formatted}'.format(date_formatted=time.strftime("%Y-%m-%d-%H-%M-%S"))
-    custom_env = os.environ.copy()
-    custom_env['ROSIE_FLOW_DATASET_BASE_PATH'] = dataset_path.abspath()
-    if iw_host is not None:
-        custom_env['ROSIE_FLOW_IW_HOST'] = iw_host
-    if iw_user_at is not None:
-        custom_env['ROSIE_FLOW_IW_USER_AUTH_TOKEN'] = iw_user_at
 
-    airflow_exec_cmd = 'airflow trigger_dag {flow_name} -r {run_id}'.format(flow_name=flow_name, run_id=run_id)
+    dataset_path.splitall().pop(0)
+    dataset_path = ''.join(dataset_path)
+
+    config = '{"ROSIE_FLOW_DATASET_BASE_PATH": ' + '"' + dataset_path + '"}'
+
+    if iw_host is not None:
+        config[IW_REST_HOST] = iw_host
+    if iw_user_at is not None:
+        config[IW_REST_AUTH_TOKEN] = iw_user_at
+
+    airflow_exec_cmd = 'airflow trigger_dag {flow_name} -r {run_id} -c \'{config}\''.format(flow_name=flow_name,
+                                                                                        run_id=run_id,
+                                                                                        config=config)
 
     print ""
     print "Command: %s" % airflow_exec_cmd
-    process = subprocess.Popen(airflow_exec_cmd, shell=True, env=custom_env)
+    process = subprocess.Popen(airflow_exec_cmd, shell=True)
     process.communicate()
     if process.returncode == 0:
         execution_status = True
@@ -112,7 +124,7 @@ def validate_flow_and_dataset(flow_name, flow_path, dataset_path):
     return True
 
 
-def runsuite_command(suite_name, iw_host='localhost', iw_user_auth_token=''):
+def runsuite_command(suite_name, iw_host=None, iw_user_auth_token=None):
     """
     Executes a suite of flows. This command iterates over the flows in the suite file and sequentially calls :func:`runflow_command`.
 
@@ -185,6 +197,7 @@ def flows_command(datasets=False):
 
     for e in sorted(entry_names):
         print e
+
 
 def suites_command():
     """

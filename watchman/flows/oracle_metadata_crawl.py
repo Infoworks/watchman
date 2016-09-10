@@ -9,12 +9,6 @@ parent_dir = os.path.dirname(current_dir)
 sys.path.insert(0, parent_dir)
 from tasks.infoworks import create_source, crawl_metadata, configure_tables_and_table_groups, crawl_table_groups
 
-try:
-    ROSIE_FLOW_DATASET_BASE_PATH = os.environ['ROSIE_FLOW_DATASET_BASE_PATH']
-except KeyError as e:
-    file_name = basename(script_name).split('.')[0]
-    ROSIE_FLOW_DATASET_BASE_PATH = parent_dir + '/datasets/' + file_name + '/northwind'
-
 args = {
     'owner': 'iw_admin',
     'provide_context': True,
