@@ -22,7 +22,6 @@ import source.utils.SetupUtils;
 public final class SourceSetup {
 	private static String dbConfFilePath;
 	private static String scriptPath;
-	private static Logger logger = Logger.getLogger("SourceSetup");
 
 	public static void main(String[] args) {
 		Connection con = null;
@@ -37,7 +36,7 @@ public final class SourceSetup {
 					SetupUtils.getNonNull(properties, Constants.DB_SCHMEA));
 			con = db.connect();
 			if (con != null) {
-				logger.info("Connection established succesfully");
+				System.out.println("Connection established succesfully");
 			}
 			Reader fileReader = new FileReader(scriptPath);
 			ScriptRunner sc = new ScriptRunner(con, false, false);
@@ -46,7 +45,7 @@ public final class SourceSetup {
 			System.exit(0);
 		} catch (Exception e) {
 			e.printStackTrace();
-			logger.severe("Error occurred: " + e.getMessage());
+			System.err.println("Error occurred: " + e.getMessage());
 			System.exit(-1);
 		} finally {
 			if (con != null) {
@@ -84,7 +83,7 @@ public final class SourceSetup {
 			}
 		} catch (Exception e) {
 			e.printStackTrace();
-			logger.severe("Errow while parsing options " + e.getMessage());
+			System.err.println("Errow while parsing options " + e.getMessage());
 			HelpFormatter formatter = new HelpFormatter();
 			formatter.printHelp("AutomationUtils.jar", options);
 		}

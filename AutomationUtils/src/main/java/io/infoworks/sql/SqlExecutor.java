@@ -37,7 +37,8 @@ public class SqlExecutor {
 				//result.getMetaData().
 				long count = result.getLong(1);
 				logger.info("result :" + count);
-				logWriter.println("" + count);
+				//logWriter.println("" + count);
+				System.out.println("" + count);
 			}
 			
 			System.exit(0);
