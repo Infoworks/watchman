@@ -323,7 +323,7 @@ def source_setup(db_conf_path, script_path, **kwargs):
                           'Please check the existence of {path}'.format(path=script_path))
             sys.exit(1)
 
-        jar_command = 'java -cp {parent_dir}/resources/jars/*:. source.setup.SourceSetup ' \
+        jar_command = 'java -cp {parent_dir}/resources/jars:. source.setup.SourceSetup ' \
                       '-dbConf {db_conf_path} -sqlScript ' \
                       '{sql_script_path}'.format(parent_dir=parent_dir,
                                                  db_conf_path=db_conf_path,
