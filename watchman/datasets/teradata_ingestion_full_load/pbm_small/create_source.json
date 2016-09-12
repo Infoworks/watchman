@@ -1,6 +1,6 @@
 {
    "configuration": {
-	"name" : "teradata_pbm_small_full_load_automation" ,
+	"name" : "teradata_pbm_small_full_load_automation_skh" ,
 	"connection": {
       		"database": "TERADATA",
       		"driver_name": "com.teradata.jdbc.TeraDriver",

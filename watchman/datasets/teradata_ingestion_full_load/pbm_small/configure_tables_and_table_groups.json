@@ -5,7 +5,7 @@
       "$type": "oid",
       "$value": "a04de9a872c10a2d8219db45"
     },
-    "entity_name": "teradata_pbm_small_full_load_automation"
+    "entity_name": "teradata_pbm_small_full_load_automation_skh"
   },
   "source": {
     "connection": {
@@ -17,7 +17,7 @@
       "schema": "PBM_SMALL"
     },
     "cdc_mode": "full-load",
-    "hive_schema": "teradata_pbm_small_full_load_automation",
+    "hive_schema": "teradata_pbm_small_full_load_automation_skh",
     "sourceType": "rdbms",
     "sourceSubtype": "teradata"
   },
@@ -288,7 +288,7 @@
         "$value": "a04de9a872c10a2d8219db45"
       },
       "recommendation": {
-        "source_name": "teradata_pbm_small_full_load_automation"
+        "source_name": "teradata_pbm_small_full_load_automation_skh"
       }
     },
     {
