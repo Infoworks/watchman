@@ -13,7 +13,7 @@ from tasks.infoworks import create_source, crawl_metadata, \
     configure_tables_and_table_groups, crawl_table_groups_from_config, delete_source
 
 
-dag = DAG('oracle_ingestion_full_load', default_args=DAG_DEFAULT_CONFIG, schedule_interval=None)
+dag = DAG('rdbms_end_to_end_full_load', default_args=DAG_DEFAULT_CONFIG, schedule_interval=None)
 
 
 def create_dag():
