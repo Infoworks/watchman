@@ -5,11 +5,14 @@ import logging
 import os,sys,inspect
 import subprocess
 
+"""
+ executes a sql query (TODO- As of now underlying java code only supports
+"""
 current_dir = os.path.dirname(os.path.abspath(inspect.getfile(inspect.currentframe())))
 parent_dir = os.path.dirname(current_dir)
 sys.path.insert(0, parent_dir)
 
-def qry_rdbms(db_conf_path, sqlQuery, **kwargs):
+def qry_rdbms(db_conf_path, sqlQuery):
     try:
         if (not db_conf_path) or (not sqlQuery):
             logging.error('DB configuration path or sql query has not been specified. ')

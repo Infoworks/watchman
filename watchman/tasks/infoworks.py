@@ -10,6 +10,8 @@ from config.configuration import *
 from job import *
 from iw_utils import *
 from utils.utils import load_json_config
+from utils.rdbms_utils import  qry_rdbms
+
 
 
 def create_source(source_config_path, key=None, **kwargs):
@@ -421,3 +423,38 @@ def _submit_delete_entity_job(entity_id, entity_type, kwargs):
         logging.error('Response from server: ' + str(response))
         logging.error('Error occurred while trying to submit a delete entity job')
         sys.exit(1)
+
+
+def validate_row_counts(source_db_conf, hive_db_conf, tabs):
+    """
+		validate row counts by comapring count from source db and hive
+        :param: source_db_conf: files containing information about source db
+        :type: source_db_conf: string
+        :param: hive_db_conf: files containing information about source db
+        :type: hive_db_conf: string
+        :param: tables: tables for which the counts need to be compared
+        :type: tables: list
+   	 """
+    try:
+        for table in tabs :
+            logging.info("validating count for table :" + table)
+            # invoke rdbms
+            cntQry =  "select count(*) from table "
+            rdbmsCnt = qry_rdbms(source_db_conf, cntQry)
+            logging.info('rdbms count for {table} is {cnt}'.format(table = table, cnt = rdbmsCnt))
+
+            logging.info('Getting hive count')
+            dataLakeCnt = qry_rdbms(hive_db_conf, cntQry)
+            logging.info('datalake count for {table} is {dataLakeCnt}'.format(table=table, dataLakeCnt=dataLakeCnt))
+
+            if(rdbmsCnt == dataLakeCnt) :
+                logging.info('Source and datalake counts matched for {table}'.format(table = table))
+            else :
+                logging.error('count validations failed. Source and datalake counts did not match for {table}'.format(table = table))
+                sys.exit(1)
+    except Exception as e:
+        logging.error('Exception: ' + str(e))
+        logging.error(traceback.print_exc())
+        logging.error('Error occurred while validating the counts')
+        sys.exit(1)
+
