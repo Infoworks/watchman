@@ -7,17 +7,12 @@ script_name = inspect.getfile(inspect.currentframe())
 current_dir = os.path.dirname(os.path.abspath(script_name))
 parent_dir = os.path.dirname(current_dir)
 sys.path.insert(0, parent_dir)
+
+from config.configuration import DAG_DEFAULT_CONFIG
 from tasks.infoworks import create_source, crawl_metadata, configure_tables_and_table_groups, crawl_table_groups
 
-args = {
-    'owner': 'iw_admin',
-    'provide_context': True,
-    'depends_on_past': False,
-    'start_date': datetime.now()
-}
 
-
-dag = DAG('oracle_metadata_crawl', default_args=args, schedule_interval=None)
+dag = DAG('oracle_metadata_crawl', default_args=DAG_DEFAULT_CONFIG, schedule_interval=None)
 
 
 def create_dag():
