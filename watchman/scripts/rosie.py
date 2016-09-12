@@ -86,7 +86,7 @@ def runflow_command(flow_name, dataset_name, iw_host=None, iw_user_at=None):
     return execution_status
 
 
-def validate_flow_and_dataset(flow_name, flow_path, dataset_path):
+def _validate_flow_and_dataset(flow_name, flow_path, dataset_path):
     # check that the flow file exists
     if not flow_path.exists():
         print "Flow file does not exist. Looking for file: %s" % flow_path
@@ -106,7 +106,6 @@ def validate_flow_and_dataset(flow_name, flow_path, dataset_path):
     # check that the flow name and the dag name match
     pattern = re.compile("DAG\s*\(\s*[\"|']" + flow_name + "[\"|']")
     file_text = flow_path.text()
-
     found = pattern.search(file_text)
     if not found:
         print "\nError found:"
@@ -320,32 +319,6 @@ def _service_is_running(service):
             return pid
     else:
         return False
-
-
-def _validate_flow_and_dataset(flow_name, flow_path, dataset_path):
-    # check that the flow file exists
-    if not flow_path.exists():
-        print "Flow file does not exist. Looking for file: %s" % flow_path
-        return False
-
-    # check that the dag file compiles
-    try:
-        sys.path.insert(0, flow_path.parent)
-        importlib.import_module(flow_name)
-    except Exception as e:
-        print "Flow file contains errors. Please fix them and try again."
-        print "---------------------------------------------------------"
-        print str(e)
-        return False
-
-    # check that the flow name and the dag name match
-
-
-    if not dataset_path.exists() or not dataset_path.isdir():
-        print "Dataset directory does not exist. Looking for directory: %s" % dataset_path
-        return False
-
-    return True
 
 
 def _start_process(proc_name):
