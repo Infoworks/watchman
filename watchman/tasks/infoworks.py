@@ -1,4 +1,6 @@
-import os,sys,inspect
+import os
+import sys
+import inspect
 import subprocess
 import traceback
 
@@ -12,14 +14,14 @@ from iw_utils import *
 from utils.utils import load_json_config
 
 
-def create_source(source_config_path, key=None, **kwargs):
+def create_source(source_config_path, key_to_push_source_id=None, **kwargs):
     """
         Create a new source.
 
         :param source_config_path: path to JSON file with source configuration
-        :param key: identifier where the newly created source id has to be inserted to be used in subsequent tasks
+        :param key_to_push_source_id: identifier where the newly created source id has to be inserted to be used in subsequent tasks
         :type source_config_path: string
-        :type key: string
+        :type key_to_push_source_id: string
 
     """
     try:
@@ -47,10 +49,10 @@ def create_source(source_config_path, key=None, **kwargs):
 
         logging.info('Source {id} has been created.'.format(id=source_id))
 
-        if key is not None:
-            kwargs['ti'].xcom_push(key=key, value=source_id)
+        if key_to_push_source_id is not None:
+            kwargs['ti'].xcom_push(key=key_to_push_source_id, value=source_id)
         else:
-            logging.warn('Unable to push source ID value into key store')
+            logging.warn('Unable to push source ID value into the key store')
             logging.warn('Subsequent task will not have access to the source ID from this task.')
 
     except Exception as e:
