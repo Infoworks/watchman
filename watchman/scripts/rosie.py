@@ -243,12 +243,9 @@ def generate_docs_command():
     else:
         print "Unable to reach docs dir. Looking for it at: " + docs_dir
 
-    # set env var DOC_HOME
-    # invoke generate_docs.sh
-
 def webserver_command(start=False, stop=False, restart=False):
     """
-    Webserver (from Airflow) service. Pass start, stop or restart to perform an action.
+    Webserver (from Airflow) service. Pass --start, --stop or --restart to perform an action.
 
     :param start: start webserver
     :param stop: stop webserver
@@ -264,7 +261,7 @@ def webserver_command(start=False, stop=False, restart=False):
 
 def scheduler_command(start=False, stop=False, restart=False):
     """
-    Scheduler (from Airflow) service. Pass start, stop or restart to perform an action.
+    Scheduler (from Airflow) service. Pass --start, --stop or --restart to perform an action.
 
     :param start: start scheduler
     :param stop: stop scheduler
