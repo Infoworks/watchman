@@ -224,6 +224,28 @@ def suites_command():
         print e
 
 
+def generate_docs_command():
+    """
+    Generate documentation for Rosie, tasks and flows
+    """
+
+    base_dir = path.cwd().parent.parent
+    docs_dir = base_dir + '/docs'
+
+    if docs_dir.exists():
+        my_env = os.environ.copy()
+        my_env["DOC_HOME"] = docs_dir
+        p = subprocess.Popen('./generate_docs.sh', shell=True, env=my_env)
+        p.communicate()
+
+        print ""
+        print "Documentation has been generated at the following location: %s/_build/html/index.html" % docs_dir
+    else:
+        print "Unable to reach docs dir. Looking for it at: " + docs_dir
+
+    # set env var DOC_HOME
+    # invoke generate_docs.sh
+
 def webserver_command(start=False, stop=False, restart=False):
     """
     Webserver (from Airflow) service. Pass start, stop or restart to perform an action.
