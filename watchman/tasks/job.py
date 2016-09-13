@@ -15,13 +15,12 @@ from iw_utils import *
 
 def get_job_status(job_id, kwargs):
     """
-
         Get IW job status
-        :param: job_id: job id to poll the status
-        :type: job_id: string
-        :returns: job status
-        :rtype: bool
 
+        :param job_id: job id to poll the status
+        :type job_id: string
+        :returns: job status
+        :rtype: boolean
     """
 
     logging.info('Polling frequency has been set to: {sec}'.format(sec=POLLING_FREQUENCY_IN_SEC))
