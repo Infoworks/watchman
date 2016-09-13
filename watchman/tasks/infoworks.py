@@ -369,6 +369,7 @@ def delete_source(delete_config_path=None, task_id=None, key=None, **kwargs):
                                                        port=IW_REST_DEFAULT_PORT,
                                                        auth_token=get_rest_auth_token(IW_REST_AUTH_TOKEN, kwargs),
                                                        entity_name=source_name, entity_type='source')
+
             response = process_response(requests.get(request))
             logging.info(response)
             if response is None or response['result'] is None:
@@ -435,7 +436,15 @@ def validate_row_counts(source_db_conf, hive_db_conf,  **kwargs):
         :param: tables: tables for which the counts need to be compared
         :type: tables: list
    """
-    source_id = kwargs['ti'].xcom_pull("create_source" , "source_id")
+
+
+
+    source_id = kwargs['ti'].xcom_pull(key="source_id" , task_ids="create_source") 
+
+    if source_id is None:
+        logging.error('Unable to retrieve source ID. Cannot create/configure tables or table groups.')
+        sys.exit(1)
+
     logging.info("source id is {source_id}".format(source_id = source_id) )
 
     request = 'http://{ip}:{port}/v1.1/source/tables.json?' \
@@ -445,7 +454,8 @@ def validate_row_counts(source_db_conf, hive_db_conf,  **kwargs):
                                                      auth_token=get_rest_auth_token(IW_REST_AUTH_TOKEN, kwargs),
                                                      source_id=source_id)
 
-    response = process_response(requests.post(request))
+    logging.info('request' + request)
+    response = process_response(requests.get(request))
 
     logging.info(response)
     tabs = []
@@ -462,7 +472,7 @@ def validate_row_counts(source_db_conf, hive_db_conf,  **kwargs):
         for table in tabs :
             logging.info("validating count for table :" + table)
             # invoke rdbms
-            cntQry =  "select count(*) from table "
+            cntQry =  'select count(*) from  {table}'.format(table=table)
             rdbmsCnt = query_rdbms(source_db_conf, cntQry)
             logging.info('rdbms count for {table} is {cnt}'.format(table = table, cnt = rdbmsCnt))
 

@@ -24,7 +24,7 @@ def query_rdbms(db_conf_path, sqlQuery):
 
         jar_command = 'java -cp {parent_dir}/resources/jars/AutomationUtils.jar:{parent_dir}/resources/jars/* ' \
                       'io.infoworks.sql.SqlExecutor -dbConf {db_conf_path} -sql ' \
-                      '{sql_query}'.format(parent_dir=parent_dir,
+                      '\"{sql_query}\"'.format(parent_dir=parent_dir,
                                                  db_conf_path=db_conf_path,
                                                  sql_query=sqlQuery)
 
