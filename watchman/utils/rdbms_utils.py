@@ -22,7 +22,8 @@ def query_rdbms(db_conf_path, sqlQuery):
                           'Please check the existence of {path}'.format(path=db_conf_path))
             sys.exit(1)
 
-        jar_command = 'java -cp {parent_dir}/resources/jars/AutomationUtils.jar:{parent_dir}/resources/jars/* ' \
+        jar_command = 'java -cp {parent_dir}/resources/jars/AutomationUtils.jar:{parent_dir}/resources/jars/*:' \
+                       '{parent_dir}/resources/jars/AutomationUtils.jar:{parent_dir}/resources/jars/hive/*:`hadoop classpath` ' \
                       'io.infoworks.sql.SqlExecutor -dbConf {db_conf_path} -sql ' \
                       '\"{sql_query}\"'.format(parent_dir=parent_dir,
                                                  db_conf_path=db_conf_path,
