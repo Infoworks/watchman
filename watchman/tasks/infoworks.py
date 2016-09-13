@@ -1,4 +1,6 @@
-import os,sys,inspect
+import os
+import sys
+import inspect
 import subprocess
 import traceback
 
@@ -14,14 +16,14 @@ from utils.rdbms_utils import  query_rdbms
 
 
 
-def create_source(source_config_path, key=None, **kwargs):
+def create_source(source_config_path, xcom_push_key_source_id=None, **kwargs):
     """
         Create a new source.
 
         :param source_config_path: path to JSON file with source configuration
-        :param key: identifier where the newly created source id has to be inserted to be used in subsequent tasks
+        :param xcom_push_key_source_id: identifier where the newly created source id has to be inserted to be used in subsequent tasks
         :type source_config_path: string
-        :type key: string
+        :type xcom_push_key_source_id: string
 
     """
     try:
@@ -49,10 +51,10 @@ def create_source(source_config_path, key=None, **kwargs):
 
         logging.info('Source {id} has been created.'.format(id=source_id))
 
-        if key is not None:
-            kwargs['ti'].xcom_push(key=key, value=source_id)
+        if xcom_push_key_source_id is not None:
+            kwargs['ti'].xcom_push(key=xcom_push_key_source_id, value=source_id)
         else:
-            logging.warn('Unable to push source ID value into key store')
+            logging.warn('Unable to push source ID value into the key store')
             logging.warn('Subsequent task will not have access to the source ID from this task.')
 
     except Exception as e:
@@ -63,16 +65,16 @@ def create_source(source_config_path, key=None, **kwargs):
         sys.exit(1)
 
 
-def crawl_metadata(source_config_path=None, task_id=None, key=None, **kwargs):
+def crawl_metadata(source_config_path=None, task_id=None, xcom_pull_key_source_id=None, **kwargs):
     """
         Submit a source metadata crawl job.
 
         :param source_config_path: path to JSON file where source name is specified
         :param task_id: identifier of a task instance using which the source id can be retrieved
-        :param key: identifier that is dependent on task_id which can be used to retrieve source id
+        :param xcom_pull_key_source_id: identifier that is dependent on task_id which can be used to retrieve source id
         :type source_config_path: string
         :type task_id: string
-        :type key: string
+        :type xcom_pull_key_source_id: string
 
     """
     try:
@@ -106,7 +108,7 @@ def crawl_metadata(source_config_path=None, task_id=None, key=None, **kwargs):
                 sys.exit(1)
             source_id = response['result']['entity_id']
 
-        source_id = kwargs['ti'].xcom_pull(key=key, task_ids=task_id) if source_id is None else source_id
+        source_id = kwargs['ti'].xcom_pull(key=xcom_pull_key_source_id, task_ids=task_id) if source_id is None else source_id
 
         if source_id is None:
             logging.error('Unable to retrieve source ID. Cannot submit metadata crawl job.')
@@ -138,21 +140,21 @@ def crawl_metadata(source_config_path=None, task_id=None, key=None, **kwargs):
         sys.exit(1)
 
 
-def configure_tables_and_table_groups(table_group_config_path, source_id=None, task_id=None, key=None, **kwargs):
+def configure_tables_and_table_groups(table_group_config_path, source_id=None, task_id=None, xcom_pull_key_source_id=None, **kwargs):
     """
         Configure tables and table groups for a source.
 
         :param table_group_config_path: path to JSON file where tables and table groups configuration is specified
         :param source_id: identifier for a source under which the table and table groups will be configured
         :param task_id: identifier of a task instance using which the source id can be retrieved
-        :param key: identifier that is dependent on task_id which can be used to retrieve source id
+        :param xcom_pull_key_source_id: identifier that is dependent on task_id which can be used to retrieve source id
         :type table_group_config_path: string
         :type source_id: string
         :type task_id: string
-        :type key: string
+        :type xcom_pull_key_source_id: string
     """
     try:
-        source_id = kwargs['ti'].xcom_pull(key=key, task_ids=task_id) if source_id is None else source_id
+        source_id = kwargs['ti'].xcom_pull(key=xcom_pull_key_source_id, task_ids=task_id) if source_id is None else source_id
 
         if source_id is None:
             logging.error('Unable to retrieve source ID. Cannot create/configure tables or table groups.')
@@ -185,30 +187,30 @@ def configure_tables_and_table_groups(table_group_config_path, source_id=None, t
         sys.exit(1)
 
 
-def crawl_table_groups(task_id_for_table_group_id, table_group_key,
-                       task_id_for_ingestion_type, ingestion_type_key, **kwargs):
+def crawl_table_groups(task_id_for_table_group_id, xcom_pull_key_table_group_id,
+                       task_id_for_ingestion_type, xcom_pull_key_ingestion_type, **kwargs):
     """
         Submit a crawl job for a table group present inside a source.
 
         :param task_id_for_table_group_id: identifier of a task instance using which the table group id can be retrieved
-        :param table_group_key: identifier that is dependent on task_id which can be used to retrieve table group id
+        :param xcom_pull_key_table_group_id: identifier that is dependent on task_id which can be used to retrieve table group id
         :param task_id_for_ingestion_type: identifier of a task instance using which the ingestion type can be retrieved
-        :param ingestion_type_key: identifier that is dependent on task_id which can be used to retrieve ingestion type
+        :param xcom_pull_key_ingestion_type: identifier that is dependent on task_id which can be used to retrieve ingestion type
         :type task_id_for_table_group_id: string
-        :type table_group_key: string
+        :type xcom_pull_key_table_group_id: string
         :type task_id_for_ingestion_type: string
-        :type ingestion_type_key: string
+        :type xcom_pull_key_ingestion_type: string
 
     """
 
     try:
-        table_group_id = kwargs['ti'].xcom_pull(key=table_group_key, task_ids=task_id_for_table_group_id)
+        table_group_id = kwargs['ti'].xcom_pull(key=xcom_pull_key_table_group_id, task_ids=task_id_for_table_group_id)
 
         if table_group_id is None:
             logging.error('Unable to retrieve source ID. Cannot crawl table group.')
             sys.exit(1)
 
-        ingestion_type = kwargs['ti'].xcom_pull(key=ingestion_type_key, task_ids=task_id_for_ingestion_type)
+        ingestion_type = kwargs['ti'].xcom_pull(key=xcom_pull_key_ingestion_type, task_ids=task_id_for_ingestion_type)
         if ingestion_type is None:
             logging.error('Unable to retrieve ingestion type. Cannot crawl table group.')
             sys.exit(1)
@@ -323,7 +325,7 @@ def source_setup(db_conf_path, script_path, **kwargs):
                           'Please check the existence of {path}'.format(path=script_path))
             sys.exit(1)
 
-        jar_command = 'java -cp {parent_dir}/resources/jars/* source.setup.SourceSetup ' \
+        jar_command = 'java -cp {parent_dir}/resources/jars/*:. source.setup.SourceSetup ' \
                       '-dbConf {db_conf_path} -sqlScript ' \
                       '{sql_script_path}'.format(parent_dir=parent_dir,
                                                  db_conf_path=db_conf_path,
@@ -340,16 +342,16 @@ def source_setup(db_conf_path, script_path, **kwargs):
         sys.exit(1)
 
 
-def delete_source(delete_config_path=None, task_id=None, key=None, **kwargs):
+def delete_source(delete_config_path=None, task_id=None, xcom_pull_key_source_id=None, **kwargs):
     """
         Retrieves the source id from the json file passed as a param or from one the previous task instances.
 
         :param delete_config_path: path to json from where the source id can be retrieved
         :param task_id: identifier of the task from where the source id can be retrieved
-        :param key: dictionary key to retrieve the source id
+        :param xcom_pull_key_source_id: dictionary key to retrieve the source id
         :type delete_config_path: string
         :type task_id: string
-        :type key: string
+        :type xcom_pull_key_source_id: string
     """
     try:
         if delete_config_path:
@@ -377,7 +379,7 @@ def delete_source(delete_config_path=None, task_id=None, key=None, **kwargs):
                 sys.exit(1)
             source_id = response['result']['entity_id']
 
-        source_id = kwargs['ti'].xcom_pull(key=key, task_ids=task_id) if source_id is None else source_id
+        source_id = kwargs['ti'].xcom_pull(key=xcom_pull_key_source_id, task_ids=task_id) if source_id is None else source_id
 
         _submit_delete_entity_job(source_id, 'source', kwargs)
     except Exception as e:

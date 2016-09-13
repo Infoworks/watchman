@@ -1,5 +1,5 @@
 {
   "source_name": "Oracle_Northwind_Full_Load",
   "table_group_name": "Group_1",
-  "ingestion_type": "source_all"
+  "ingestion_type": "truncate-reload-all"
 }
