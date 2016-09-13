@@ -6,8 +6,8 @@ Rosie is Infoworks Automation Frameworks build using Airflow!
 .. toctree::
    :maxdepth: 3
 
-   tasks
-   flows
+   tasks/tasks
+   flows/flows
    scripts
 
 
